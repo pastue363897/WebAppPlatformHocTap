@@ -1,0 +1,46 @@
+[
+{
+"TenCD": "Ngoại ngữ",
+"TenKH": "Tiếng anh 1",
+"IdKhoaHoc": 1,
+"GiaTien": 15000,
+"UsernameBKH": "pres0001",
+"IdBaiHoc": 1,
+"TenBH": "Bảng chữ cái tiếng anh",
+"Data": "https://no-name.com/video/eqsfxxq.mp4",
+"TomTat": "Cơ bản về bảng chữ cái tiếng anh và các lưu ý về đánh vần"
+},
+{
+"TenCD": "Ngoại ngữ",
+"TenKH": "Tiếng anh 1",
+"IdKhoaHoc": 1,
+"GiaTien": 15000,
+"UsernameBKH": "pres0001",
+"IdBaiHoc": 2,
+"TenBH": "Chào hỏi",
+"Data": "https://no-name.com/video/eqsfxxr.mp4",
+"TomTat": "Cơ bản về chào, hỏi thăm gặp mặt và tạm biệt"
+},
+{
+"TenCD": "Tin học",
+"TenKH": "Sử dụng Word 365 cơ bản",
+"IdKhoaHoc": 2,
+"GiaTien": 25000,
+"UsernameBKH": "pres0002",
+"IdBaiHoc": 3,
+"TenBH": "Gõ văn bản cơ bản",
+"Data": "https://no-name.com/video/eqsfrsa.mp4",
+"TomTat": "Cách mở, lưu và tùy chỉnh định dạng văn bản"
+},
+{
+"TenCD": "Tin học",
+"TenKH": "Sử dụng Word 365 cơ bản",
+"IdKhoaHoc": 2,
+"GiaTien": 25000,
+"UsernameBKH": "pres0002",
+"IdBaiHoc": 4,
+"TenBH": "Định dạng văn bản",
+"Data": "https://no-name.com/video/eqsfrsb.mp4",
+"TomTat": "Các kỹ thuật định dạng kiểu chữ, phông chữ, căn lề, phân đoạn văn và chương, tiêu đề"
+}
+]
