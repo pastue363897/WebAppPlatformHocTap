@@ -47,7 +47,7 @@ var paramsBaiHoc = {
             KeyType: 'HASH'
         },
         {
-            AttributeName: 'TenBH', 
+            AttributeName: 'IdKhoaHoc', 
             KeyType: 'RANGE'
         }
     ],
@@ -57,16 +57,8 @@ var paramsBaiHoc = {
             AttributeType: 'N' // (S | N | B) for string, number, binary
         },
         {
-            AttributeName: 'TenBH',
-            AttributeType: 'S' // (S | N | B) for string, number, binary
-        },
-        {
             AttributeName: 'IdKhoaHoc',
             AttributeType: 'N' // (S | N | B) for string, number, binary
-        },
-        {
-            AttributeName: 'TenKH',
-            AttributeType: 'S' // (S | N | B) for string, number, binary
         },
         {
             AttributeName: 'UsernameBKH',
@@ -86,17 +78,23 @@ var paramsBaiHoc = {
                     KeyType: 'HASH'
                 },
                 { // Optional RANGE key type for HASH + RANGE secondary indexes
-                    AttributeName: 'TenKH',
+                    AttributeName: 'UsernameBKH',
                     KeyType: 'RANGE'
                 }
             ],
             Projection: { // attributes to project into the index
-                ProjectionType: 'ALL', // (ALL | KEYS_ONLY | INCLUDE)
+                ProjectionType: 'INCLUDE', // (ALL | KEYS_ONLY | INCLUDE)
+                NonKeyAttributes: [ // required / allowed only for INCLUDE
+                    'TenKH',
+                    'TenCD',
+                    'GiaTien'
+                    // ... more attribute names ...
+                ],
             },
             ProvisionedThroughput: { // throughput to provision to the index
                 ReadCapacityUnits: 2,
                 WriteCapacityUnits: 1,
-            },
+            },  
         },
         { 
             IndexName: 'BaiHoc_UsernameBKHIndex', 
@@ -104,10 +102,20 @@ var paramsBaiHoc = {
                 { // Required HASH type attribute
                     AttributeName: 'UsernameBKH',
                     KeyType: 'HASH'
+                },
+                { // Optional RANGE key type for HASH + RANGE secondary indexes
+                    AttributeName: 'IdKhoaHoc',
+                    KeyType: 'RANGE'
                 }
             ],
             Projection: { // attributes to project into the index
-                ProjectionType: 'ALL', // (ALL | KEYS_ONLY | INCLUDE)
+                ProjectionType: 'INCLUDE', // (ALL | KEYS_ONLY | INCLUDE)
+                NonKeyAttributes: [ // required / allowed only for INCLUDE
+                    'IdKhoaHoc',
+                    'TenKH',
+                    'GiaTien'
+                    // ... more attribute names ...
+                ],
             },
             ProvisionedThroughput: { // throughput to provision to the index
                 ReadCapacityUnits: 2,
@@ -207,12 +215,38 @@ var paramsHoaDon = {
         {
             AttributeName: 'UsernameKH',
             AttributeType: 'S', // (S | N | B) for string, number, binary
+        },
+        {
+            AttributeName: 'IdKhoaHoc',
+            AttributeType: 'N', // (S | N | B) for string, number, binary
         }
     ],
     ProvisionedThroughput: { // required provisioned throughput for the table
         ReadCapacityUnits: 4, 
         WriteCapacityUnits: 1, 
     },
+    LocalSecondaryIndexes: [
+        {
+            IndexName: 'HoaDon_IdKhoaHoc',
+            KeySchema: [ 
+                { // Required HASH type attribute - must match the table's HASH key attribute name
+                    AttributeName: 'Id',
+                    KeyType: 'HASH',
+                },
+                { // alternate RANGE key attribute for the secondary index
+                    AttributeName: 'IdKhoaHoc', 
+                    KeyType: 'RANGE', 
+                }
+            ],
+            Projection: { // required
+                ProjectionType: 'INCLUDE', // (ALL | KEYS_ONLY | INCLUDE)
+                NonKeyAttributes: [ // required / allowed only for INCLUDE
+                    'GiaTien',
+                    'NgayMua'
+                ],
+            },
+        }
+    ]
 };
 
 dynamodb.createTable(paramsHoaDon, function(err, data) {

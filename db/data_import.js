@@ -46,7 +46,8 @@ allUserBKH.forEach((user_bkh) => {
             "Pass": user_bkh.Pass,
             "Id": user_bkh.Id,
             "DiaChi": user_bkh.DiaChi,
-            "Ten": user_bkh.Ten
+            "Ten": user_bkh.Ten,
+            "Email": user_bkh.Email
         }
     };
     docClient.put(params, (err, data) => {

@@ -1,8 +1,8 @@
 [
 {
-"Username": "pres0001","Pass": "12345678","Id": 1,"DiaChi": "14 Nguyễn Hữu Cảnh, Q.4","Ten": "Đoàn Trung Nguyên"
+"Username": "pres0001","Pass": "12345678","Id": 1,"DiaChi": "14 Nguyễn Hữu Cảnh, Q.4","Ten": "Đoàn Trung Nguyên", "Email": "geg@gmail.com"
 },
 {
-"Username": "pres0002","Pass": "password123456","Id": 2,"DiaChi": "622 Nguyễn Văn Bảo, Q.Gò vấp","Ten": "Phạm Minh Bảo"
+"Username": "pres0002","Pass": "password123456","Id": 2,"DiaChi": "622 Nguyễn Văn Bảo, Q.Gò vấp","Ten": "Phạm Minh Bảo", "Email": "gweher@gmail.com"
 }
 ]
