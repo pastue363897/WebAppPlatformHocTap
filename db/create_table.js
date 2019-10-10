@@ -121,6 +121,26 @@ var paramsBaiHoc = {
                 ReadCapacityUnits: 2,
                 WriteCapacityUnits: 1,
             },
+        },
+        {
+            IndexName: 'BaiHoc_ChuDeIndex', 
+            KeySchema: [
+                { // Required HASH type attribute
+                    AttributeName: 'TenChuDe',
+                    KeyType: 'HASH'
+                },
+                { // Optional RANGE key type for HASH + RANGE secondary indexes
+                    AttributeName: 'IdKhoaHoc',
+                    KeyType: 'RANGE'
+                }
+            ],
+            Projection: { // attributes to project into the index
+                ProjectionType: 'ALL', // (ALL | KEYS_ONLY | INCLUDE)
+            },
+            ProvisionedThroughput: { // throughput to provision to the index
+                ReadCapacityUnits: 2,
+                WriteCapacityUnits: 1,
+            },
         }
     ]
 };
@@ -199,7 +219,7 @@ var paramsHoaDon = {
     TableName: 'HoaDon',
     KeySchema: [ // The type of of schema.  Must start with a HASH type, with an optional second RANGE.
         { // Required HASH type attribute
-            AttributeName: 'Id',
+            AttributeName: 'IdHoaDon',
             KeyType: 'HASH',
         },
         { // Optional RANGE key type for HASH + RANGE tables
@@ -230,7 +250,7 @@ var paramsHoaDon = {
             IndexName: 'HoaDon_IdKhoaHoc',
             KeySchema: [ 
                 { // Required HASH type attribute - must match the table's HASH key attribute name
-                    AttributeName: 'Id',
+                    AttributeName: 'IdHoaDon',
                     KeyType: 'HASH',
                 },
                 { // alternate RANGE key attribute for the secondary index

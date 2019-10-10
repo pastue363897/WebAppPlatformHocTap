@@ -144,3 +144,8 @@ docClient.query(params4, function(err, data) {
     mua. Khi đó đã bik là chưa mua thì route và trang mua.
     Mua rồi thì create vào HoaDon 
 */
+
+// Lấy tất cả chủ đề khóa học: Scan bảng ChuDe
+// Lấy thông tin khóa học theo chủ đề: Query trên index BaiHoc_ChuDeIndex với ChuDe = ?
+// Lấy thông tin tất cả các khóa học: Scan trên index BaiHoc_KhoaHocIndex
+// 
