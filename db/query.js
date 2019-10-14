@@ -7,105 +7,124 @@ AWS.config.update({
 });
 
 let docClient = new AWS.DynamoDB.DocumentClient();
-// Lấy ra tên các bài học của 1 khóa học
-var params1 = {
-    TableName: 'BaiHoc',
-    IndexName: 'BaiHoc_KhoaHocIndex', // optional (if querying an index)
-    KeyConditionExpression: '#ids = :v1', // a string representing a constraint on the attribute
-    ProjectionExpression: "TenBH",
-    ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
-        '#ids': 'IdKhoaHoc'
-    },
-    ExpressionAttributeValues: { // a map of substitutions for all attribute values
-      ':v1': 1
-    },
-    ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
-};
-docClient.query(params1, function(err, data) {
-    if(err) {
-        console.log(JSON.stringify(err));
-    }
-    else {
-        console.log(JSON.stringify(data.Items));
-    }
-});
+
+function getAllBaiHocKhoaHoc(idKH) {
+    // Lấy ra tên các bài học của 1 khóa học
+    var params1 = {
+        TableName: 'BaiHoc',
+        IndexName: 'BaiHoc_KhoaHocIndex', // optional (if querying an index)
+        KeyConditionExpression: '#ids = :v1', // a string representing a constraint on the attribute
+        ProjectionExpression: "TenBH",
+        ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
+            '#ids': 'IdKhoaHoc'
+        },
+        ExpressionAttributeValues: { // a map of substitutions for all attribute values
+        ':v1': idKH
+        },
+        ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+    };
+    docClient.query(params1, function(err, data) {
+        if(err) {
+            console.log(JSON.stringify(err));
+            return err;
+        }
+        else {
+            console.log(JSON.stringify(data.Items));
+            return data.Items;
+        }
+    });
+}
+//getAllBaiHocKhoaHoc(1);
 // Lấy ra tên các khóa học của 1 user
-var params2 = {
-    TableName: 'BaiHoc',
-    IndexName: 'BaiHoc_UsernameBKHIndex',
-    KeyConditionExpression: '#user = :val', // a string representing a constraint on the attribute
-    ProjectionExpression: "TenKH, IdKhoaHoc",
-    ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
-        '#user': 'UsernameBKH'
-    },
-    ExpressionAttributeValues: { // a map of substitutions for all attribute values
-      ':val': 'pres0002'
-    },
-    ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
-    //Select: "ALL_PROJECTED_ATTRIBUTES",
-};
+function getAllKhoaHocUser(username) {
+    var params2 = {
+        TableName: 'BaiHoc',
+        IndexName: 'BaiHoc_UsernameBKHIndex',
+        KeyConditionExpression: '#user = :val', // a string representing a constraint on the attribute
+        ProjectionExpression: "TenKH, IdKhoaHoc",
+        ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
+            '#user': 'UsernameBKH',
+            '#stt': 'SoTT'
+        },
+        ExpressionAttributeValues: { // a map of substitutions for all attribute values
+        ':val': username,
+        ':bhs': 1
+        },
+        FilterExpression: '#stt = :bhs',
+        ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+        //Select: "ALL_PROJECTED_ATTRIBUTES",
+    };
 
-docClient.query(params2, function(err, data) {
-    if(err) {
-        console.log(JSON.stringify(err));
-    }
-    else { 
-        var clean = data.Items.filter((arr, index, self) =>
-        index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
-        console.log(JSON.stringify(clean));
-    }
-});
-
+    docClient.query(params2, function(err, data) {
+        if(err) {
+            console.log(JSON.stringify(err));
+            return err;
+        }
+        else { 
+        //    var clean = data.Items.filter((arr, index, self) =>
+        //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
+            console.log(JSON.stringify(data));
+            return data.Items;
+        }
+    });
+}
+//getAllKhoaHocUser('pres0001');
 // Check đã có 1 UserBKH có tên username nào đó hay chưa
-var params3 = {
-    TableName: 'UserBKH',
-    KeyConditionExpression: '#user = :val', // a string representing a constraint on the attribute
-    ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
-        '#user': 'Username'
-    },
-    ExpressionAttributeValues: { // a map of substitutions for all attribute values
-      ':val': 'pres0001'
-    },
-    ReturnConsumedCapacity: 'NONE', // optional (NONE | TOTAL | INDEXES)
-    Select: "COUNT",
-};
+function checkUserBKHExist(username) {
+    var params3 = {
+        TableName: 'UserBKH',
+        KeyConditionExpression: '#user = :val', // a string representing a constraint on the attribute
+        ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
+            '#user': 'Username'
+        },
+        ExpressionAttributeValues: { // a map of substitutions for all attribute values
+        ':val': username
+        },
+        ReturnConsumedCapacity: 'NONE', // optional (NONE | TOTAL | INDEXES)
+        Select: "COUNT",
+    };
 
-docClient.query(params3, function(err, data) {
-    if(err) {
-        console.log(JSON.stringify(err));
-    }
-    else { 
-    //    var clean = data.Items.filter((arr, index, self) =>
-    //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
-        console.log(JSON.stringify(data));
-    }
-});
-
+    docClient.query(params3, function(err, data) {
+        if(err) {
+            console.log(JSON.stringify(err));
+            return err;
+        }
+        else { 
+        //    var clean = data.Items.filter((arr, index, self) =>
+        //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
+            console.log(JSON.stringify(data));
+            return data;
+        }
+    });
+}
+//checkUserBKHExist('pres0002');
 // Check đã có 1 UserKH có tên username nào đó hay chưa
-var params4 = {
-    TableName: 'UserKH',
-    KeyConditionExpression: '#user = :val', // a string representing a constraint on the attribute
-    ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
-        '#user': 'Username'
-    },
-    ExpressionAttributeValues: { // a map of substitutions for all attribute values
-      ':val': 'user0001'
-    },
-    ReturnConsumedCapacity: 'NONE', // optional (NONE | TOTAL | INDEXES)
-    Select: "COUNT",
-};
+function checkUserKHExist(username) {
+    var params4 = {
+        TableName: 'UserKH',
+        KeyConditionExpression: '#user = :val', // a string representing a constraint on the attribute
+        ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
+            '#user': 'Username'
+        },
+        ExpressionAttributeValues: { // a map of substitutions for all attribute values
+        ':val': 'user0001'
+        },
+        ReturnConsumedCapacity: 'NONE', // optional (NONE | TOTAL | INDEXES)
+        Select: "COUNT",
+    };
 
-docClient.query(params4, function(err, data) {
-    if(err) {
-        console.log(JSON.stringify(err));
-    }
-    else { 
-    //    var clean = data.Items.filter((arr, index, self) =>
-    //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
-        console.log(JSON.stringify(data));
-    }
-});
-
+    docClient.query(params4, function(err, data) {
+        if(err) {
+            console.log(JSON.stringify(err));
+        }
+        else { 
+        //    var clean = data.Items.filter((arr, index, self) =>
+        //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
+            console.log(JSON.stringify(data));
+        }
+    });
+}
+//checkUserKHExist('user0002');
 // Để create một khóa học
 /*
     Create tất cả các item vào bảng BaiHoc (các item này đã chứa dữ liệu của KhoaHoc)
@@ -149,3 +168,72 @@ docClient.query(params4, function(err, data) {
 // Lấy thông tin khóa học theo chủ đề: Query trên index BaiHoc_ChuDeIndex với ChuDe = ?
 // Lấy thông tin tất cả các khóa học: Scan trên index BaiHoc_KhoaHocIndex
 // 
+
+function getAllKhoaHoc() {
+    var params2 = {
+        TableName: 'BaiHoc',
+        ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
+            '#stt': 'SoTT'
+        },
+        ExpressionAttributeValues: { // a map of substitutions for all attribute values
+            ':bhs': 1
+        },
+        FilterExpression: '#stt = :bhs',
+        ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+        //Select: "ALL_PROJECTED_ATTRIBUTES",
+    };
+
+    docClient.scan(params2, function(err, data) {
+        if(err) {
+            console.log(JSON.stringify(err));
+            return err;
+        }
+        else { 
+        //    var clean = data.Items.filter((arr, index, self) =>
+        //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
+            console.log(JSON.stringify(data));
+            return data.Items;
+        }
+    });
+}
+
+module.exports.getAllKhoaHocLimit = function (limit) {
+    var params2 = {
+        TableName: 'BaiHoc',
+        ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
+            '#stt': 'SoTT'
+        },
+        ExpressionAttributeValues: { // a map of substitutions for all attribute values
+            ':bhs': 1
+        },
+        FilterExpression: '#stt = :bhs',
+        ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+        Limit: limit
+        //Select: "ALL_PROJECTED_ATTRIBUTES",
+    };
+
+    let res = docClient.scan(params2, function(err, data) {
+        if(err) {
+            console.log(JSON.stringify(err));
+        }
+        else { 
+        //    var clean = data.Items.filter((arr, index, self) =>
+        //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
+            //console.log(JSON.stringify(data));
+            //return data.Items;
+            //callback(err, data);
+            res.render('index.ejs', {khs: data.Items});
+        }
+    })/*.promise().then((data) => {
+        //console.log(JSON.stringify(data));
+        return data.Items;
+    });
+    //console.log(res);
+    return res;*/
+}
+/*
+module.exports = {
+    getAllBaiHocKhoaHoc: getAllBaiHocKhoaHoc,
+    getAllKhoaHoc: getAllKhoaHoc,
+    //getAllKhoaHocLimit: getAllKhoaHocLimit
+}*/

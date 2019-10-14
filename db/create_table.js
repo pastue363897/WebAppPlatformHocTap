@@ -63,7 +63,11 @@ var paramsBaiHoc = {
         {
             AttributeName: 'UsernameBKH',
             AttributeType: 'S' // (S | N | B) for string, number, binary
-        }
+        },
+        {
+            AttributeName: 'TenChuDe',
+            AttributeType: 'S' // (S | N | B) for string, number, binary
+        },
     ],
     ProvisionedThroughput: { // required provisioned throughput for the table
         ReadCapacityUnits: 4, 
@@ -83,13 +87,14 @@ var paramsBaiHoc = {
                 }
             ],
             Projection: { // attributes to project into the index
-                ProjectionType: 'INCLUDE', // (ALL | KEYS_ONLY | INCLUDE)
-                NonKeyAttributes: [ // required / allowed only for INCLUDE
+                ProjectionType: 'ALL', // (ALL | KEYS_ONLY | INCLUDE)
+            /*    NonKeyAttributes: [ // required / allowed only for INCLUDE
                     'TenKH',
-                    'TenCD',
-                    'GiaTien'
+                    'TenChuDe',
+                    'GiaTien',
+                    'SoTT',
                     // ... more attribute names ...
-                ],
+                ],*/
             },
             ProvisionedThroughput: { // throughput to provision to the index
                 ReadCapacityUnits: 2,
@@ -109,13 +114,14 @@ var paramsBaiHoc = {
                 }
             ],
             Projection: { // attributes to project into the index
-                ProjectionType: 'INCLUDE', // (ALL | KEYS_ONLY | INCLUDE)
-                NonKeyAttributes: [ // required / allowed only for INCLUDE
+                ProjectionType: 'ALL', // (ALL | KEYS_ONLY | INCLUDE)
+           /*     NonKeyAttributes: [ // required / allowed only for INCLUDE
                     'IdKhoaHoc',
                     'TenKH',
-                    'GiaTien'
+                    'GiaTien',
+                    'SoTT',
                     // ... more attribute names ...
-                ],
+                ],*/
             },
             ProvisionedThroughput: { // throughput to provision to the index
                 ReadCapacityUnits: 2,
@@ -157,7 +163,7 @@ var paramsUserBKH = {
             KeyType: 'HASH',
         },
         { // Optional RANGE key type for HASH + RANGE tables
-            AttributeName: 'Id', 
+            AttributeName: 'Email', 
             KeyType: 'RANGE', 
         }
     ],
@@ -167,8 +173,8 @@ var paramsUserBKH = {
             AttributeType: 'S', // (S | N | B) for string, number, binary
         },
         {
-            AttributeName: 'Id',
-            AttributeType: 'N', // (S | N | B) for string, number, binary
+            AttributeName: 'Email',
+            AttributeType: 'S', // (S | N | B) for string, number, binary
         }
     ],
     ProvisionedThroughput: { // required provisioned throughput for the table
@@ -190,7 +196,7 @@ var paramsUserKH = {
             KeyType: 'HASH',
         },
         { // Optional RANGE key type for HASH + RANGE tables
-            AttributeName: 'Id', 
+            AttributeName: 'Email', 
             KeyType: 'RANGE', 
         }
     ],
@@ -200,8 +206,8 @@ var paramsUserKH = {
             AttributeType: 'S', // (S | N | B) for string, number, binary
         },
         {
-            AttributeName: 'Id',
-            AttributeType: 'N', // (S | N | B) for string, number, binary
+            AttributeName: 'Email',
+            AttributeType: 'S', // (S | N | B) for string, number, binary
         }
     ],
     ProvisionedThroughput: { // required provisioned throughput for the table
@@ -229,7 +235,7 @@ var paramsHoaDon = {
     ],
     AttributeDefinitions: [ // The names and types of all primary and index key attributes only
         {
-            AttributeName: 'Id',
+            AttributeName: 'IdHoaDon',
             AttributeType: 'S', // (S | N | B) for string, number, binary
         },
         {
