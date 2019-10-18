@@ -1,5 +1,4 @@
 const AWS = require('aws-sdk');
-const fs = require('fs');
 
 AWS.config.update({
     region: 'local',
@@ -7,6 +6,8 @@ AWS.config.update({
 });
 
 let docClient = new AWS.DynamoDB.DocumentClient();
+
+var scanObjectsOM = [];
 
 function getAllBaiHocKhoaHoc(idKH) {
     // Lấy ra tên các bài học của 1 khóa học
@@ -19,17 +20,17 @@ function getAllBaiHocKhoaHoc(idKH) {
             '#ids': 'IdKhoaHoc'
         },
         ExpressionAttributeValues: { // a map of substitutions for all attribute values
-        ':v1': idKH
+            ':v1': idKH
         },
         ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
     };
-    docClient.query(params1, function(err, data) {
-        if(err) {
+    docClient.query(params1, function (err, data) {
+        if (err) {
             console.log(JSON.stringify(err));
             return err;
         }
         else {
-            console.log(JSON.stringify(data.Items));
+            //console.log(JSON.stringify(data.Items));
             return data.Items;
         }
     });
@@ -47,22 +48,22 @@ function getAllKhoaHocUser(username) {
             '#stt': 'SoTT'
         },
         ExpressionAttributeValues: { // a map of substitutions for all attribute values
-        ':val': username,
-        ':bhs': 1
+            ':val': username,
+            ':bhs': 1
         },
         FilterExpression: '#stt = :bhs',
         ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
         //Select: "ALL_PROJECTED_ATTRIBUTES",
     };
 
-    docClient.query(params2, function(err, data) {
-        if(err) {
+    docClient.query(params2, function (err, data) {
+        if (err) {
             console.log(JSON.stringify(err));
             return err;
         }
-        else { 
-        //    var clean = data.Items.filter((arr, index, self) =>
-        //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
+        else {
+            //    var clean = data.Items.filter((arr, index, self) =>
+            //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
             console.log(JSON.stringify(data));
             return data.Items;
         }
@@ -78,21 +79,21 @@ function checkUserBKHExist(username) {
             '#user': 'Username'
         },
         ExpressionAttributeValues: { // a map of substitutions for all attribute values
-        ':val': username
+            ':val': username
         },
         ReturnConsumedCapacity: 'NONE', // optional (NONE | TOTAL | INDEXES)
         Select: "COUNT",
     };
 
-    docClient.query(params3, function(err, data) {
-        if(err) {
+    docClient.query(params3, function (err, data) {
+        if (err) {
             console.log(JSON.stringify(err));
             return err;
         }
-        else { 
-        //    var clean = data.Items.filter((arr, index, self) =>
-        //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
-            console.log(JSON.stringify(data));
+        else {
+            //    var clean = data.Items.filter((arr, index, self) =>
+            //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
+            //    console.log(JSON.stringify(data));
             return data;
         }
     });
@@ -107,20 +108,20 @@ function checkUserKHExist(username) {
             '#user': 'Username'
         },
         ExpressionAttributeValues: { // a map of substitutions for all attribute values
-        ':val': 'user0001'
+            ':val': 'user0001'
         },
         ReturnConsumedCapacity: 'NONE', // optional (NONE | TOTAL | INDEXES)
         Select: "COUNT",
     };
 
-    docClient.query(params4, function(err, data) {
-        if(err) {
+    docClient.query(params4, function (err, data) {
+        if (err) {
             console.log(JSON.stringify(err));
         }
-        else { 
-        //    var clean = data.Items.filter((arr, index, self) =>
-        //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
-            console.log(JSON.stringify(data));
+        else {
+            //    var clean = data.Items.filter((arr, index, self) =>
+            //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
+            //    console.log(JSON.stringify(data));
         }
     });
 }
@@ -168,72 +169,142 @@ function checkUserKHExist(username) {
 // Lấy thông tin khóa học theo chủ đề: Query trên index BaiHoc_ChuDeIndex với ChuDe = ?
 // Lấy thông tin tất cả các khóa học: Scan trên index BaiHoc_KhoaHocIndex
 // 
+// Get all khoá học
+function internalGetAllKhoaHoc(limit) {
+    return new Promise((resolve, reject) => {
+        var params = {
+            TableName: 'BaiHoc',
+            ExpressionAttributeNames: {
+                '#stt': 'SoTT'
+            },
+            ExpressionAttributeValues: {
+                ':bhs': 1
+            },
+            FilterExpression: '#stt = :bhs',
+            ProjectionExpression: "TenChuDe, TenKH, MoTaKH, IdKhoaHoc, GiaTien, UsernameBKH",
+            ReturnConsumedCapacity: 'TOTAL',
+        };
+        if (limit > -1)
+            params.Limit = limit;
+        docClient.scan(params, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                //console.log(JSON.stringify(data));
+                resolve(data.Items);
+            }
+        });
+    });
+}
 
-function getAllKhoaHoc() {
-    var params2 = {
-        TableName: 'BaiHoc',
-        ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
-            '#stt': 'SoTT'
-        },
-        ExpressionAttributeValues: { // a map of substitutions for all attribute values
-            ':bhs': 1
-        },
-        FilterExpression: '#stt = :bhs',
-        ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
-        //Select: "ALL_PROJECTED_ATTRIBUTES",
-    };
-
-    docClient.scan(params2, function(err, data) {
-        if(err) {
-            console.log(JSON.stringify(err));
-            return err;
+let getAllKhoaHocIndex = async function (limit, errorMsg, req, res) {
+    let rst = await internalGetAllKhoaHoc(limit);
+    console.log(rst);
+    Promise.all(rst).then(result => {
+        let sess = req.session;
+        let vls = { khs: result, uname: null, owned: null, errorMsg: null };
+        //console.log(req.session);
+        vls.errorMsg = errorMsg;
+        if (sess.user) {
+            //console.log("Yes");
+            vls.uname = sess.user;
+            res.render('index.ejs', vls);
         }
-        else { 
-        //    var clean = data.Items.filter((arr, index, self) =>
-        //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
-            console.log(JSON.stringify(data));
-            return data.Items;
+        else {
+            //console.log("No");
+            res.render('index.ejs', vls);
         }
     });
 }
 
-module.exports.getAllKhoaHocLimit = function (limit) {
-    var params2 = {
-        TableName: 'BaiHoc',
-        ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
-            '#stt': 'SoTT'
-        },
-        ExpressionAttributeValues: { // a map of substitutions for all attribute values
-            ':bhs': 1
-        },
-        FilterExpression: '#stt = :bhs',
-        ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
-        Limit: limit
-        //Select: "ALL_PROJECTED_ATTRIBUTES",
-    };
+let getAllKhoaHocCourse = async function (limit, req, res) {
+    let rst = await internalGetAllKhoaHoc(limit);
 
-    let res = docClient.scan(params2, function(err, data) {
-        if(err) {
-            console.log(JSON.stringify(err));
+    Promise.all(rst).then(result => {
+        let sess = req.session;
+        //console.log(req.session);
+        console.log(result);
+        let vls = { khs: result, uname: null, owned: false, errorMsg: null };
+        if (sess.user) {
+            //console.log("Yes");
+            vls.uname = sess.user;
+            res.render('course.ejs', vls);
         }
-        else { 
-        //    var clean = data.Items.filter((arr, index, self) =>
-        //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
-            //console.log(JSON.stringify(data));
-            //return data.Items;
-            //callback(err, data);
-            res.render('index.ejs', {khs: data.Items});
+        else {
+            //console.log("No");
+            res.render('course.ejs', vls);
         }
-    })/*.promise().then((data) => {
-        //console.log(JSON.stringify(data));
-        return data.Items;
     });
-    //console.log(res);
-    return res;*/
 }
-/*
+
+function internalGetKhoaHoc(IdKhoaHoc) {
+    return new Promise((resolve, reject) => {
+        var params2 = {
+            TableName: 'BaiHoc',
+            IndexName: 'BaiHoc_KhoaHocIndex',
+            KeyConditionExpression: 'IdKhoaHoc = :va',
+            ExpressionAttributeValues: {
+                ':va': IdKhoaHoc
+            }
+        };
+        docClient.query(params2, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                //console.log(JSON.stringify(data.Items[0]));
+                resolve(data.Items);
+            }
+        });
+    });
+}
+
+function internalGetAllKhoaHocOwned(UsernameKH) {
+    return new Promise((resolve, reject) => {
+        var params = {
+            TableName: 'HoaDon',
+            ExpressionAttributeNames: {
+                '#uc': 'UsernameKH'
+            },
+            ExpressionAttributeValues: {
+                ':ucvalue': UsernameKH
+            },
+            ProjectionExpression: 'TenChuDe, TenKH, MoTaKH, IdKhoaHoc, UsernameBKH',
+            FilterExpression: '#uc = :ucvalue',
+            ReturnConsumedCapacity: 'TOTAL',
+        };
+        docClient.scan(params, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                resolve(data.Items);
+            }
+        });
+    });
+}
+
+let getAllKhoaHocOwned = async function (UsernameKH, errorMsg, req, res) {
+    let rst = await internalGetAllKhoaHocOwned(UsernameKH);
+    Promise.all(rst).then(result => {
+        console.log(result);
+        let sess = req.session;
+        let mosf = { Items: result };
+        console.log(JSON.stringify(mosf));
+        let vls = { khs: result, uname: null, owned: true, errorMsg: null };
+        vls.errorMsg = errorMsg;
+        vls.uname = sess.user;
+        res.render('course.ejs', vls);
+    });
+}
+
 module.exports = {
-    getAllBaiHocKhoaHoc: getAllBaiHocKhoaHoc,
-    getAllKhoaHoc: getAllKhoaHoc,
-    //getAllKhoaHocLimit: getAllKhoaHocLimit
-}*/
+    //getAllBaiHocKhoaHoc: getAllBaiHocKhoaHoc,
+    getAllKhoaHocCourse: getAllKhoaHocCourse,
+    getAllKhoaHocIndex: getAllKhoaHocIndex,
+    getAllKhoaHocOwned: getAllKhoaHocOwned
+}

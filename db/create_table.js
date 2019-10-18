@@ -236,7 +236,7 @@ var paramsHoaDon = {
     AttributeDefinitions: [ // The names and types of all primary and index key attributes only
         {
             AttributeName: 'IdHoaDon',
-            AttributeType: 'S', // (S | N | B) for string, number, binary
+            AttributeType: 'N', // (S | N | B) for string, number, binary
         },
         {
             AttributeName: 'UsernameKH',
