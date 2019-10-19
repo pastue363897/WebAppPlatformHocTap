@@ -82,29 +82,3 @@ allUserKH.forEach((user_bkh) => {
         }
     });
 });
-
-let allHoaDon = JSON.parse(fs.readFileSync(__dirname + '/hoadon.json', 'utf-8'));
-
-allHoaDon.forEach((hoadon) => {
-    let params = {
-        TableName: "HoaDon",
-        Item: {
-            "IdHoaDon":hoadon.IdHoaDon,
-            "UsernameKH":hoadon.UsernameKH,
-            "IdKhoaHoc":hoadon.IdKhoaHoc,
-            "NgayMua": hoadon.NgayMua,
-            "GiaTien": hoadon.GiaTien,
-            "TenChuDe": hoadon.TenChuDe,
-            "TenKH": hoadon.TenKH,
-            "MoTaKH": hoadon.MoTaKH,
-            "UsernameBKH": hoadon.UsernameBKH
-        }
-    };
-    docClient.put(params, (err, data) => {
-        if (err) {
-            console.error(`Unable to add receipt ${hoadon.Username}, ${JSON.stringify(err, null, 2)}`);
-        } else {
-            console.log(`Receipt created ${hoadon.Username}`);
-        }
-    });
-});

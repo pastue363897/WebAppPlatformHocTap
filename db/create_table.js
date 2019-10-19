@@ -236,7 +236,7 @@ var paramsHoaDon = {
     AttributeDefinitions: [ // The names and types of all primary and index key attributes only
         {
             AttributeName: 'IdHoaDon',
-            AttributeType: 'N', // (S | N | B) for string, number, binary
+            AttributeType: 'S', // (S | N | B) for string, number, binary
         },
         {
             AttributeName: 'UsernameKH',
@@ -251,35 +251,6 @@ var paramsHoaDon = {
         ReadCapacityUnits: 4, 
         WriteCapacityUnits: 1, 
     },
-    GlobalSecondaryIndexes: [ // optional (list of GlobalSecondaryIndex)
-        { 
-            IndexName: 'HoaDon_UsernameKHIndex', 
-            KeySchema: [
-                { // Required HASH type attribute
-                    AttributeName: 'UsernameKH',
-                    KeyType: 'HASH'
-                },
-                {
-                    AttributeName: 'IdKhoaHoc',
-                    KeyType: 'RANGE'
-                }
-            ],
-            Projection: { // attributes to project into the index
-                ProjectionType: 'ALL', // (ALL | KEYS_ONLY | INCLUDE)
-            /*    NonKeyAttributes: [ // required / allowed only for INCLUDE
-                    'TenKH',
-                    'TenChuDe',
-                    'GiaTien',
-                    'SoTT',
-                    // ... more attribute names ...
-                ],*/
-            },
-            ProvisionedThroughput: { // throughput to provision to the index
-                ReadCapacityUnits: 2,
-                WriteCapacityUnits: 1,
-            },  
-        }
-    ],
     LocalSecondaryIndexes: [
         {
             IndexName: 'HoaDon_IdKhoaHoc',

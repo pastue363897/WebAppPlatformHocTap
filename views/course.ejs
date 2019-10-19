@@ -8,11 +8,7 @@
     <meta name="keywords" content="HTML,CSS,XML,JavaScript">
     <meta name="author" content="Ecology Theme">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <% if(!owned) { %>
-        <title>Danh Sách Các Khoá Học</title>
-    <% } else { %>
-        <title>Các Khoá Học Đã Sở Hữu</title>
-    <% } %>
+    <title>Danh Sách Các Khoá Học</title>
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <!-- Goole Font -->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,500,700" rel="stylesheet">
@@ -125,9 +121,14 @@
                                 <li class="nav-item"><a href="forgot-password.html" class="nav-link">Forgot Password</a></li>
                             </ul>                            
                         </li>     
-                        <li class="nav-item"><a href="/course-owned" class="nav-link" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Khoá Học Đã Mua</a>
-                        </li>
-                        <li class="nav-item"><a href="about.html" class="nav-link" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Về Chúng Tôi</a></li>
+                        <li class="nav-item"><a href="contact.html" class="nav-link" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Khoá Học Đã Mua</a>
+                         <ul class="navbar-nav nav mx-auto">
+                                <li class="nav-item"><a href="course.html" class="nav-link">TOEIC 350+</a></li>
+                                <li class="nav-item"><a href="course-details.html" class="nav-link">TOEIC 450+</a></li>
+                                <li class="nav-item"><a href="course-details.html" class="nav-link">TOEIC 750+</a></li>
+                               
+                            </ul> </li>
+                             <li class="nav-item"><a href="about.html" class="nav-link" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Về Chúng Tôi</a></li>
                     </ul>
                 </div>
             </nav><!-- END NAVBAR -->
@@ -139,11 +140,7 @@
             <div class="row">        
                  <div class="col-sm-12 col-md-8 col-lg-8">
                     <div class="intro_text">
-                        <% if(!owned) { %>
-                            <h1>Danh Sách Các Khoá Học</h1>
-                        <% } else { %>
-                            <h1>Các Khoá Học Đã Sở Hữu</h1>
-                        <% } %>
+                        <h1>Danh Sách Các Khoá Học</h1>
                     </div>
                 </div>              
 
@@ -274,7 +271,7 @@
                 <div class="col-12 col-sm-6 col-md-6 col-lg-4">
                     <div class="single-courses">
                         <div class="courses_banner_wrapper">
-                            <div class="courses_banner"><a href="/detail?idKH=<%= khs[i].IdKhoaHoc%>"><img src="images/courses/courses_1.jpg" alt="" class="img-fluid"></a></div>
+                            <div class="courses_banner"><a href="#"><img src="images/courses/courses_1.jpg" alt="" class="img-fluid"></a></div>
                             <div class="purchase_price">
                                 <a href="#" class="read_more-btn"><%= khs[i].GiaTien %></a>
                             </div>
@@ -289,14 +286,7 @@
                                     <li><i class="fas fa-calendar-alt"></i><%= khs[i].MoTaKH %></li>
                                     <!--<li><i class="fas fa-user"></i>30 Students</li>-->
                                 </ul>
-                                <% if(!owned) { %>
-                                <form action="/detail" method="GET">
-                                    <input type="submit" class="cart_btn" value="Xem"></input>
-                                    <input type="hidden" name="idKH" value="<%= khs[i].IdKhoaHoc%>"></input>
-                                </form>
-                                <% } else { %>
-                                <a href="#" class="cart_btn">Xem</a>
-                                <% } %>
+                                <a href="#" class="cart_btn">Mua</a>
                             </div>
                         </div>
                     </div>
