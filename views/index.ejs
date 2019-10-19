@@ -38,6 +38,47 @@
     <link rel="stylesheet" href="stylesheets/style.css">    
     <link rel="stylesheet" href="stylesheets/responsive.css">
     <link rel="stylesheet" href="stylesheets/demo.css">
+    <% if(errorMsg) { %>
+    <style>
+        .modal {
+            display: block; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+    <% } %>
 </head>
 <body>
 <header class="header_four">
@@ -127,13 +168,8 @@
                                 <li class="nav-item"><a href="forgot-password.html" class="nav-link">Forgot Password</a></li>
                             </ul>                            
                         </li>     
-                        <li class="nav-item"><a href="contact.html" class="nav-link" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Khoá Học Đã Mua</a>
-                         <ul class="navbar-nav nav mx-auto">
-                                <li class="nav-item"><a href="course.html" class="nav-link">TOEIC 350+</a></li>
-                                <li class="nav-item"><a href="course-details.html" class="nav-link">TOEIC 450+</a></li>
-                                <li class="nav-item"><a href="course-details.html" class="nav-link">TOEIC 750+</a></li>
-                               
-                            </ul> </li>
+                        <li class="nav-item"><a href="/course-owned" class="nav-link" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Khoá Học Đã Mua</a>
+                        </li>
                              <li class="nav-item"><a href="about.html" class="nav-link" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Về Chúng Tôi</a></li>
                     </ul>
                 </div>
@@ -583,12 +619,39 @@
     <script src="javascripts/assets/revolution/extensions/revolution.extension.slideanims.min.js"></script>
     <script src="javascripts/assets/revolution/extensions/revolution.extension.video.min.js"></script>
     <script src="javascripts/assets/revolution/revolution.js"></script>
-    <script src="javascripts/custom.js"></script> 
+    <script src="javascripts/custom.js"></script>
+    
 
 
     <!-- =========================================================
          STYLE SWITCHER | ONLY FOR DEMO NOT INCLUDED IN MAIN FILES
     ============================================================== -->
     <script type="text/javascript" src="javascripts/demo.js"></script>
+    <% if(errorMsg) { %>
+        <div id="myModal" class="modal">
+            <div class="alert alert-danger">
+                <span class="close">&times;</span>
+                <p><%= errorMsg%></p>
+            </div>
+        </div>
+        <% } %>
+    <% if(errorMsg) { %>
+        <script>
+            // Get the modal
+            var modal = document.getElementById("myModal");
+            
+            var btn = document.getElementById("myBtn");
+            
+            var span = document.getElementsByClassName("close")[0];
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                modal.style.display = "none";
+                }
+            }
+        </script>
+        <% } %>
 </body>
 </html>

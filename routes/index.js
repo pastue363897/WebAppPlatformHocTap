@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const AWS = require('aws-sdk');
+var query = require('../db/query.js')
+var web_function = require('../db/web_function.js')
 
 AWS.config.update({
   region: 'local',
@@ -9,76 +11,21 @@ AWS.config.update({
 
 let docClient = new AWS.DynamoDB.DocumentClient();
 
-
-
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  var params2 = {
-    TableName: 'BaiHoc',
-    ExpressionAttributeNames: {
-      '#stt': 'SoTT'
-    },
-    ExpressionAttributeValues: {
-      ':bhs': 1
-    },
-    FilterExpression: '#stt = :bhs',
-    ReturnConsumedCapacity: 'TOTAL',
-    Limit: 9
-  };
-
-  docClient.scan(params2, function (err, data) {
-    if (err) {
-      console.log(JSON.stringify(err));
-    }
-    else {
-      let sess = req.session;
-      console.log(req.session);
-      if(sess.user) {
-        console.log("Yes");
-        res.render('index.ejs', { khs: data.Items, uname: sess.user });
-      }
-      else {
-        console.log("No");
-        res.render('index.ejs', { khs: data.Items, uname: null });
-      }
-    }
-  })
+  query.getAllKhoaHocIndex(9, null, req, res);
 });
 
 router.post('/signin', function (req, res, next) {
-  var params4 = {
-    TableName: 'UserKH',
-    KeyConditionExpression: '#user = :val',
-    ExpressionAttributeNames: {
-      '#user': 'Username'
-    },
-    ExpressionAttributeValues: {
-      ':val': req.body.username,
-    },
-    ReturnConsumedCapacity: 'NONE',
-  };
+  web_function.signIn(req, res);
+});
 
-  docClient.query(params4, function (err, data) {
-    if (err) {
-      console.log(JSON.stringify(err));
-    }
-    else {
-      console.log(JSON.stringify(data));
-      if(data.Items.length != 0) {
-        let us = data.Items[0];
-        if(req.body.pass == us.Pass) {
-          req.session.user = us.Username;
-          req.session.type = 1;
-          console.log("Success");
-          res.redirect('/');
-        }
-        else {
-          console.log("Fail");
-          res.redirect('/');
-        }
-      }
-    }
+router.get('/logout', function (req, res, next) {
+  req.session.destroy((err) => {
+    if (err)
+      console.log(err);
   });
+  res.redirect('/');
 });
 
 router.get('/logout', function (req, res, next) {
@@ -87,6 +34,26 @@ router.get('/logout', function (req, res, next) {
       console.log(err);
   });
   res.redirect('/');
+});
+
+router.get('/course', function (req, res, next) {
+  query.getAllKhoaHocCourse(-1, req, res);
+});
+
+/* GET users listing. */
+router.get('/course-owned', function (req, res, next) {
+  let sess = req.session;
+  console.log("Step 1");
+  if (sess.user) {
+    query.getAllKhoaHocOwned(sess.user,null,req,res);
+  }
+  else {
+    query.getAllKhoaHocIndex(9, "Bạn chưa đăng nhập, không thể xem danh sách các khóa học đã mua", req, res);
+  }
+});
+router.get('/detail', function (req, res, next) {
+  IdKhoaHoc = req.query.idKH;
+  query.daMuaKhoaHoc(IdKhoaHoc, req, res);
 });
 
 /* thanh toán */
