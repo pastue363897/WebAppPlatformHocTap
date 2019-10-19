@@ -274,7 +274,7 @@
                 <div class="col-12 col-sm-6 col-md-6 col-lg-4">
                     <div class="single-courses">
                         <div class="courses_banner_wrapper">
-                            <div class="courses_banner"><a href="#"><img src="images/courses/courses_1.jpg" alt="" class="img-fluid"></a></div>
+                            <div class="courses_banner"><a href="/detail?idKH=<%= khs[i].IdKhoaHoc%>"><img src="images/courses/courses_1.jpg" alt="" class="img-fluid"></a></div>
                             <div class="purchase_price">
                                 <a href="#" class="read_more-btn"><%= khs[i].GiaTien %></a>
                             </div>
@@ -290,9 +290,9 @@
                                     <!--<li><i class="fas fa-user"></i>30 Students</li>-->
                                 </ul>
                                 <% if(!owned) { %>
-                                <form action="/buy" method="POST">
-                                    <input type="submit" href="/buy" class="cart_btn" value="Mua"></input>
-                                    <input type="hidden" name="id" value="<%= khs[i].IdKhoaHoc%>"></input>
+                                <form action="/detail" method="GET">
+                                    <input type="submit" class="cart_btn" value="Xem"></input>
+                                    <input type="hidden" name="idKH" value="<%= khs[i].IdKhoaHoc%>"></input>
                                 </form>
                                 <% } else { %>
                                 <a href="#" class="cart_btn">Xem</a>

@@ -43,5 +43,9 @@ router.get('/course-owned', function (req, res, next) {
     query.getAllKhoaHocIndex(9, "Bạn chưa đăng nhập, không thể xem danh sách các khóa học đã mua", req, res);
   }
 });
+router.get('/detail', function (req, res, next) {
+  IdKhoaHoc = req.query.idKH;
+  query.daMuaKhoaHoc(IdKhoaHoc, req, res);
+});
 
 module.exports = router;

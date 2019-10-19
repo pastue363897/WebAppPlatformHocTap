@@ -302,9 +302,49 @@ let getAllKhoaHocOwned = async function (UsernameKH, errorMsg, req, res) {
     });
 }
 
+function isDaMuaKhoaHoc(IdKhoaHoc, req) {
+    return new Promise((resolve, reject) => {
+        console.log(IdKhoaHoc);
+        var params = {
+            TableName: 'HoaDon',
+            IndexName: 'HoaDon_UsernameKHIndex', // optional (if querying an index)
+            KeyConditionExpression: 'UsernameKH = :value', // a string representing a constraint on the attribute
+            FilterExpression: 'IdKhoaHoc = :ids',
+            ExpressionAttributeValues: { // a map of substitutions for all attribute values
+                ':value': req.session.user,
+                ':ids': Number(IdKhoaHoc),
+            }
+        };
+        docClient.query(params, function (err, data) {
+            if (err) {
+                console.error(JSON.stringify(err));
+                resolve(null);
+            }
+            else {
+                console.log(data.Items.length);
+                resolve(data.Items.length);
+            }
+        });
+    });
+}
+
+let daMuaKhoaHoc = async function (IdKhoaHoc, req, res) {
+    var pm = isDaMuaKhoaHoc(IdKhoaHoc, req);
+    pm.then((data) => {
+        if (data == 0) {
+            res.render('detail.ejs');
+        }
+        else {
+            res.redirect('/lesson/' + IdKhoaHoc);
+        }
+    });
+};
+
 module.exports = {
     //getAllBaiHocKhoaHoc: getAllBaiHocKhoaHoc,
     getAllKhoaHocCourse: getAllKhoaHocCourse,
     getAllKhoaHocIndex: getAllKhoaHocIndex,
-    getAllKhoaHocOwned: getAllKhoaHocOwned
+    getAllKhoaHocOwned: getAllKhoaHocOwned,
+    isDaMuaKhoaHoc: isDaMuaKhoaHoc,
+    daMuaKhoaHoc: daMuaKhoaHoc
 }
