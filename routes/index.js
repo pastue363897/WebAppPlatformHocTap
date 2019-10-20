@@ -95,4 +95,9 @@ router.get('/pay', function(req, res, next) {
   // res.render('index.ejs', { khs: data.Items, uname: null });
 });
 
+/* trang chi tiết khóa học */
+router.get('/coursedetail', function(req, res, next) {
+  res.render('coursedetail', { title: 'Express', uname: null });
+});
+
 module.exports = router;
