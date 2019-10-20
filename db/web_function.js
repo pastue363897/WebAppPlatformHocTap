@@ -30,7 +30,9 @@ function signIn(req, res) {
                 let us = data.Items[0];
                 if (req.body.pass == us.Pass) {
                     req.session.user = us.Username;
+                    req.session.email = us.Email;
                     req.session.type = 1;
+                    req.session.balance = us.SoTien;
                     //console.log("Success");
                     res.redirect('/');
                 }

@@ -16,7 +16,7 @@ allKhoaHoc.forEach((khoahoc) => {
     let params = {
         TableName: "BaiHoc",
         Item: {
-            "TenChuDe": khoahoc.TenCD,
+            "TenChuDe": khoahoc.TenChuDe,
             "SoTT": khoahoc.SoTT,
             "DoDai": khoahoc.DoDai,
             "MoTaKH": khoahoc.MoTaKH,
@@ -27,7 +27,8 @@ allKhoaHoc.forEach((khoahoc) => {
             "IdBaiHoc": khoahoc.IdBaiHoc,
             "TenBH": khoahoc.TenBH,
             "Data": khoahoc.Data,
-            "TomTat": khoahoc.TomTat
+            "TomTat": khoahoc.TomTat,
+            "Thumbnail": khoahoc.Thumbnail,
         }
     };
     docClient.put(params, (err, data) => {
@@ -71,7 +72,8 @@ allUserKH.forEach((user_bkh) => {
             "Pass": user_bkh.Pass,
             "DiaChi": user_bkh.DiaChi,
             "Ten": user_bkh.Ten,
-            "Email": user_bkh.Email
+            "Email": user_bkh.Email,
+            "SoTien": user_bkh.SoTien
         }
     };
     docClient.put(params, (err, data) => {

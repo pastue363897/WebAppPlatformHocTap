@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Chi tiết khóa học</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="stylesheets/assets/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="stylesheets/style_chitiet.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Trang chủ
+                            <span class="sr-only">current</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/course">Các khóa học</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/course-owned">Các khóa học đã mua</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-3">
+                <h1 class="my-4">Chi tiết khóa học</h1>
+            </div>
+            <!-- /.col-lg-3 -->
+
+            <div class="col-lg-9">
+
+                <div class="card mt-4">
+
+                    <!-- ------------- phần hiển thị các bài học trong một khóa học --------------------------------- -->
+                    <div id="giao_trinh" class="curriculum-container lazy_load" loaded="true">
+                        <div class="title"><%= items[0].TenKH %></div>
+                        <div class="curriculum-overview">
+                            <div class="curriculum-type">
+                                Chủ đề: <span><%= items[0].TenChuDe %></span>
+                            </div>
+                            <div class="curriculum-lessons">
+                                <div class="curriculum-lessons-number">
+                                    <img src="http://dvkhfbm6djrbs.cloudfront.net/5be57a4be2e9ab000ba3a5b6/5d43f62ce1af2a00128ed897/ezgif.com-gif-maker.png"
+                                        width="24" height="24">Số bài:
+                                    <span><%= items.length %></span>
+                                </div>
+                                <div class="curriculum-time">
+                                    <img src="http://dvkhfbm6djrbs.cloudfront.net/5be57a4be2e9ab000ba3a5b6/5d43f62ce1af2a00128ed897/ezgif.com-gif-maker (1).png"
+                                        width="24" height="24">Thời lượng
+                                    <span>10:43:48</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="curriculum-lesson-container">
+                            <div class="chapter-lessons">
+                                <% for(var i = 0; i < items.length; i++) { %>
+                                <div class="chappter-lesson">
+                                    <div class="lesson-name-container">
+                                        <a href="/video?idBH=<%= items[i].IdBaiHoc %>"><img src="http://dvkhfbm6djrbs.cloudfront.net/5be57a4be2e9ab000ba3a5b6/5d43f62ce1af2a00128ed897/ezgif.com-gif-maker.png"
+                                            width="24" height="24"></a>
+                                        <div class="lesson-name"><%= items[i].TenBH %> - <%= Math.floor(items[i].DoDai / 60) %>:<%= ((items[i].DoDai % 60)+"").padStart(2,"0") %></div>
+                                    </div>
+                                    <div class="separate-line">
+                                    </div>
+                                </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+        </div>
+        <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="javascripts/jquery/jquery.min.js"></script>
+    <script src="javascripts/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="javascripts/xuly.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+
+body {
+  padding-top: 56px;
+}
+.text-muted {
+  color: #ffc107!important;
+}
+.money{
+  color: red;
+}
+.tutorial-content{
+  height: 200px;
+}
+
+/* Style trang chi tiết  */
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: Open Sans,sans-serif;
+}
+*, ::after, ::before {
+  box-sizing: border-box;
+}
+.curriculum-container {
+  margin-top: 10px;
+  padding: 30px;
+  width: 730px;
+  border-radius: 7px;
+  background-color: #fff;
+}
+.curriculum-container .title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.33;
+  letter-spacing: .3px;
+  color: #464646;
+}
+.curriculum-container .curriculum-overview {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+.curriculum-container .curriculum-lesson-container .curriculum-chapter-container {
+  margin-top: 10px;
+}
+.curriculum-lesson-container .curriculum-chapter-container .curriculum-chapter {
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  width: 670px;
+  height: 60px;
+  border-radius: 7px;
+  border: 1px solid #dedfe0;
+  background-color: #fff;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.curriculum-lesson-container .curriculum-chapter-container .curriculum-chapter .chapter-name {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.43;
+  letter-spacing: -.2px;
+  color: #464646;
+  width: 500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+}
+.curriculum-lesson-container .curriculum-chapter-container .curriculum-chapter .chappter-lesson-count {
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: -.3px;
+  text-align: right;
+  color: #9b9b9b;
+  display: flex;
+  align-items: center;
+}
+.curriculum-container .curriculum-lesson-container .curriculum-chapter-container .chapter-lessons {
+  margin-top: -50px;
+  width: 670px;
+  border-radius: 7px;
+  padding: 53px 20px 21px;
+  background-color: #f4f7f8;
+}
+.curriculum-container .curriculum-lesson-container .curriculum-chapter-container .chapter-lessons .chappter-lesson {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.curriculum-container .curriculum-lesson-container .curriculum-chapter-container .chapter-lessons .separate-line {
+  width: 630px;
+  margin: 11px 0;
+  height: 2px;
+  background-color: #eaeaea;
+}

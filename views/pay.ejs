@@ -4,41 +4,73 @@
 <body>
     <% include menubar %>
     <div class="container">
-        <form style="border-radius: 20px;background-color:#eeeeee;padding: 10px;">
+        <form action="/purchase" method="POST" style="border-radius: 20px;background-color:#eeeeee;padding: 10px;">
             <h1 style="text-align: center; border-bottom: 1px solid burlywood;margin-bottom: 10px;">Thông Tin Đơn Hàng</h1>
             <div class="form-group row">
                <div class="col-md-4" style="text-align: right;">
                    <img src="./images/courses/courses_1.jpg" style="width:50%">
                </div>
                <div class="col-md-4" style="text-align: center;">
-                   <span>Khởi nghiệp từ thương mại điện tử</span>
+                   <span><%= items[0].TenKH %></span>
                </div>
                <div class="col-md-4" style="text-align: left;">
-                   <span style="color: red;">169.000đ</span>
+                   <span style="color: red;"><%= items[0].GiaTien %></span>
                </div>
             </div>
             <div class="form-group row" style="border-top: 1px solid burlywood;">
-                    <div class="col-md-4">
-                            <span style="color: black;">Số Tiền Bạn Đang Có : 100.000Đ</span>
+                    <div class="col-md-2">
+                        <span style="color: black;"></span>
                     </div>
-                    <div class="col-md-4">
-                        <span style="color: black;">Số Tiền Còn Lại</span>
+                    <div class="col-md-5">
+                        <span style="color: black;">Số Tiền Đang Có: <%= balance %></span>
                     </div>
-                    <div class="col-md-4" style="float: right;">
-                        <span style="color: red;">50.0000Đ</span>
+                    <div class="col-md-5" style="float: right;">
+                        <span style="color: red;">Số Tiền Còn Lại: <%= balance-items[0].GiaTien %></span>
                     </div>
                  </div>
             <div style="width: 100%; text-align: center; margin: 0 auto">
-             
+                    <% if(balance - items[0].GiaTien >= 0) { %>
                     <input type="submit" class="btn btn-submit btn-lg" value="Thanh Toán">
-
+                    <% } else { %>
+                    <input type="#" class="btn btn-danger btn-lg" value="Không đủ tiền để mua">
+                    <% } %>
                     <a href="/"><button type="button" class="btn btn-danger btn-lg" style="margin-left: 10px;">Hủy</button></a>  
              
             </div>
+            <input type="hidden" id="TenChuDe" name="TenChuDe" value="<%= items[0].TenChuDe %>">
+            <input type="hidden" id="TenKH" name="TenKH" value="<%= items[0].TenKH %>">
+            <input type="hidden" id="UsernameBKH" name="UsernameBKH" value="<%= items[0].UsernameBKH %>">
+            <input type="hidden" id="MoTaKH" name="MoTaKH" value="<%= items[0].MoTaKH %>">
+            <input type="hidden" id="GiaTien" name="GiaTien" value="<%= items[0].GiaTien %>">
+            <input type="hidden" id="IdKhoaHoc" name="IdKhoaHoc" value="<%= items[0].IdKhoaHoc %>">
         </form>
     </div>
+    <% if(errorMsg) { %>
+        <div id="myModal" class="modal">
+            <div class="alert alert-danger">
+                <span class="close">&times;</span>
+                <p><%= errorMsg%></p>
+            </div>
+        </div>
+        <% } %>
+    <% if(errorMsg) { %>
+        <script>
+            // Get the modal
+            var modal = document.getElementById("myModal");
+            
+            var btn = document.getElementById("myBtn");
+            
+            var span = document.getElementsByClassName("close")[0];
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                modal.style.display = "none";
+                }
+            }
+        </script>
+        <% } %>
 </body>
     <% include footer %>
-    heelo
-    
 </html>

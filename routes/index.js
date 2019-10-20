@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const AWS = require('aws-sdk');
 var query = require('../db/query.js')
+var crud = require('../db/data_crud.js')
 var web_function = require('../db/web_function.js')
 
 AWS.config.update({
@@ -28,14 +29,6 @@ router.get('/logout', function (req, res, next) {
   res.redirect('/');
 });
 
-router.get('/logout', function (req, res, next) {
-  req.session.destroy((err) => {
-    if(err)
-      console.log(err);
-  });
-  res.redirect('/');
-});
-
 router.get('/course', function (req, res, next) {
   query.getAllKhoaHocCourse(-1, req, res);
 });
@@ -43,23 +36,104 @@ router.get('/course', function (req, res, next) {
 /* GET users listing. */
 router.get('/course-owned', function (req, res, next) {
   let sess = req.session;
-  console.log("Step 1");
-  if (sess.user) {
+  //console.log("Step 1");
+  if (sess.user && sess.type == 1) {
     query.getAllKhoaHocOwned(sess.user,null,req,res);
   }
   else {
     query.getAllKhoaHocIndex(9, "Bạn chưa đăng nhập, không thể xem danh sách các khóa học đã mua", req, res);
   }
 });
+
 router.get('/detail', function (req, res, next) {
-  IdKhoaHoc = req.query.idKH;
-  query.daMuaKhoaHoc(IdKhoaHoc, req, res);
+  let sess = req.session;
+  if (sess.user) {
+    //console.log(sess.type);
+    if(sess.type == 1) {
+      let IdKhoaHoc = req.query.idKH;
+      query.daMuaKhoaHoc(IdKhoaHoc, req, res);
+    }
+    else {
+      res.redirect('/creator');
+    }
+  }
+  else {
+    res.redirect('/');
+  }
 });
 
-/* thanh toán */
-router.get('/pay', function(req, res, next) {
-  res.render('pay.ejs', { title: 'Express', uname: null });
-  // res.render('index.ejs', { khs: data.Items, uname: null });
+router.get('/lesson', function (req, res, next) {
+  let sess = req.session;
+  console.log("Lesson comes");
+  if (sess.user) {
+    if(sess.type == 1) {
+      console.log("Lesson comes 2");
+      let a = query.getAllBaiHocKhoaHoc(req.query.q);
+      a.then((Items) => {
+        console.log(Items);
+        res.render('chitiet', {items: Items});
+      });
+    }
+    else {
+      res.redirect('/creator');
+    }
+  }
+  else {
+    res.redirect('/');
+  }
+});
+
+router.get('/video', function (req, res, next) {
+  let sess = req.session;
+  console.log("Lesson comes");
+  if (sess.user) {
+    if(sess.type == 1) {
+      console.log("Lesson comes 2");
+      let a = query.getBaiHoc(req.query.idBH);
+      a.then((Items) => {
+        console.log(Items);
+        res.render('video', {bh: Items[0]});
+      });
+    }
+    else {
+      res.redirect('/creator');
+    }
+  }
+  else {
+    res.redirect('/');
+  }
+});
+
+router.post('/purchase', function (req, res, next) {
+  let sess = req.session;
+  console.log("Lesson comes");
+  if (sess.user) {
+    if(sess.type == 1) {
+      let genID = Math.floor(Math.random() * 999999999999998)+1;
+      console.log(genID);
+      console.log(req.body.IdKhoaHoc);
+      let a = crud.putHoaDon(req,genID);
+      a.then((Items) => {
+        console.log(Items);
+        let newMoney = req.session.balance - req.body.GiaTien;
+        let b = crud.updateSoTien(req,newMoney);
+        b.then((Result) => {
+          res.redirect('/lesson?q=' + req.body.IdKhoaHoc);
+        }).catch((err) => {
+          console.log(err);
+        });
+      }).catch((err) => {
+        console.log(err);
+        res.redirect('/detail?idKH=' + req.body.IdKhoaHoc+'&error=invalidID');
+      });
+    }
+    else {
+      res.redirect('/creator');
+    }
+  }
+  else {
+    res.redirect('/');
+  }
 });
 
 module.exports = router;

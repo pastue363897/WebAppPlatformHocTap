@@ -10,29 +10,87 @@ let docClient = new AWS.DynamoDB.DocumentClient();
 var scanObjectsOM = [];
 
 function getAllBaiHocKhoaHoc(idKH) {
-    // Lấy ra tên các bài học của 1 khóa học
-    var params1 = {
-        TableName: 'BaiHoc',
-        IndexName: 'BaiHoc_KhoaHocIndex', // optional (if querying an index)
-        KeyConditionExpression: '#ids = :v1', // a string representing a constraint on the attribute
-        ProjectionExpression: "TenBH",
-        ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
-            '#ids': 'IdKhoaHoc'
-        },
-        ExpressionAttributeValues: { // a map of substitutions for all attribute values
-            ':v1': idKH
-        },
-        ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
-    };
-    docClient.query(params1, function (err, data) {
-        if (err) {
-            console.log(JSON.stringify(err));
-            return err;
-        }
-        else {
-            //console.log(JSON.stringify(data.Items));
-            return data.Items;
-        }
+    return new Promise((resolve, reject) => {
+        // Lấy ra tên các bài học của 1 khóa học
+        var params1 = {
+            TableName: 'BaiHoc',
+            IndexName: 'BaiHoc_KhoaHocIndex', // optional (if querying an index)
+            KeyConditionExpression: '#ids = :v1', // a string representing a constraint on the attribute
+            ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
+                '#ids': 'IdKhoaHoc'
+            },
+            ExpressionAttributeValues: { // a map of substitutions for all attribute values
+                ':v1': Number(idKH)
+            },
+            ScanIndexForward: false,
+            ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+        };
+        docClient.query(params1, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                console.log(JSON.stringify(data.Items));
+                //return data.Items;
+                resolve(data.Items);
+            }
+        });
+    });
+}
+function getBaiHoc(idBH) {
+    return new Promise((resolve, reject) => {
+        // Lấy ra tên các bài học của 1 khóa học
+        var params1 = {
+            TableName: 'BaiHoc',
+            KeyConditionExpression: '#ids = :v1',
+            ExpressionAttributeNames: {
+                '#ids': 'IdBaiHoc'
+            },
+            ExpressionAttributeValues: {
+                ':v1': Number(idBH)
+            },
+            ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+        };
+        docClient.query(params1, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                //console.log(JSON.stringify(data.Items));
+                //return data.Items;
+                resolve(data.Items);
+            }
+        });
+    });
+}
+
+function getHoaDon(idHoaDon) {
+    return new Promise((resolve, reject) => {
+        // Lấy ra tên các bài học của 1 khóa học
+        var params1 = {
+            TableName: 'HoaDon',
+            KeyConditionExpression: '#ids = :v1',
+            ExpressionAttributeNames: {
+                '#ids': 'IdHoaDon'
+            },
+            ExpressionAttributeValues: {
+                ':v1': Number(idHoaDon)
+            },
+            ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+        };
+        docClient.query(params1, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                //console.log(JSON.stringify(data.Items));
+                //return data.Items;
+                resolve(data.Items);
+            }
+        });
     });
 }
 //getAllBaiHocKhoaHoc(1);
@@ -201,15 +259,16 @@ function internalGetAllKhoaHoc(limit) {
 
 let getAllKhoaHocIndex = async function (limit, errorMsg, req, res) {
     let rst = await internalGetAllKhoaHoc(limit);
-    console.log(rst);
+    //console.log(rst);
     Promise.all(rst).then(result => {
         let sess = req.session;
-        let vls = { khs: result, uname: null, owned: null, errorMsg: null };
+        let vls = { khs: result, uname: null, balance: null, owned: null, errorMsg: null };
         //console.log(req.session);
         vls.errorMsg = errorMsg;
         if (sess.user) {
             //console.log("Yes");
             vls.uname = sess.user;
+            vls.balance = sess.balance
             res.render('index.ejs', vls);
         }
         else {
@@ -226,10 +285,11 @@ let getAllKhoaHocCourse = async function (limit, req, res) {
         let sess = req.session;
         //console.log(req.session);
         console.log(result);
-        let vls = { khs: result, uname: null, owned: false, errorMsg: null };
+        let vls = { khs: result, uname: null, balance: null, owned: false, errorMsg: null };
         if (sess.user) {
             //console.log("Yes");
             vls.uname = sess.user;
+            vls.balance = sess.balance
             res.render('course.ejs', vls);
         }
         else {
@@ -295,7 +355,7 @@ let getAllKhoaHocOwned = async function (UsernameKH, errorMsg, req, res) {
         let sess = req.session;
         let mosf = { Items: result };
         console.log(JSON.stringify(mosf));
-        let vls = { khs: result, uname: null, owned: true, errorMsg: null };
+        let vls = { khs: result, uname: null, owned: true, balance: sess.balance, errorMsg: null };
         vls.errorMsg = errorMsg;
         vls.uname = sess.user;
         res.render('course.ejs', vls);
@@ -308,8 +368,7 @@ function isDaMuaKhoaHoc(IdKhoaHoc, req) {
         var params = {
             TableName: 'HoaDon',
             IndexName: 'HoaDon_UsernameKHIndex', // optional (if querying an index)
-            KeyConditionExpression: 'UsernameKH = :value', // a string representing a constraint on the attribute
-            FilterExpression: 'IdKhoaHoc = :ids',
+            KeyConditionExpression: 'UsernameKH = :value AND IdKhoaHoc = :ids', // a string representing a constraint on the attribute
             ExpressionAttributeValues: { // a map of substitutions for all attribute values
                 ':value': req.session.user,
                 ':ids': Number(IdKhoaHoc),
@@ -329,22 +388,35 @@ function isDaMuaKhoaHoc(IdKhoaHoc, req) {
 }
 
 let daMuaKhoaHoc = async function (IdKhoaHoc, req, res) {
+    console.log("OK Step 1")
     var pm = isDaMuaKhoaHoc(IdKhoaHoc, req);
     pm.then((data) => {
         if (data == 0) {
-            res.render('detail.ejs');
+            let a = getAllBaiHocKhoaHoc(IdKhoaHoc);
+            a.then((Items) => {
+                console.log(Items);
+                console.log(req.session.balance);
+                console.log(Number(req.session.balance));
+                let input = { uname: req.session.user, items: Items, balance: Number(req.session.balance), errorMsg: null };
+                if(req.query.error == "invalidID") {
+                    input.errorMsg = "Có lỗi xảy ra khi thanh toán, vui lòng thử lại."
+                }
+                res.render('pay.ejs', input);
+            });
         }
         else {
-            res.redirect('/lesson/' + IdKhoaHoc);
+            res.redirect('/lesson?q=' + IdKhoaHoc);
         }
     });
 };
 
 module.exports = {
-    //getAllBaiHocKhoaHoc: getAllBaiHocKhoaHoc,
+    getAllBaiHocKhoaHoc: getAllBaiHocKhoaHoc,
     getAllKhoaHocCourse: getAllKhoaHocCourse,
     getAllKhoaHocIndex: getAllKhoaHocIndex,
     getAllKhoaHocOwned: getAllKhoaHocOwned,
     isDaMuaKhoaHoc: isDaMuaKhoaHoc,
-    daMuaKhoaHoc: daMuaKhoaHoc
+    daMuaKhoaHoc: daMuaKhoaHoc,
+    getBaiHoc: getBaiHoc,
+    getHoaDon: getHoaDon
 }
