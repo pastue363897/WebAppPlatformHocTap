@@ -85,7 +85,8 @@
                                 <% for(var i = 0; i < items.length; i++) { %>
                                 <div class="chappter-lesson">
                                     <div class="lesson-name-container">
-                                        <a href="/video?idBH=<%= items[i].IdBaiHoc %>"><img src="http://dvkhfbm6djrbs.cloudfront.net/5be57a4be2e9ab000ba3a5b6/5d43f62ce1af2a00128ed897/ezgif.com-gif-maker.png"
+                                        <a href="/video?idBH=<%= items[i].IdBaiHoc %>&nextIdBH=<%- (i < items.length - 1) ? items[i+1].IdBaiHoc : -1  %>&prevIdBH=<%- (i > 0) ? items[i-1].IdBaiHoc : -1  %>">
+                                            <img src="http://dvkhfbm6djrbs.cloudfront.net/5be57a4be2e9ab000ba3a5b6/5d43f62ce1af2a00128ed897/ezgif.com-gif-maker.png"
                                             width="24" height="24"></a>
                                         <div class="lesson-name"><%= items[i].TenBH %> - <%= Math.floor(items[i].DoDai / 60) %>:<%= ((items[i].DoDai % 60)+"").padStart(2,"0") %></div>
                                     </div>

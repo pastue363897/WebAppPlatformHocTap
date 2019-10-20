@@ -394,7 +394,6 @@ let daMuaKhoaHoc = async function (IdKhoaHoc, req, res) {
         if (data == 0) {
             let a = getAllBaiHocKhoaHoc(IdKhoaHoc);
             a.then((Items) => {
-                console.log(Items);
                 console.log(req.session.balance);
                 console.log(Number(req.session.balance));
                 let input = { uname: req.session.user, items: Items, balance: Number(req.session.balance), errorMsg: null };

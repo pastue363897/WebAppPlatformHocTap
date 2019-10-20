@@ -70,6 +70,7 @@ router.get('/lesson', function (req, res, next) {
       console.log("Lesson comes 2");
       let a = query.getAllBaiHocKhoaHoc(req.query.q);
       a.then((Items) => {
+        Items.sort((a,b) => (a.SoTT > b.SoTT) ? 1 : ((b.SoTT > a.SoTT) ? -1 : 0) );
         console.log(Items);
         res.render('chitiet', {items: Items});
       });
@@ -83,16 +84,17 @@ router.get('/lesson', function (req, res, next) {
   }
 });
 
-router.get('/video', function (req, res, next) {
+router.post('/video', function (req, res, next) {
   let sess = req.session;
   console.log("Lesson comes");
   if (sess.user) {
     if(sess.type == 1) {
       console.log("Lesson comes 2");
-      let a = query.getBaiHoc(req.query.idBH);
+      let a = query.getAllBaiHocKhoaHoc(req.body.idBH);
       a.then((Items) => {
         console.log(Items);
-        res.render('video', {bh: Items[0]});
+        let inps = {bh: Items[0], backid: Number(req.body.prevIdBH), nextid: Number(req.body.nextIdBH)};
+        res.render('video', inps);
       });
     }
     else {
