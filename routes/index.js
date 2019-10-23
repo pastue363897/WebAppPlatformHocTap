@@ -100,4 +100,12 @@ router.get('/coursedetail', function(req, res, next) {
   res.render('coursedetail', { title: 'Express', uname: null });
 });
 
+/* trang người bán khóa học */
+router.get('/dangkhoahoc', function(req, res, next) {
+  res.render('dangkhoahoc', { title: 'Express', uname: null });
+});
+
+router.get('/khoahocdadang', function(req, res, next) {
+  res.render('khoahocdadang.ejs', { title: 'Express', uname: null });
+});
 module.exports = router;
