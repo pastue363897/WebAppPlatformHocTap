@@ -120,53 +120,10 @@
                 <a class="navbar-brand" href="index-2.html"><img src="images/logo.png" alt="logo"></a>
                 <div class="collapse navbar-collapse main-menu" id="navbarSupportedContent">
                     <ul class="navbar-nav nav lavalamp ml-auto menu">
-                        <li class="nav-item"><a href="#" class="nav-link active" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Trang Chủ</a>
+                        <li class="nav-item"><a href="/" class="nav-link active" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Trang Chủ</a>
                         </li>
-                       
                         <li class="nav-item"><a href="/course" class="nav-link" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Các Khoá Học</a>
-                           <!-- <ul class="navbar-nav nav mx-auto">
-                                <li class="nav-item"><a href="course.html" class="nav-link">TOEIC 350+</a></li>
-                                <li class="nav-item"><a href="course-details.html" class="nav-link">TOEIC 450+</a></li>
-                                <li class="nav-item"><a href="course-details.html" class="nav-link">TOEIC 750+</a></li>
-                                <li class="nav-item"><a href="course-details.html" class="nav-link">GIAO TIẾP</a></li>
-                            </ul> -->
-                        </li>
-                        <!-- <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a>
-                            <ul class="navbar-nav nav mx-auto">
-                                <li class="nav-item"><a href="blog.html" class="nav-link">Blog List</a></li> 
-                                <li class="nav-item"><a href="blog-2.html" class="nav-link">Blog Grid One</a></li> 
-                                <li class="nav-item"><a href="blog-3.html" class="nav-link">Blog Grid Two</a></li>
-                                <li class="nav-item"><a href="blog-details.html" class="nav-link">Blog Details</a></li>
-                            </ul> 
-                        </li> -->
-                        <li class="nav-item"><a href="#" class="nav-link" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">XXXX</a>
-                            <ul class="navbar-nav nav mx-auto">
-                                <li class="nav-item"><a href="#" class="nav-link dropdown_icon">Courses</a>
-                                    <ul class="navbar-nav nav mx-auto">
-                                        <li class="nav-item"><a href="course.html" class="nav-link">Courses</a></li>
-                                        <li class="nav-item"><a href="course-details.html" class="nav-link">Courses Details</a></li>
-                                    </ul>    
-                                </li>                                 
-                                <li class="nav-item"><a href="#" class="nav-link dropdown_icon">Events</a>
-                                    <ul class="navbar-nav nav mx-auto">
-                                        <li class="nav-item"><a href="event.html" class="nav-link">Event</a></li>
-                                        <li class="nav-item"><a href="event-details.html" class="nav-link">Event Details</a></li>
-                                    </ul>    
-                                </li>                                
-                                <li class="nav-item"><a href="#" class="nav-link dropdown_icon">Blog</a>
-                                    <ul class="navbar-nav nav mx-auto">
-                                        <li class="nav-item"><a href="blog.html" class="nav-link">Blog List</a></li> 
-                                        <li class="nav-item"><a href="blog-2.html" class="nav-link">Blog Grid One</a></li> 
-                                        <li class="nav-item"><a href="blog-3.html" class="nav-link">Blog Grid Two</a></li>
-                                        <li class="nav-item"><a href="blog-details.html" class="nav-link">Blog Details</a></li>
-                                    </ul>    
-                                </li> 
-                                <li class="nav-item"><a href="become-a-teacher.html" class="nav-link">Become A Teacher</a></li>
-                                <li class="nav-item"><a href="teacher-profile.html" class="nav-link">Teachers Profile</a></li>
-                                <li class="nav-item"><a href="team.html" class="nav-link">Teachers Page</a></li>
-                                <li class="nav-item"><a href="forgot-password.html" class="nav-link">Forgot Password</a></li>
-                            </ul>                            
-                        </li>     
+                        </li>  
                         <li class="nav-item"><a href="/course-owned" class="nav-link" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Khoá Học Đã Mua</a>
                         </li>
                              <li class="nav-item"><a href="about.html" class="nav-link" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Về Chúng Tôi</a></li>
@@ -341,10 +298,10 @@
                                     <div class="row">
                                         <div>
                                                 <div class="col-12 col-lg-12 col-md-12 col-lg-12">
-                                                    <label class="control-label">Loại Người Dùng</label>
+                                                    <label class="control-label">Loại người dùng</label>
                                                    <div>
-                                                        <input type="radio" name="loai" value="hoc">Học
-                                                        <input type="radio" name="loai" value="ban" checked>Bán
+                                                        <input type="radio" name="loai" value="hoc" checked> Người học 
+                                                        <input type="radio" name="loai" value="ban"> Người soạn khóa học 
                                                     </div>
                                                 </div>
                                                 
@@ -352,13 +309,13 @@
                                         <div class="col-12 col-lg-12 col-md-12 col-lg-12">
                                             <div class="form-group">
                                                 <label class="control-label">Email</label>
-                                                <input type="text" name="username" class="form-control" placeholder="Username">
+                                                <input type="text" name="username" class="form-control" placeholder="Username" required="true">
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-12 col-md-12 col-lg-12">
                                             <div class="form-group">
                                                 <label class="control-label">Password</label>
-                                                <input type="password" name="pass" class="form-control" placeholder="Password">
+                                                <input type="password" name="pass" class="form-control" placeholder="Password" required="true">
                                             </div>
                                         </div>
                                         
@@ -384,37 +341,49 @@
                             <!--/.Panel 1-->
                             <!--Panel 2-->
                             <div class="tab-pane fade" id="panel2" role="tabpanel">
-                                <form action="#" class="register">
+                                <form action="/signup" method="POST">
                                     <div class="row">
                                         <div class="col-12 col-lg-12 col-md-12 col-lg-12">
                                             <div class="form-group">
-                                                <label  class="control-label">Name</label>
-                                                <input type="text" class="form-control" placeholder="Username">
+                                                <label  class="control-label">Username</label>
+                                                <input type="text" class="form-control" name="Username" placeholder="Username" required="true">
                                             </div>
                                         </div>                                        
                                         <div class="col-12 col-lg-12 col-md-12 col-lg-12">
                                             <div class="form-group">
                                                 <label  class="control-label">Email</label>
-                                                <input type="email" class="form-control" placeholder="Email">
+                                                <input type="email" class="form-control" name="Email" placeholder="Email" required="true">
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-12 col-md-12 col-lg-12">
                                             <div class="form-group">
                                                 <label  class="control-label">Password</label>
-                                                <input type="password" class="form-control" placeholder="Password">
+                                                <input type="password" class="form-control" name="Password" placeholder="Password" required="true">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-12 col-md-12 col-lg-12">
+                                            <div class="form-group">
+                                                <label  class="control-label">Tên</label>
+                                                <input type="text" class="form-control" name="Ten" placeholder="Tên" required="true">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-12 col-md-12 col-lg-12">
+                                            <div class="form-group">
+                                                <label  class="control-label">Địa chỉ</label>
+                                                <input type="text" class="form-control" name="DiaChi" placeholder="Địa chỉ" required="true">
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-12 col-md-12 col-lg-12 control-label">
+                                            <div>Loại người dùng sẽ đăng ký</div>
                                             <div>
-                                                <input type="radio" name="loai" value="hoc">Học
-                                                <input type="radio" name="loai" value="ban" checked>Bán
-                                                
+                                                <input type="radio" name="loai" value="hoc" checked> Người học 
+                                                <input type="radio" name="loai" value="ban"> Người soạn khóa học
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-lg-12 col-md-12 col-lg-12 d-flex justify-content-between login_option">
-                                            <button type="submit" class="btn btn-default login_btn">Đăng Ký</button>
+                                            <input type="submit" class="btn btn-default login_btn" value="Đăng Ký">
                                         </div> 
                                     </div>
                                 </form>

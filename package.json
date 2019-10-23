@@ -7,11 +7,13 @@
   },
   "dependencies": {
     "aws-sdk": "^2.543.0",
+    "connect-multiparty": "^2.2.0",
     "cookie-parser": "~1.4.4",
     "dateformat": "^3.0.3",
     "debug": "~2.6.9",
     "ejs": "^2.7.1",
     "express": "~4.16.1",
+    "express-fileupload": "^1.1.6-alpha.6",
     "express-session": "^1.17.0",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",

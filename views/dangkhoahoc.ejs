@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include header %>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Trang chủ</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/khoahocdadang">Khóa học đã đăng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dangkhoahoc">Đăng khóa học</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+
+            <!--Form thêm khóa học của người bán khóa học-->
+            <div class="col-md-9">
+                <form action="/taokhoahoc" encType="multipart/form-data" method="POST"
+                    style="border-radius: 5px;border: 1px solid black;padding: 20px;margin-bottom: 20px;">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Tên khóa học</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="tenkhoahoc" required="true"
+                                placeholder="VD: Thành thạo tiếng Anh trong 30 ngày">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Mô tả thêm</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="mota" required="true"
+                                placeholder="VD: Trọn bộ kĩ năng từ con số 0.">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Chủ đề</label>
+                        <div class="col-sm-10">
+                            <select name="tenchude">
+                                <% for(var i = 0; i < lChuDe.length; i++) { %>
+                                <option value="<%= lChuDe[i].TenChuDe %>"><%= lChuDe[i].TenChuDe %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Giá tiền</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name="giatien" placeholder="20000" min="0" step="100">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Ảnh khóa học</label>
+                        <div class="col-sm-10">
+                            <input type="file" class="form-control" name="anhkhoahoc" placeholder="Chọn ảnh.">
+                        </div>
+                    </div>
+                    <!--Cái này là code thêm bài học xử lý jquery , có gì hoàng tìm file javascripts/xulynguoibankh.js-->
+                    <div class="input_fields_wrap"
+                        style="border: 1px solid bisque;box-shadow:2px 1px 2px 3px #888888; margin-bottom: 50px;">
+                        <button style="margin-bottom: 20px;" type="button" class="add_field_button btn btn-primary">Thêm
+                            bài học</button>
+                        <div><input style="display: none;" type="text" name="tenbaihoc"></div>
+                    </div>
+                    <!--Kết thúc code thêm bài học xử lý jquery-->
+
+                    <!-- 2 nút xác nhận và hủy -->
+                    <div style="width: 100%; text-align: center; margin: 0 auto; margin-bottom: 20px;">
+
+                        <input type="submit" class="btn btn-submit btn-lg" value="Xác nhận">
+
+                        <a href="/"><button type="button" class="btn btn-danger btn-lg"
+                                style="margin-left: 10px;">Hủy</button></a>
+
+                    </div>
+                    <!-- Kết thúc 2 nút xác nhận và hủy -->
+                </form>
+            </div>
+            <!--Kết thúc form thêm khóa học của người bán-->
+        </div>
+
+    </div>
+</body>
+<% include footer %>
+<script src="javascripts/xulynguoibankh.js"></script>
+
+</html>

@@ -4,13 +4,15 @@
 "Pass": "12345678",
 "DiaChi": "14 Nguyễn Hữu Cảnh, Q.4",
 "Ten": "Đoàn Trung Nguyên",
-"Email": "geg@gmail.com"
+"Email": "geg@gmail.com",
+"SoTien": 1500000
 },
 {
 "Username": "pres0002",
 "Pass": "password123456",
 "DiaChi": "622 Nguyễn Văn Bảo, Q.Gò vấp",
 "Ten": "Phạm Minh Bảo", 
-"Email": "gweher@gmail.com"
+"Email": "gweher@gmail.com",
+"SoTien": 1500000
 }
 ]

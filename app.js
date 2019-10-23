@@ -4,6 +4,8 @@ var session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+//var fileupload = require("express-fileupload");
+var multiparty = require('connect-multiparty'), multipartyMiddleware = multiparty();
 
 var indexRouter = require('./routes/index');
 var courseRouter = require('./routes/course');
@@ -19,6 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+//app.use(fileupload());
 
 app.use(session({
   key: 'user_id',
@@ -48,7 +51,8 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
+  console.log(res.locals.message);
+  console.log(res.locals.error);
   // render the error page
   res.status(err.status || 500);
   //res.render('error');
