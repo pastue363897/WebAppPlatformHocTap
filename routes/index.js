@@ -108,4 +108,20 @@ router.get('/dangkhoahoc', function(req, res, next) {
 router.get('/khoahocdadang', function(req, res, next) {
   res.render('khoahocdadang.ejs', { title: 'Express', uname: null });
 });
+
+/* ------ Xử lý giao diện của admin -----*/
+
+/* trang chủ admin */
+router.get('/admin-indexadmin', function(req, res, next) {
+  res.render('admin/indexadmin.ejs', { title: 'Express'});
+});
+/* trang đăng nhập admin */
+router.get('/admin-login', function(req, res, next) {
+  res.render('admin/login.ejs', { title: 'Express'});
+});
+/* trang quản lý chủ đề */
+router.get('/admin-chude', function(req, res, next) {
+  res.render('admin/chude', { title: 'Express'});
+});
+
 module.exports = router;
