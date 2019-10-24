@@ -6,15 +6,8 @@ var crud = require('../db/data_crud.js')
 var web_function = require('../db/web_function.js')
 var multiparty = require('connect-multiparty'),
     multipartyMiddleware = multiparty();
-
-AWS.config.update({
-  region: 'us-east-1',
-  accessKeyId: 'ASIAXM7JK7QTS5V66U2Z',
-  secretAccessKey: 'lOUVG9/oFRJKW8GIxJhlOL0tRyhtxvdILkorK0Cm',
-  sessionToken: 'FQoGZXIvYXdzEC0aDOs3ryEfI67YOSh1WCKFAqTZxKCxGPL+S+AFdoqCL18JK5UKN2bvW47eUVLEMPXapVq4mouUhYXFqqIt6/Jgwq1XnLS9mP3GG/SzaS4kZGtbSP5s43e+LHBBZaU1XBVRI90IPmWSjXQZ1u7ZV4TcwUhwupF1RNNnD9Z8CKiT4l4ZNC58+MMczo1eaPqZzyLyb/7zauWiQ7Sh5jm9q8o4HolkRdBUcBkrlmnnpBQPx4jZwv61wtS+zyddX41gJLvwEef3mE2Trm8FRr13ha5d+3jIMKmXkVP6BX/HwMf+cX+Kpk9oBDyr3BS6u85+Tvv2Bt/z/JxWuNiluSSgMXat/8Ju0UBdEEi4hHL+s/7djMWUkxorvSijtsTtBQ=='
-});
-
-let docClient = new AWS.DynamoDB.DocumentClient();
+var aws = require('../aws_header.js');
+let docClient = new aws.AWS.DynamoDB.DocumentClient();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -172,7 +165,10 @@ router.get('/dangkhoahoc', function (req, res, next) {
 router.get('/khoahocdadang', function (req, res, next) {
   let sess = req.session;
   if (sess.user && sess.type == 2) {
-    res.render('khoahocdadang', { title: 'Express', uname: null, errorMsg: null });
+    let a = query.getAllKhoaHocUser(req.session.user);
+    a.then((ls) => {
+      res.render('khoahocdadang', { title: 'Express', uname: null, errorMsg: null, ls: ls });
+    });
   }
   else {
     query.getAllKhoaHocIndex(9, "Trang không tồn tại", req, res);
@@ -195,6 +191,18 @@ router.post('/taokhoahoc', multipartyMiddleware, function (req, res, next) {
   else {
     query.getAllKhoaHocIndex(9, "Trang không tồn tại", req, res);
   }
+});
+
+router.get('/testupload', multipartyMiddleware, function (req, res, next) {
+  if(req.query.token == '7F1648A574-497A88B5DF114')
+    res.render('testfileupload');
+  else
+    query.getAllKhoaHocIndex(9, "Trang không tồn tại", req, res);
+});
+
+router.post('/test-imagereupload', multipartyMiddleware, function (req, res, next) {
+  crud.PerformSaveImage(req,res,req.files.file, req.files.file.name);
+  res.redirect('/');
 });
 
 module.exports = router;

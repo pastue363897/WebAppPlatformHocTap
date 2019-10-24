@@ -1,14 +1,7 @@
-const AWS = require('aws-sdk');
+var aws = require('../aws_header.js');
 const query = require('./query.js');
 
-AWS.config.update({
-    region: 'us-east-1',
-    accessKeyId: 'ASIAXM7JK7QTS5V66U2Z',
-    secredtAccessKey: 'lOUVG9/oFRJKW8GIxJhlOL0tRyhtxvdILkorK0Cm',
-    sessionToken: 'FQoGZXIvYXdzEC0aDOs3ryEfI67YOSh1WCKFAqTZxKCxGPL+S+AFdoqCL18JK5UKN2bvW47eUVLEMPXapVq4mouUhYXFqqIt6/Jgwq1XnLS9mP3GG/SzaS4kZGtbSP5s43e+LHBBZaU1XBVRI90IPmWSjXQZ1u7ZV4TcwUhwupF1RNNnD9Z8CKiT4l4ZNC58+MMczo1eaPqZzyLyb/7zauWiQ7Sh5jm9q8o4HolkRdBUcBkrlmnnpBQPx4jZwv61wtS+zyddX41gJLvwEef3mE2Trm8FRr13ha5d+3jIMKmXkVP6BX/HwMf+cX+Kpk9oBDyr3BS6u85+Tvv2Bt/z/JxWuNiluSSgMXat/8Ju0UBdEEi4hHL+s/7djMWUkxorvSijtsTtBQ=='
-});
-
-let docClient = new AWS.DynamoDB.DocumentClient();
+let docClient = new aws.AWS.DynamoDB.DocumentClient();
 
 function signIn(req, res) {
     let s = "";

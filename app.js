@@ -10,6 +10,8 @@ var multiparty = require('connect-multiparty'), multipartyMiddleware = multipart
 var indexRouter = require('./routes/index');
 var courseRouter = require('./routes/course');
 
+var AWS = require('./aws_header.js');
+
 var app = express();
 
 // view engine setup

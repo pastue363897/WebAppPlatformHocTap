@@ -12,7 +12,8 @@
     "TenBH": "Bảng chữ cái tiếng anh",
     "Data": "https://no-name.com/video/eqsfxxq.mp4",
     "Thumbnail": "/",
-    "TomTat": "Cơ bản về bảng chữ cái tiếng anh và các lưu ý về đánh vần"
+    "TomTat": "Cơ bản về bảng chữ cái tiếng anh và các lưu ý về đánh vần",
+    "DangBan": 1
 },
 {
     "TenChuDe": "Ngoại ngữ",
@@ -27,7 +28,8 @@
     "TenBH": "Chào hỏi",
     "Thumbnail": "/",
     "Data": "https://no-name.com/video/eqsfxxr.mp4",
-    "TomTat": "Cơ bản về chào, hỏi thăm gặp mặt và tạm biệt"
+    "TomTat": "Cơ bản về chào, hỏi thăm gặp mặt và tạm biệt",
+    "DangBan": 1
 },
 {
     "TenChuDe": "Tin học",
@@ -42,7 +44,8 @@
     "TenBH": "Gõ văn bản cơ bản",
     "Thumbnail": "/",
     "Data": "https://no-name.com/video/eqsfrsa.mp4",
-    "TomTat": "Cách mở, lưu và tùy chỉnh định dạng văn bản"
+    "TomTat": "Cách mở, lưu và tùy chỉnh định dạng văn bản",
+    "DangBan": 1
 },
 {
     "TenChuDe": "Tin học",
@@ -57,7 +60,8 @@
     "TenBH": "Định dạng văn bản",
     "Thumbnail": "/",
     "Data": "https://no-name.com/video/eqsfrsb.mp4",
-    "TomTat": "Các kỹ thuật định dạng kiểu chữ, phông chữ, căn lề, phân đoạn văn và chương, tiêu đề"
+    "TomTat": "Các kỹ thuật định dạng kiểu chữ, phông chữ, căn lề, phân đoạn văn và chương, tiêu đề",
+    "DangBan": 1
 }
 ,
 {
@@ -73,7 +77,8 @@
     "TenBH": "Hỏi đường",
     "Thumbnail": "/",
     "Data": "https://no-name.com/video/grsxqfd.mp4",
-    "TomTat": "Các câu nói và từ ngữ cần cho việc hỏi đường đi đến một địa điểm cụ thể"
+    "TomTat": "Các câu nói và từ ngữ cần cho việc hỏi đường đi đến một địa điểm cụ thể",
+    "DangBan": 1
 },
 {
     "TenChuDe": "Ngoại ngữ",
@@ -88,7 +93,8 @@
     "TenBH": "Làm quen",
     "Thumbnail": "/",
     "Data": "https://no-name.com/video/ggjxqfd.mp4",
-    "TomTat": "Các đối thoại giúp bạn làm quen với người lạ"
+    "TomTat": "Các đối thoại giúp bạn làm quen với người lạ",
+    "DangBan": 1
 },
 {
     "TenChuDe": "Ngoại ngữ",
@@ -103,6 +109,7 @@
     "TenBH": "Đi mua sắm",
     "Thumbnail": "/",
     "Data": "https://no-name.com/video/yrvxagw.mp4",
-    "TomTat": "Các câu nói và từ ngữ cần biết để dễ dàng đi mua sắm"
+    "TomTat": "Các câu nói và từ ngữ cần biết để dễ dàng đi mua sắm",
+    "DangBan": 1
 }
 ]

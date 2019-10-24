@@ -1,13 +1,6 @@
-const AWS = require('aws-sdk');
+var aws = require('../aws_header.js');
 
-AWS.config.update({
-    region: 'us-east-1',
-    accessKeyId: 'ASIAXM7JK7QTS5V66U2Z',
-    secredtAccessKey: 'lOUVG9/oFRJKW8GIxJhlOL0tRyhtxvdILkorK0Cm',
-    sessionToken: 'FQoGZXIvYXdzEC0aDOs3ryEfI67YOSh1WCKFAqTZxKCxGPL+S+AFdoqCL18JK5UKN2bvW47eUVLEMPXapVq4mouUhYXFqqIt6/Jgwq1XnLS9mP3GG/SzaS4kZGtbSP5s43e+LHBBZaU1XBVRI90IPmWSjXQZ1u7ZV4TcwUhwupF1RNNnD9Z8CKiT4l4ZNC58+MMczo1eaPqZzyLyb/7zauWiQ7Sh5jm9q8o4HolkRdBUcBkrlmnnpBQPx4jZwv61wtS+zyddX41gJLvwEef3mE2Trm8FRr13ha5d+3jIMKmXkVP6BX/HwMf+cX+Kpk9oBDyr3BS6u85+Tvv2Bt/z/JxWuNiluSSgMXat/8Ju0UBdEEi4hHL+s/7djMWUkxorvSijtsTtBQ=='
-});
-
-let docClient = new AWS.DynamoDB.DocumentClient();
+let docClient = new aws.AWS.DynamoDB.DocumentClient();
 
 var scanObjectsOM = [];
 
@@ -98,35 +91,37 @@ function getHoaDon(idHoaDon) {
 //getAllBaiHocKhoaHoc(1);
 // Lấy ra tên các khóa học của 1 user
 function getAllKhoaHocUser(username) {
-    var params2 = {
-        TableName: 'BaiHoc',
-        IndexName: 'BaiHoc_UsernameBKHIndex',
-        KeyConditionExpression: '#user = :val', // a string representing a constraint on the attribute
-        ProjectionExpression: "TenKH, IdKhoaHoc",
-        ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
-            '#user': 'UsernameBKH',
-            '#stt': 'SoTT'
-        },
-        ExpressionAttributeValues: { // a map of substitutions for all attribute values
-            ':val': username,
-            ':bhs': 1
-        },
-        FilterExpression: '#stt = :bhs',
-        ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
-        //Select: "ALL_PROJECTED_ATTRIBUTES",
-    };
+    return new Promise((resolve, reject) => {
+        var params2 = {
+            TableName: 'BaiHoc',
+            IndexName: 'BaiHoc_UsernameBKHIndex',
+            KeyConditionExpression: '#user = :val', // a string representing a constraint on the attribute
+            ProjectionExpression: "TenKH, IdKhoaHoc, Thumbnail",
+            ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
+                '#user': 'UsernameBKH',
+                '#stt': 'SoTT'
+            },
+            ExpressionAttributeValues: { // a map of substitutions for all attribute values
+                ':val': username,
+                ':bhs': 1
+            },
+            FilterExpression: '#stt = :bhs AND #isOn = :isOnValue',
+            ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+            //Select: "ALL_PROJECTED_ATTRIBUTES",
+        };
 
-    docClient.query(params2, function (err, data) {
-        if (err) {
-            console.log(JSON.stringify(err));
-            return err;
-        }
-        else {
-            //    var clean = data.Items.filter((arr, index, self) =>
-            //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
-            console.log(JSON.stringify(data));
-            return data.Items;
-        }
+        docClient.query(params2, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject(err);
+            }
+            else {
+                //    var clean = data.Items.filter((arr, index, self) =>
+                //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
+                console.log(JSON.stringify(data));
+                resolve(data.Items);
+            }
+        });
     });
 }
 //getAllKhoaHocUser('pres0001');
@@ -399,7 +394,7 @@ let daMuaKhoaHoc = async function (IdKhoaHoc, req, res) {
                 console.log(req.session.balance);
                 console.log(Number(req.session.balance));
                 let input = { uname: req.session.user, items: Items, balance: Number(req.session.balance), errorMsg: null };
-                if(req.query.error == "invalidID") {
+                if (req.query.error == "invalidID") {
                     input.errorMsg = "Có lỗi xảy ra khi thanh toán, vui lòng thử lại."
                 }
                 res.render('pay.ejs', input);
@@ -431,6 +426,7 @@ function getAllChuDe() {
 
 module.exports = {
     getAllBaiHocKhoaHoc: getAllBaiHocKhoaHoc,
+    getAllKhoaHocUser: getAllKhoaHocUser,
     getAllKhoaHocCourse: getAllKhoaHocCourse,
     getAllKhoaHocIndex: getAllKhoaHocIndex,
     getAllKhoaHocOwned: getAllKhoaHocOwned,

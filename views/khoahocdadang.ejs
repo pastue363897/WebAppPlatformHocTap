@@ -28,22 +28,22 @@
                 <h2 style="text-align: center;">Tất cả khóa học</h2>
             </div>
         </div>
+        <% for(var i = 0; i < ls.length; i++) { %>
         <div class="row" style="border-bottom: 1px solid black;padding: 20px;">
             <div class="col-md-3">
-                <img src="./images/courses/courses_1.jpg" style="width: 50%;float: right;">
+                <img src="<%= ls[i].Thumbnail %>" style="width: 50%;float: right;">
             </div>
-            <div class="col-md-9">
-                <span>Dạy lập trình C/C++</span>
+            <div class="col-md-7">
+                <span><%= ls[i].TenKH %></span>
             </div>
-        </div>
-        <div class="row" style="border-bottom: 1px solid black;padding: 20px;">
-            <div class="col-md-3">
-                <img src="./images/courses/courses_1.jpg" style="width: 50%;float: right;">
+            <div class="col-md-1">
+                <span><a href="#">Sửa</a></span>
             </div>
-            <div class="col-md-9">
-                <span>Dạy lập trình C/C++</span>
+            <div class="col-md-1">
+                <span><a href="/xoakhoahoc?idKH=<%= ls[i].IdKhoaHoc %>">Gỡ bán</a></span>
             </div>
         </div>
+        <% } %>
     </div>
 
 </body>
