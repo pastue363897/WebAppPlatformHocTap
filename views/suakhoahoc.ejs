@@ -23,24 +23,26 @@
     </nav>
     <div class="container">
         <div class="row">
-            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <h3>Sửa khóa học đang có</h3>
+            </div>
 
             <!--Form thêm khóa học của người bán khóa học-->
             <div class="col-md-9">
-                <form action="/taokhoahoc" encType="multipart/form-data" method="POST"
+                <form action="/capnhatkhoahoc" encType="multipart/form-data" method="POST"
                     style="border-radius: 5px;border: 1px solid black;padding: 20px;margin-bottom: 20px;">
                     <div class="form-group row">
                         <label for="" class="col-sm-2 col-form-label">Tên khóa học</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="tenkhoahoc" required="true"
-                                placeholder="VD: Thành thạo tiếng Anh trong 30 ngày">
+                                placeholder="VD: Thành thạo tiếng Anh trong 30 ngày" value="<%= bh[0].TenKH %>">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="" class="col-sm-2 col-form-label">Mô tả thêm</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="mota" required="true"
-                                placeholder="VD: Trọn bộ kĩ năng từ con số 0.">
+                                placeholder="VD: Trọn bộ kĩ năng từ con số 0." value="<%= bh[0].MoTaKH %>">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -48,7 +50,11 @@
                         <div class="col-sm-10">
                             <select name="tenchude">
                                 <% for(var i = 0; i < lChuDe.length; i++) { %>
-                                <option value="<%= lChuDe[i].TenChuDe %>"><%= lChuDe[i].TenChuDe %></option>
+                                    <% if(bh[0].TenChuDe != lChuDe[i].TenChuDe) { %>
+                                    <option value="<%= lChuDe[i].TenChuDe %>"><%= lChuDe[i].TenChuDe %></option>
+                                    <% } else { %>
+                                    <option value="<%= lChuDe[i].TenChuDe %>" selected="selected"><%= lChuDe[i].TenChuDe %></option>
+                                    <% } %>
                                 <% } %>
                             </select>
                         </div>
@@ -56,12 +62,13 @@
                     <div class="form-group row">
                         <label for="" class="col-sm-2 col-form-label">Giá tiền</label>
                         <div class="col-sm-10">
-                            <input type="number" class="form-control" name="giatien" placeholder="20000" min="0" step="100">
+                            <input type="number" class="form-control" name="giatien" placeholder="20000" min="0" step="100" value="<%= bh[0].GiaTien %>">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="" class="col-sm-2 col-form-label">Ảnh khóa học</label>
                         <div class="col-sm-10">
+                            <span>Nếu có thay đổi ảnh nền thì chọn ảnh mới, còn không thì bỏ trống</span><br>
                             <input type="file" class="form-control" name="anhkhoahoc" placeholder="Chọn ảnh.">
                         </div>
                     </div>
@@ -69,8 +76,19 @@
                     <div class="input_fields_wrap"
                         style="border: 1px solid bisque;box-shadow:2px 1px 2px 3px #888888; margin-bottom: 50px;">
                         <button style="margin-bottom: 20px;" type="button" class="add_field_button btn btn-primary">Thêm
-                            bài học</button>
+                            bài học</button><br> - Lưu ý: Bạn có thể xóa bài học, nhưng lưu khóa học mà không có bài nào thì coi<br>
+                            như khóa học không được cập nhật
                         <div><input style="display: none;" type="text" name="tenbaihoc"></div>
+                        <button style="margin-bottom: 20px;" type="button" class="remove_field btn btn-primary">Xóa
+                            bài học cuối cùng</button>
+                        <% for(var i = 0; i < bh.length; i++) { %>
+                        <div name="baiHocDiv" style="margin-bottom:15px;">
+                            <input style="border: 1px solid black;" type="text"  required="true" name="tenbaihoc<%= i+1 %>" placeholder="Tên bài giảng." value="<%= bh[i].TenBH %>"/>
+                            <input style="border: 1px solid black;" type="text" name="tomtat<%= i+1 %>" placeholder="Tóm tắt bài giảng." value="<%= bh[i].TomTat %>"/>
+                            <br>
+                            <span>Nếu có thay đổi video thì chọn browse video mới, còn không thì bỏ trống</span><br><input type="file" class="form-control" name="file<%= i+1 %>" placeholder="Chọn file."/>
+                        </div>
+                        <% } %>
                     </div>
                     <!--Kết thúc code thêm bài học xử lý jquery-->
 
@@ -79,11 +97,12 @@
 
                         <input type="submit" class="btn btn-submit btn-lg" value="Xác nhận">
 
-                        <a href="/"><button type="button" class="btn btn-danger btn-lg"
+                        <a href="/khoahocdadang"><button type="button" class="btn btn-danger btn-lg"
                                 style="margin-left: 10px;">Hủy</button></a>
 
                     </div>
                     <!-- Kết thúc 2 nút xác nhận và hủy -->
+                    <input type="hidden" name="idKH" value="<%= bh[0].IdKhoaHoc %>">
                 </form>
             </div>
             <!--Kết thúc form thêm khóa học của người bán-->

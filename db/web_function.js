@@ -28,29 +28,27 @@ function signIn(req, res) {
             console.log(JSON.stringify(err));
         }
         else {
-            console.log(JSON.stringify(data));
+            //console.log(JSON.stringify(data));
             if (data.Items.length != 0) {
                 let us = data.Items[0];
                 if (req.body.pass == us.Pass) {
                     req.session.user = us.Username;
                     req.session.email = us.Email;
                     req.session.balance = us.SoTien;
-                    if(req.body.loai === "hoc") {
+                    if(req.body.loai === "hoc")
                         req.session.type = 1;
-                    }
-                    else if(req.body.loai === "ban") {
+                    else if(req.body.loai === "ban")
                         req.session.type = 2;
-                    }
                     //console.log("Success");
-                    query.getAllKhoaHocIndex(9, null, req, res);
+                    query.getAllKhoaHocIndex(null, req, res);
                 }
                 else {
                     //console.log("Fail");
-                    query.getAllKhoaHocIndex(9, "Username hoặc password không đúng", req, res);
+                    query.getAllKhoaHocIndex("Username hoặc password không đúng", req, res);
                 }
             }
             else {
-                query.getAllKhoaHocIndex(9, "Username hoặc password không đúng", req, res);
+                query.getAllKhoaHocIndex("Username hoặc password không đúng", req, res);
             }
         }
     });
@@ -84,20 +82,18 @@ function signUp(req, res) {
     docClient.put(params4, function (err, data) {
         if (err) {
             console.log(JSON.stringify(err));
-            query.getAllKhoaHocIndex(9, "Username đã tồn tại", req, res);
+            query.getAllKhoaHocIndex("Username đã tồn tại", req, res);
         }
         else {
-            console.log(JSON.stringify(data));
+            //console.log(JSON.stringify(data));
             req.session.user = req.body.Username;
             req.session.email = req.body.Email;
             req.session.balance = fixedMoney;
-            if(req.body.loai === "hoc") {
+            if(req.body.loai === "hoc")
                 req.session.type = 1;
-            }
-            else if(req.body.loai === "ban") {
+            else if(req.body.loai === "ban")
                 req.session.type = 2;
-            }
-            query.getAllKhoaHocIndex(9, null, req, res);
+            query.getAllKhoaHocIndex(null, req, res);
         }
     });
 }

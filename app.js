@@ -8,7 +8,6 @@ var logger = require('morgan');
 var multiparty = require('connect-multiparty'), multipartyMiddleware = multiparty();
 
 var indexRouter = require('./routes/index');
-var courseRouter = require('./routes/course');
 
 var AWS = require('./aws_header.js');
 
@@ -41,7 +40,6 @@ app.use((req, res, next) => {
 
 
 app.use('/', indexRouter);
-app.use('/course', courseRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -57,7 +55,7 @@ app.use(function(err, req, res, next) {
   console.log(res.locals.error);
   // render the error page
   res.status(err.status || 500);
-  //res.render('error');
+  res.render('error');
 });
 
 module.exports = app;

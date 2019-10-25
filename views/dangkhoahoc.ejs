@@ -17,13 +17,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/dangkhoahoc">Đăng khóa học</a>
                 </li>
-
             </ul>
         </div>
     </nav>
     <div class="container">
         <div class="row">
-            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <h3>Đăng khóa học mới</h3>
+            </div>
 
             <!--Form thêm khóa học của người bán khóa học-->
             <div class="col-md-9">
@@ -68,8 +69,11 @@
                     <!--Cái này là code thêm bài học xử lý jquery , có gì hoàng tìm file javascripts/xulynguoibankh.js-->
                     <div class="input_fields_wrap"
                         style="border: 1px solid bisque;box-shadow:2px 1px 2px 3px #888888; margin-bottom: 50px;">
-                        <button style="margin-bottom: 20px;" type="button" class="add_field_button btn btn-primary">Thêm
-                            bài học</button>
+                        <button style="margin-bottom: 20px;" type="button" class="add_field_button btn btn-primary"><br>Thêm
+                            bài học</button><br> - Lưu ý: Bạn có thể xóa bài học, nhưng lưu khóa học mà không có bài nào thì coi
+                            như khóa học không được tạo<br>
+                        <button style="margin-bottom: 20px;" type="button" class="remove_field btn btn-primary">Xóa
+                            bài học cuối cùng</button>
                         <div><input style="display: none;" type="text" name="tenbaihoc"></div>
                     </div>
                     <!--Kết thúc code thêm bài học xử lý jquery-->
@@ -79,7 +83,7 @@
 
                         <input type="submit" class="btn btn-submit btn-lg" value="Xác nhận">
 
-                        <a href="/"><button type="button" class="btn btn-danger btn-lg"
+                        <a href="/khoahocdadang"><button type="button" class="btn btn-danger btn-lg"
                                 style="margin-left: 10px;">Hủy</button></a>
 
                     </div>

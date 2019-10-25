@@ -26,13 +26,15 @@ function getAllBaiHocKhoaHoc(idKH) {
                 reject();
             }
             else {
-                console.log(JSON.stringify(data.Items));
+                //console.log(JSON.stringify(data.Items));
                 //return data.Items;
-                resolve(data.Items);
+                
+                resolve(data.Items.sort((a, b) => (a.SoTT > b.SoTT) ? 1 : ((b.SoTT > a.SoTT) ? -1 : 0)));
             }
         });
     });
 }
+
 function getBaiHoc(idBH) {
     return new Promise((resolve, reject) => {
         // Lấy ra tên các bài học của 1 khóa học
@@ -88,6 +90,71 @@ function getHoaDon(idHoaDon) {
         });
     });
 }
+
+function getKhoaHocByIdKhoaHoc(item) {
+    return new Promise((resolve, reject) => {
+        var params2 = {
+            TableName: 'BaiHoc',
+            IndexName: 'BaiHoc_KhoaHocIndex',
+            KeyConditionExpression: 'IdKhoaHoc = :va',
+            ExpressionAttributeValues: {
+                ':va': item.IdKhoaHoc,
+                ':va2': 1
+            },
+            FilterExpression: 'SoTT = :va2'
+
+        };
+        docClient.query(params2, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                //console.log(JSON.stringify(data.Items[0]));
+                resolve(data.Items[0]);
+            }
+        });
+    });
+}
+
+function getHoaDonIdKhoaHocByUsername(UsernameKH) {
+    return new Promise((resolve, reject) => {
+        var params = {
+            TableName: 'HoaDon',
+            ExpressionAttributeNames: {
+                '#uc': 'UsernameKH'
+            },
+            ExpressionAttributeValues: {
+                ':ucvalue': UsernameKH
+            },
+            ProjectionExpression: 'IdKhoaHoc',
+            FilterExpression: '#uc = :ucvalue',
+            ReturnConsumedCapacity: 'TOTAL',
+        };
+        docClient.scan(params, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                resolve(data.Items);
+            }
+        });
+    });
+}
+
+async function getAllKhoaHocOwned(req, res) {
+    let array = await getHoaDonIdKhoaHocByUsername(req.session.user);
+
+    let promiseArray = array.map(getKhoaHocByIdKhoaHoc);
+
+    Promise.all(promiseArray).then(result => {
+        let sess = req.session;
+        let vls = { khs: result, uname: sess.user, owned: true, balance: sess.balance, errorMsg: null, type: 1 };
+        res.render('course.ejs', vls);
+    });
+}
+
 //getAllBaiHocKhoaHoc(1);
 // Lấy ra tên các khóa học của 1 user
 function getAllKhoaHocUser(username) {
@@ -96,7 +163,7 @@ function getAllKhoaHocUser(username) {
             TableName: 'BaiHoc',
             IndexName: 'BaiHoc_UsernameBKHIndex',
             KeyConditionExpression: '#user = :val', // a string representing a constraint on the attribute
-            ProjectionExpression: "TenKH, IdKhoaHoc, Thumbnail",
+            ProjectionExpression: "TenKH, IdKhoaHoc, Thumbnail, DangBan",
             ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
                 '#user': 'UsernameBKH',
                 '#stt': 'SoTT'
@@ -105,7 +172,7 @@ function getAllKhoaHocUser(username) {
                 ':val': username,
                 ':bhs': 1
             },
-            FilterExpression: '#stt = :bhs AND #isOn = :isOnValue',
+            FilterExpression: '#stt = :bhs',
             ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
             //Select: "ALL_PROJECTED_ATTRIBUTES",
         };
@@ -116,70 +183,12 @@ function getAllKhoaHocUser(username) {
                 reject(err);
             }
             else {
-                //    var clean = data.Items.filter((arr, index, self) =>
-                //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
-                console.log(JSON.stringify(data));
                 resolve(data.Items);
             }
         });
     });
 }
-//getAllKhoaHocUser('pres0001');
-// Check đã có 1 UserBKH có tên username nào đó hay chưa
-function checkUserBKHExist(username) {
-    var params3 = {
-        TableName: 'UserBKH',
-        KeyConditionExpression: '#user = :val', // a string representing a constraint on the attribute
-        ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
-            '#user': 'Username'
-        },
-        ExpressionAttributeValues: { // a map of substitutions for all attribute values
-            ':val': username
-        },
-        ReturnConsumedCapacity: 'NONE', // optional (NONE | TOTAL | INDEXES)
-        Select: "COUNT",
-    };
 
-    docClient.query(params3, function (err, data) {
-        if (err) {
-            console.log(JSON.stringify(err));
-            return err;
-        }
-        else {
-            //    var clean = data.Items.filter((arr, index, self) =>
-            //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
-            //    console.log(JSON.stringify(data));
-            return data;
-        }
-    });
-}
-//checkUserBKHExist('pres0002');
-// Check đã có 1 UserKH có tên username nào đó hay chưa
-function checkUserKHExist(username) {
-    var params4 = {
-        TableName: 'UserKH',
-        KeyConditionExpression: '#user = :val', // a string representing a constraint on the attribute
-        ExpressionAttributeNames: { // a map of substitutions for attribute names with special characters
-            '#user': 'Username'
-        },
-        ExpressionAttributeValues: { // a map of substitutions for all attribute values
-            ':val': 'user0001'
-        },
-        ReturnConsumedCapacity: 'NONE', // optional (NONE | TOTAL | INDEXES)
-        Select: "COUNT",
-    };
-
-    docClient.query(params4, function (err, data) {
-        if (err) {
-            console.log(JSON.stringify(err));
-        }
-        else {
-            //    var clean = data.Items.filter((arr, index, self) =>
-            //    index === self.findIndex((t) => (t.save === arr.save && t.State === arr.State)))
-            //    console.log(JSON.stringify(data));
-        }
-    });
-}
 //checkUserKHExist('user0002');
 // Để create một khóa học
 /*
@@ -225,22 +234,20 @@ function checkUserKHExist(username) {
 // Lấy thông tin tất cả các khóa học: Scan trên index BaiHoc_KhoaHocIndex
 // 
 // Get all khoá học
-function internalGetAllKhoaHoc(limit) {
+function internalGetAllKhoaHoc() {
     return new Promise((resolve, reject) => {
         var params = {
             TableName: 'BaiHoc',
             ExpressionAttributeNames: {
-                '#stt': 'SoTT'
+                '#stt': 'SoTT',
             },
             ExpressionAttributeValues: {
-                ':bhs': 1
+                ':bhs': Number(1),
             },
-            FilterExpression: '#stt = :bhs',
+            FilterExpression: '#stt = :bhs ',
             ProjectionExpression: "TenChuDe, TenKH, MoTaKH, IdKhoaHoc, GiaTien, UsernameBKH",
             ReturnConsumedCapacity: 'TOTAL',
         };
-        if (limit > -1)
-            params.Limit = limit;
         docClient.scan(params, function (err, data) {
             if (err) {
                 console.log(JSON.stringify(err));
@@ -254,18 +261,22 @@ function internalGetAllKhoaHoc(limit) {
     });
 }
 
-let getAllKhoaHocIndex = async function (limit, errorMsg, req, res) {
-    let rst = await internalGetAllKhoaHoc(limit);
+let getAllKhoaHocIndex = async function (errorMsg, req, res) {
+    let rst = await internalGetAllKhoaHoc();
     //console.log(rst);
     Promise.all(rst).then(result => {
         let sess = req.session;
-        let vls = { khs: result, uname: null, balance: null, owned: null, errorMsg: null };
+        let f = result.length;
+        if (f > 9)
+            f = 9;
+        let vls = { khs: result.slice(0,9), uname: null, balance: null, owned: null, errorMsg: null, type: 0 };
         //console.log(req.session);
         vls.errorMsg = errorMsg;
         if (sess.user) {
             //console.log("Yes");
             vls.uname = sess.user;
             vls.balance = sess.balance
+            vls.type = sess.type;
             res.render('index.ejs', vls);
         }
         else {
@@ -275,93 +286,29 @@ let getAllKhoaHocIndex = async function (limit, errorMsg, req, res) {
     });
 }
 
-let getAllKhoaHocCourse = async function (limit, req, res) {
-    let rst = await internalGetAllKhoaHoc(limit);
+let getAllKhoaHocCourse = async function (req, res) {
+    let rst = await internalGetAllKhoaHoc();
 
     Promise.all(rst).then(result => {
         let sess = req.session;
-        //console.log(req.session);
-        console.log(result);
-        let vls = { khs: result, uname: null, balance: null, owned: false, errorMsg: null };
+        let vls = { khs: result, uname: null, balance: null, owned: false, errorMsg: null, type: 0 };
         if (sess.user) {
             //console.log("Yes");
             vls.uname = sess.user;
-            vls.balance = sess.balance
+            vls.balance = sess.balance;
+            vls.type = sess.type;
             res.render('course.ejs', vls);
         }
         else {
             //console.log("No");
             res.render('course.ejs', vls);
         }
-    });
-}
-
-function internalGetKhoaHoc(IdKhoaHoc) {
-    return new Promise((resolve, reject) => {
-        var params2 = {
-            TableName: 'BaiHoc',
-            IndexName: 'BaiHoc_KhoaHocIndex',
-            KeyConditionExpression: 'IdKhoaHoc = :va',
-            ExpressionAttributeValues: {
-                ':va': IdKhoaHoc
-            }
-        };
-        docClient.query(params2, function (err, data) {
-            if (err) {
-                console.log(JSON.stringify(err));
-                reject();
-            }
-            else {
-                //console.log(JSON.stringify(data.Items[0]));
-                resolve(data.Items);
-            }
-        });
-    });
-}
-
-function internalGetAllKhoaHocOwned(UsernameKH) {
-    return new Promise((resolve, reject) => {
-        var params = {
-            TableName: 'HoaDon',
-            ExpressionAttributeNames: {
-                '#uc': 'UsernameKH'
-            },
-            ExpressionAttributeValues: {
-                ':ucvalue': UsernameKH
-            },
-            ProjectionExpression: 'TenChuDe, TenKH, MoTaKH, IdKhoaHoc, UsernameBKH',
-            FilterExpression: '#uc = :ucvalue',
-            ReturnConsumedCapacity: 'TOTAL',
-        };
-        docClient.scan(params, function (err, data) {
-            if (err) {
-                console.log(JSON.stringify(err));
-                reject();
-            }
-            else {
-                resolve(data.Items);
-            }
-        });
-    });
-}
-
-let getAllKhoaHocOwned = async function (UsernameKH, errorMsg, req, res) {
-    let rst = await internalGetAllKhoaHocOwned(UsernameKH);
-    Promise.all(rst).then(result => {
-        console.log(result);
-        let sess = req.session;
-        let mosf = { Items: result };
-        console.log(JSON.stringify(mosf));
-        let vls = { khs: result, uname: null, owned: true, balance: sess.balance, errorMsg: null };
-        vls.errorMsg = errorMsg;
-        vls.uname = sess.user;
-        res.render('course.ejs', vls);
     });
 }
 
 function isDaMuaKhoaHoc(IdKhoaHoc, req) {
     return new Promise((resolve, reject) => {
-        console.log(IdKhoaHoc);
+        //console.log(IdKhoaHoc);
         var params = {
             TableName: 'HoaDon',
             IndexName: 'HoaDon_UsernameKHIndex', // optional (if querying an index)
@@ -377,7 +324,7 @@ function isDaMuaKhoaHoc(IdKhoaHoc, req) {
                 resolve(null);
             }
             else {
-                console.log(data.Items.length);
+                //console.log(data.Items.length);
                 resolve(data.Items.length);
             }
         });
@@ -385,14 +332,14 @@ function isDaMuaKhoaHoc(IdKhoaHoc, req) {
 }
 
 let daMuaKhoaHoc = async function (IdKhoaHoc, req, res) {
-    console.log("OK Step 1")
+    //console.log("OK Step 1")
     var pm = isDaMuaKhoaHoc(IdKhoaHoc, req);
     pm.then((data) => {
         if (data == 0) {
             let a = getAllBaiHocKhoaHoc(IdKhoaHoc);
             a.then((Items) => {
-                console.log(req.session.balance);
-                console.log(Number(req.session.balance));
+                //console.log(req.session.balance);
+                //console.log(Number(req.session.balance));
                 let input = { uname: req.session.user, items: Items, balance: Number(req.session.balance), errorMsg: null };
                 if (req.query.error == "invalidID") {
                     input.errorMsg = "Có lỗi xảy ra khi thanh toán, vui lòng thử lại."
@@ -417,7 +364,7 @@ function getAllChuDe() {
                 reject("NO");
             }
             else {
-                console.log(data.Items);
+                //console.log(data.Items);
                 resolve(data.Items);
             }
         });

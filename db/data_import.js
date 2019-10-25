@@ -92,11 +92,7 @@ allHoaDon.forEach((hoadon) => {
             "UsernameKH":hoadon.UsernameKH,
             "IdKhoaHoc":hoadon.IdKhoaHoc,
             "NgayMua": hoadon.NgayMua,
-            "GiaTien": hoadon.GiaTien,
-            "TenChuDe": hoadon.TenChuDe,
-            "TenKH": hoadon.TenKH,
-            "MoTaKH": hoadon.MoTaKH,
-            "UsernameBKH": hoadon.UsernameBKH
+            "GiaTien": hoadon.GiaTiendata
         }
     };
     docClient.put(params, (err, data) => {

@@ -25,7 +25,7 @@
     <div class="container" style="margin-bottom: 20px;">
         <div class="row">
             <div class="col-md-12">
-                <h2 style="text-align: center;">Tất cả khóa học</h2>
+                <h2 style="text-align: center;">Danh sách khóa học của bạn</h2>
             </div>
         </div>
         <% for(var i = 0; i < ls.length; i++) { %>
@@ -34,13 +34,25 @@
                 <img src="<%= ls[i].Thumbnail %>" style="width: 50%;float: right;">
             </div>
             <div class="col-md-7">
+                <% if (ls[i].DangBan == 1) { %>
                 <span><%= ls[i].TenKH %></span>
+                <% } else { %>
+                <span style="text-decoration: line-through"><%= ls[i].TenKH %> - Đã ngừng bán</span>
+                <% } %>
             </div>
             <div class="col-md-1">
-                <span><a href="#">Sửa</a></span>
+                <% if (ls[i].DangBan == 1) { %>
+                <span><a href="/suakhoahoc?idKH=<%= ls[i].IdKhoaHoc %>&user=<%= uname %>">Sửa</a></span>
+                <% } else { %>
+                <span>Không được sửa</span>
+                <% } %>
             </div>
             <div class="col-md-1">
-                <span><a href="/xoakhoahoc?idKH=<%= ls[i].IdKhoaHoc %>">Gỡ bán</a></span>
+                <% if (ls[i].DangBan == 1) { %>
+                <span><a href="/xoakhoahoc?idKH=<%= ls[i].IdKhoaHoc %>&user=<%= uname %>">Gỡ bán</a></span>
+                <% } else { %>
+                <span>Không được bán nữa</span>
+                <% } %>
             </div>
         </div>
         <% } %>
