@@ -41,7 +41,7 @@ router.get('/logout', function (req, res, next) {
 });
 
 router.get('/course', function (req, res, next) {
-  query.getAllKhoaHocCourse(-1, req, res);
+  query.getAllKhoaHocCourse(req, res);
 });
 
 /* GET users listing. */
@@ -268,7 +268,6 @@ router.post('/capnhatkhoahoc', multipartyMiddleware, function (req, res, next) {
             crud.performSaveVideo(req, res, rer.add[i].file, rer.add[i].fileName);
           }
           for (let j = 0; j < rer.remove.length; j++) {
-
             crud.removeVideo(req, res, rer.remove[j]);
           }
           res.redirect('/khoahocdadang');
@@ -279,6 +278,10 @@ router.post('/capnhatkhoahoc', multipartyMiddleware, function (req, res, next) {
   else {
     query.getAllKhoaHocIndex("Trang không tồn tại", req, res);
   }
+});
+
+router.get('/search', function(req, res, next) {
+  query.getKhoaHocSearch(req, res);
 });
 
 router.get('/testupload', multipartyMiddleware, function (req, res, next) {

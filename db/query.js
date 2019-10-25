@@ -371,6 +371,56 @@ function getAllChuDe() {
     });
 }
 
+function findKhoaHocKeyword(keyword) {
+    return new Promise((resolve, reject) => {
+        var params = {
+            TableName: 'BaiHoc',
+            ExpressionAttributeNames: {
+                '#stt': 'SoTT',
+                '#tenkh': 'TenKH',
+                '#mota': 'MoTa',
+            },
+            ExpressionAttributeValues: {
+                ':bhs': Number(1),
+                ':value': keyword,
+                ':value2': keyword
+            },
+            FilterExpression: '#stt = :bhs and (contains(#tenkh, :value) or contains(#mota, :value2))',
+            ProjectionExpression: "TenChuDe, TenKH, MoTaKH, IdKhoaHoc, GiaTien, UsernameBKH",
+            ReturnConsumedCapacity: 'TOTAL',
+        };
+        docClient.scan(params, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                //console.log(JSON.stringify(data));
+                resolve(data.Items);
+            }
+        });
+    });
+}
+
+let getKhoaHocSearch = async function (req, res) {
+    let rst = await findKhoaHocKeyword(req.query.q);
+    Promise.all(rst).then(result => {
+        let sess = req.session;
+        let vls = { khs: result, uname: null, balance: null, owned: false, errorMsg: null, type: 0 };
+        if (sess.user) {
+            //console.log("Yes");
+            vls.uname = sess.user;
+            vls.balance = sess.balance;
+            vls.type = sess.type;
+            res.render('course-search.ejs', vls);
+        }
+        else {
+            //console.log("No");
+            res.render('course-search.ejs', vls);
+        }
+    });
+}
+
 module.exports = {
     getAllBaiHocKhoaHoc: getAllBaiHocKhoaHoc,
     getAllKhoaHocUser: getAllKhoaHocUser,
@@ -381,5 +431,6 @@ module.exports = {
     daMuaKhoaHoc: daMuaKhoaHoc,
     getBaiHoc: getBaiHoc,
     getHoaDon: getHoaDon,
-    getAllChuDe: getAllChuDe
+    getAllChuDe: getAllChuDe,
+    getKhoaHocSearch: getKhoaHocSearch
 }
