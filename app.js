@@ -4,7 +4,6 @@ var session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-//var fileupload = require("express-fileupload");
 var multiparty = require('connect-multiparty'), multipartyMiddleware = multiparty();
 
 var indexRouter = require('./routes/index');

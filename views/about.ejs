@@ -8,7 +8,11 @@
     <meta name="keywords" content="HTML,CSS,XML,JavaScript">
     <meta name="author" content="Ecology Theme">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kết quả tìm kiếm</title>
+    <% if(!owned) { %>
+    <title>Danh Sách Các Khoá Học</title>
+    <% } else { %>
+    <title>Các Khoá Học Đã Sở Hữu</title>
+    <% } %>
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <!-- Goole Font -->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,500,700" rel="stylesheet">
@@ -101,12 +105,12 @@
                                     style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Các
                                     Khoá Học</a>
                             </li>
-                            <li class="nav-item"><a href="/course-owned" class="nav-link active"
+                            <li class="nav-item"><a href="/course-owned" class="nav-link"
                                     style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Khoá
                                     Học Đã Mua</a>
                             </li>
                             <% } else { %>
-                            <li class="nav-item"><a href="/course" class="nav-link active"
+                            <li class="nav-item"><a href="/course" class="nav-link"
                                     style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Các
                                     Khoá Học</a>
                             </li>
@@ -115,7 +119,7 @@
                                     Học Đã Mua</a>
                             </li>
                             <% } } %>
-                            <li class="nav-item"><a href="/about" class="nav-link"
+                            <li class="nav-item"><a href="/about" class="nav-link active"
                                     style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Về
                                     Chúng Tôi</a></li>
                         </ul>
@@ -136,7 +140,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-8 col-lg-8">
                         <div class="intro_text">
-                            <h1>Kết quả tìm kiếm</h1>
+                            <h1>Về chúng tôi</h1>
                         </div>
                     </div>
 
@@ -280,46 +284,31 @@
         </div>
     </section> <!-- End Login Signup Option -->
 
-
-    <!--Start Courses Area Section-->
-    <section class="popular_courses" id="popular_courses_page">
+    <section class="about_us">
         <div class="container">
+            <h2>Hệ thống hỗ trợ học tập online - Nhóm 22</h2>
+            <div class="col-sm-12 col-lg-12 col-md-12 col-12">
+                <h4>a</h4>
+                <h4>b</h4>
+                <h4>c</h4>
+            </div>
+        </div>
+    </section>
+
+    <section class="teamgroup">
+        <div class="container-fluid">
             <div class="row">
-                <% for(var i = 0; i < khs.length; i++) { %>
-                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-                    <div class="single-courses">
-                        <div class="courses_banner_wrapper">
-                            <div class="courses_banner"><a href="/detail?idKH=<%= khs[i].IdKhoaHoc%>"><img
-                                        src="images/courses/courses_1.jpg" alt="" class="img-fluid"></a></div>
-                            <div class="purchase_price">
-                                <a href="#" class="read_more-btn"><%= khs[i].GiaTien %></a>
-                            </div>
-                        </div>
-                        <div class="courses_info_wrapper">
-                            <div class="courses_title">
-                                <h3><a href="#"><%= khs[i].TenKH %></a></h3>
-                                <div class="teachers_name">Teacher - <a href="#" title=""><%= khs[i].UsernameBKH %></a>
-                                </div>
-                            </div>
-                            <div class="courses_info">
-                                <ul class="list-unstyled">
-                                    <li><i class="fas fa-calendar-alt"></i><%= khs[i].MoTaKH %></li>
-                                    <!--<li><i class="fas fa-user"></i>30 Students</li>-->
-                                </ul>
-                                <form action="/detail" method="GET">
-                                    <input type="submit" class="cart_btn" value="Xem"></input>
-                                    <input type="hidden" name="idKH" value="<%= khs[i].IdKhoaHoc%>"></input>
-                                </form>
-                            </div>
-                        </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 p-0">
+                    <div class="teamgroup_info_wrapper">
+                        <h2>Hãy cùng học hoặc dạy với nhau</h2>
+                    </div>
+                    <div class="teamgroup_info_banner">
+                        <img src="images/banner/teamgroup.png" alt="" class="img-fluid">
                     </div>
                 </div>
-                <% } %>
             </div>
-
         </div>
-    </section><!-- ./ End Courses Area section -->
-
+    </section>
 
     <!-- Footer -->
     <footer id="footer" class="footer-1">
@@ -426,8 +415,8 @@
     <script src="javascripts/custom.js"></script>
 
     <!-- =========================================================
-         STYLE SWITCHER | ONLY FOR DEMO NOT INCLUDED IN MAIN FILES
-    ============================================================== -->
+     STYLE SWITCHER | ONLY FOR DEMO NOT INCLUDED IN MAIN FILES
+============================================================== -->
     <script type="text/javascript" src="javascripts/demo.js"></script>
 
 </body>

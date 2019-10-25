@@ -297,4 +297,19 @@ router.post('/test-imagereupload', multipartyMiddleware, function (req, res, nex
   res.redirect('/');
 });
 
+router.get('/about', function(req, res, next) {
+  let sess = req.session;
+  let vls = { uname: null, balance: null, owned: null, errorMsg: null, type: 0 };
+  if (sess.user) {
+      vls.uname = sess.user;
+      vls.balance = sess.balance
+      vls.type = sess.type;
+      res.render('about', vls);
+  }
+  else {
+      //console.log("No");
+      res.render('about', vls);
+  }
+});
+
 module.exports = router;

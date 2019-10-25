@@ -35,64 +35,41 @@
         <div class="edu_nav">
             <div class="container">
                 <nav class="navbar navbar-expand-md navbar-light bg-faded">
-                    <a class="navbar-brand" href="index-2.html"><img src="images/logo.png" alt="logo"></a>
-                    <div class="collapse navbar-collapse main-menu" id="navbarSupportedContent">
+                    <a class="navbar-brand" href="/"><img style="height: 50px" src="images/logo.png" alt="logo"></a>
+                    <<div class="collapse navbar-collapse main-menu" id="navbarSupportedContent">
                         <ul class="navbar-nav nav lavalamp ml-auto menu">
-                            <li class="nav-item"><a href="#" class="nav-link active" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Trang Chủ</a>
+                            <li class="nav-item"><a href="/" class="nav-link"
+                                    style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Trang
+                                    Chủ</a>
                             </li>
-                           
-                            <li class="nav-item"><a href="/course" class="nav-link" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Các Khoá Học</a>
-                               <!-- <ul class="navbar-nav nav mx-auto">
-                                    <li class="nav-item"><a href="course.html" class="nav-link">TOEIC 350+</a></li>
-                                    <li class="nav-item"><a href="course-details.html" class="nav-link">TOEIC 450+</a></li>
-                                    <li class="nav-item"><a href="course-details.html" class="nav-link">TOEIC 750+</a></li>
-                                    <li class="nav-item"><a href="course-details.html" class="nav-link">GIAO TIẾP</a></li>
-                                </ul> -->
+                            <% if(type == 2) { %>
+                            <li class="nav-item"><a href="/khoahocdadang" class="nav-link"
+                                    style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Quản
+                                    lý khóa học của bạn</a>
                             </li>
-                            <!-- <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a>
-                                <ul class="navbar-nav nav mx-auto">
-                                    <li class="nav-item"><a href="blog.html" class="nav-link">Blog List</a></li> 
-                                    <li class="nav-item"><a href="blog-2.html" class="nav-link">Blog Grid One</a></li> 
-                                    <li class="nav-item"><a href="blog-3.html" class="nav-link">Blog Grid Two</a></li>
-                                    <li class="nav-item"><a href="blog-details.html" class="nav-link">Blog Details</a></li>
-                                </ul> 
-                            </li> -->
-                            <li class="nav-item"><a href="#" class="nav-link" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">XXXX</a>
-                                <ul class="navbar-nav nav mx-auto">
-                                    <li class="nav-item"><a href="#" class="nav-link dropdown_icon">Courses</a>
-                                        <ul class="navbar-nav nav mx-auto">
-                                            <li class="nav-item"><a href="course.html" class="nav-link">Courses</a></li>
-                                            <li class="nav-item"><a href="course-details.html" class="nav-link">Courses Details</a></li>
-                                        </ul>    
-                                    </li>                                 
-                                    <li class="nav-item"><a href="#" class="nav-link dropdown_icon">Events</a>
-                                        <ul class="navbar-nav nav mx-auto">
-                                            <li class="nav-item"><a href="event.html" class="nav-link">Event</a></li>
-                                            <li class="nav-item"><a href="event-details.html" class="nav-link">Event Details</a></li>
-                                        </ul>    
-                                    </li>                                
-                                    <li class="nav-item"><a href="#" class="nav-link dropdown_icon">Blog</a>
-                                        <ul class="navbar-nav nav mx-auto">
-                                            <li class="nav-item"><a href="blog.html" class="nav-link">Blog List</a></li> 
-                                            <li class="nav-item"><a href="blog-2.html" class="nav-link">Blog Grid One</a></li> 
-                                            <li class="nav-item"><a href="blog-3.html" class="nav-link">Blog Grid Two</a></li>
-                                            <li class="nav-item"><a href="blog-details.html" class="nav-link">Blog Details</a></li>
-                                        </ul>    
-                                    </li> 
-                                    <li class="nav-item"><a href="become-a-teacher.html" class="nav-link">Become A Teacher</a></li>
-                                    <li class="nav-item"><a href="teacher-profile.html" class="nav-link">Teachers Profile</a></li>
-                                    <li class="nav-item"><a href="team.html" class="nav-link">Teachers Page</a></li>
-                                    <li class="nav-item"><a href="forgot-password.html" class="nav-link">Forgot Password</a></li>
-                                </ul>                            
-                            </li>     
-                            <li class="nav-item"><a href="contact.html" class="nav-link" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Khoá Học Đã Mua</a>
-                             <ul class="navbar-nav nav mx-auto">
-                                    <li class="nav-item"><a href="course.html" class="nav-link">TOEIC 350+</a></li>
-                                    <li class="nav-item"><a href="course-details.html" class="nav-link">TOEIC 450+</a></li>
-                                    <li class="nav-item"><a href="course-details.html" class="nav-link">TOEIC 750+</a></li>
-                                   
-                                </ul> </li>
-                                 <li class="nav-item"><a href="about.html" class="nav-link" style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Về Chúng Tôi</a></li>
+                            <% } else { %>
+                            <% if(owned) { %>
+                            <li class="nav-item"><a href="/course" class="nav-link"
+                                    style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Các
+                                    Khoá Học</a>
+                            </li>
+                            <li class="nav-item"><a href="/course-owned" class="nav-link active"
+                                    style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Khoá
+                                    Học Đã Mua</a>
+                            </li>
+                            <% } else { %>
+                            <li class="nav-item"><a href="/course" class="nav-link active"
+                                    style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Các
+                                    Khoá Học</a>
+                            </li>
+                            <li class="nav-item"><a href="/course-owned" class="nav-link"
+                                    style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Khoá
+                                    Học Đã Mua</a>
+                            </li>
+                            <% } } %>
+                            <li class="nav-item"><a href="/about" class="nav-link"
+                                    style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Về
+                                    Chúng Tôi</a></li>
                         </ul>
                     </div>
                 </nav><!-- END NAVBAR -->

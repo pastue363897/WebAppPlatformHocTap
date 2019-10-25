@@ -340,7 +340,7 @@ let daMuaKhoaHoc = async function (IdKhoaHoc, req, res) {
             a.then((Items) => {
                 //console.log(req.session.balance);
                 //console.log(Number(req.session.balance));
-                let input = { uname: req.session.user, items: Items, balance: Number(req.session.balance), errorMsg: null };
+                let input = { uname: req.session.user, items: Items, owned: false, balance: Number(req.session.balance), errorMsg: null, type: 1 };
                 if (req.query.error == "invalidID") {
                     input.errorMsg = "Có lỗi xảy ra khi thanh toán, vui lòng thử lại."
                 }
