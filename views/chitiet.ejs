@@ -51,12 +51,12 @@
 
         <div class="row">
 
-            <div class="col-lg-3">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                 <h1 class="my-4">Chi tiết khóa học</h1>
             </div>
             <!-- /.col-lg-3 -->
 
-            <div class="col-lg-9">
+            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
 
                 <div class="card mt-4">
 
@@ -65,18 +65,12 @@
                         <div class="title"><%= items[0].TenKH %></div>
                         <div class="curriculum-overview">
                             <div class="curriculum-type">
-                                Chủ đề: <span><%= items[0].TenChuDe %></span>
+                                Chủ đề: <span><%= items[0].TenChuDe %> | </span>
+                                <span>Số bài: <%= items.length %></span>
                             </div>
                             <div class="curriculum-lessons">
                                 <div class="curriculum-lessons-number">
-                                    <img src="http://dvkhfbm6djrbs.cloudfront.net/5be57a4be2e9ab000ba3a5b6/5d43f62ce1af2a00128ed897/ezgif.com-gif-maker.png"
-                                        width="24" height="24">Số bài:
-                                    <span><%= items.length %></span>
-                                </div>
-                                <div class="curriculum-time">
-                                    <img src="http://dvkhfbm6djrbs.cloudfront.net/5be57a4be2e9ab000ba3a5b6/5d43f62ce1af2a00128ed897/ezgif.com-gif-maker (1).png"
-                                        width="24" height="24">Thời lượng
-                                    <span>10:43:48</span>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -87,7 +81,7 @@
                                     <div class="lesson-name-container">
                                         <a href="/video?idBH=<%= items[i].IdBaiHoc%>">
                                             <img src="http://dvkhfbm6djrbs.cloudfront.net/5be57a4be2e9ab000ba3a5b6/5d43f62ce1af2a00128ed897/ezgif.com-gif-maker.png"
-                                            width="24" height="24"></a>
+                                            width="24" height="24">  Bài <%= i+1 %></a>
                                         <div class="lesson-name"><%= items[i].TenBH %></div>
                                     </div>
                                     <div class="separate-line">

@@ -8,8 +8,6 @@ var multiparty = require('connect-multiparty'), multipartyMiddleware = multipart
 
 var indexRouter = require('./routes/index');
 
-var AWS = require('./aws_header.js');
-
 var app = express();
 
 // view engine setup
@@ -31,12 +29,11 @@ app.use(session({
 }));
 
 app.use((req, res, next) => {
-  if (req.cookies.user_id && !req.session.user) {
+  if (req.cookies.user_id && !req.session.user && !req.session.adminauthor) {
       res.clearCookie('user_id');        
   }
   next();
 });
-
 
 app.use('/', indexRouter);
 

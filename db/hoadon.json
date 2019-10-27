@@ -2,6 +2,7 @@
     {
         "IdHoaDon":1,
         "UsernameKH":"user0001",
+        "UsernameBKH": "pres0001",
         "IdKhoaHoc":1,
         "NgayMua": "2019-10-18",
         "GiaTien": 15000
@@ -9,6 +10,7 @@
     {
         "IdHoaDon":2,
         "UsernameKH":"user0001",
+        "UsernameBKH": "pres0001",
         "IdKhoaHoc":2,
         "NgayMua": "2019-10-18",
         "GiaTien": 15000
@@ -16,6 +18,7 @@
     {
         "IdHoaDon":3,
         "UsernameKH":"user0002",
+        "UsernameBKH": "pres0001",
         "IdKhoaHoc":2,
         "NgayMua": "2019-10-18",
         "GiaTien": 25000
@@ -23,6 +26,7 @@
     {
         "IdHoaDon":4,
         "UsernameKH":"user0002",
+        "UsernameBKH": "pres0002",
         "IdKhoaHoc":3,
         "NgayMua": "2019-10-19",
         "GiaTien": 20000

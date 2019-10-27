@@ -13,7 +13,7 @@ $(document).ready(function() {
             x++; //text box increment
 
             //Nếu load gì load trên này .
-			$(wrapper).append('<div name="baiHocDiv" style="margin-bottom:15px;"> <input style="border: 1px solid black;" type="text"  required="true" name="tenbaihoc'+(x-1).toString(10)+'" placeholder="Tên bài giảng."/> <input style="border: 1px solid black;" type="text" name="tomtat'+(x-1).toString(10)+'" placeholder="Tóm tắt bài giảng."/> <input type="file" class="form-control" required="true" name="file'+(x-1).toString(10)+'" placeholder="Chọn file."></div>'); //add input box
+			$(wrapper).append('<div name="baiHocDiv" style="margin-bottom:15px;"> <input style="border: 1px solid black;" type="text"  required="true" name="tenbaihoc'+(x-1).toString(10)+'" placeholder="Tên bài giảng."/> <input style="border: 1px solid black;" type="text" name="tomtat'+(x-1).toString(10)+'" placeholder="Tóm tắt bài giảng."/> <input type="file" accept="video/mp4" class="form-control" required="true" name="file'+(x-1).toString(10)+'" placeholder="Chọn file định dạng mp4."></div>'); //add input box
 		}
 	});
 

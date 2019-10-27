@@ -121,6 +121,7 @@ function getHoaDonIdKhoaHocByUsername(UsernameKH) {
     return new Promise((resolve, reject) => {
         var params = {
             TableName: 'HoaDon',
+            IndexName: 'HoaDon_UsernameKHIndex',
             ExpressionAttributeNames: {
                 '#uc': 'UsernameKH'
             },
@@ -128,10 +129,10 @@ function getHoaDonIdKhoaHocByUsername(UsernameKH) {
                 ':ucvalue': UsernameKH
             },
             ProjectionExpression: 'IdKhoaHoc',
-            FilterExpression: '#uc = :ucvalue',
+            KeyConditionExpression: '#uc = :ucvalue',
             ReturnConsumedCapacity: 'TOTAL',
         };
-        docClient.scan(params, function (err, data) {
+        docClient.query(params, function (err, data) {
             if (err) {
                 console.log(JSON.stringify(err));
                 reject();
@@ -243,8 +244,9 @@ function internalGetAllKhoaHoc() {
             },
             ExpressionAttributeValues: {
                 ':bhs': Number(1),
+                ':value': 1
             },
-            FilterExpression: '#stt = :bhs ',
+            FilterExpression: '#stt = :bhs and DangBan = :value',
             ProjectionExpression: "TenChuDe, TenKH, MoTaKH, IdKhoaHoc, GiaTien, UsernameBKH",
             ReturnConsumedCapacity: 'TOTAL',
         };
@@ -421,6 +423,222 @@ let getKhoaHocSearch = async function (req, res) {
     });
 }
 
+function countKhoaHocByChuDe(chuDe) {
+    return new Promise((resolve, reject) => {
+        var params = {
+            TableName: 'BaiHoc',
+            IndexName: 'BaiHoc_ChuDeIndex',
+            ExpressionAttributeValues: {
+                ':bhs': chuDe,
+            },
+            KeyConditionExpression: 'TenChuDe = :bhs',
+            Select: 'COUNT',
+            ReturnConsumedCapacity: 'TOTAL',
+        };
+        docClient.query(params, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                console.log(JSON.stringify(data));
+                resolve(data);
+            }
+        });
+    });
+}
+
+function findAdminPasscode() {
+    return new Promise((resolve, reject) => {
+        var params = {
+            TableName: 'Settings',
+            ExpressionAttributeValues: {
+                ':v1': "AdminPasscode"
+            },
+            KeyConditionExpression: 'SettingKey = :v1',
+            ProjectionExpression: "SettingValue",
+            ReturnConsumedCapacity: 'NONE',
+        };
+        docClient.query(params, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                //console.log(JSON.stringify(data));
+                resolve(data.Items);
+            }
+        });
+    });
+}
+
+function getAllHoaDon(isProjected) {
+    return new Promise((resolve, reject) => {
+        var params = {
+            TableName: 'HoaDon'
+        };
+        if(isProjected)
+            params.ProjectionExpression = 'GiaTien';
+        console.log(params);
+        docClient.scan(params, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                //console.log(JSON.stringify(data));
+                resolve(data.Items);
+            }
+        });
+    });
+}
+
+function getAllHoaDonRecent(date, isProjected) {
+    return new Promise((resolve, reject) => {
+        var params = {
+            TableName: 'HoaDon',
+            IndexName: 'HoaDon_NgayMua',
+            ExpressionAttributeValues: {
+                ':date': date,
+            },
+            FilterExpression: 'NgayMua >= :date',
+            ScanIndexForward: false,
+        };
+        if(isProjected)
+            params.ProjectionExpression = 'GiaTien';
+        docClient.scan(params, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                //console.log(JSON.stringify(data));
+                resolve(data.Items);
+            }
+        });
+    });
+}
+
+function countAllUserKH() {
+    return new Promise((resolve, reject) => {
+        var params = {
+            TableName: 'UserKH',
+            Select: 'COUNT',
+        };
+        docClient.scan(params, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                //console.log(JSON.stringify(data));
+                resolve(data);
+            }
+        });
+    });
+}
+
+function countAllUserBKH() {
+    return new Promise((resolve, reject) => {
+        var params = {
+            TableName: 'UserBKH',
+            Select: 'COUNT',
+        };
+        docClient.scan(params, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                //console.log(JSON.stringify(data));
+                resolve(data);
+            }
+        });
+    });
+}
+
+function getAllKhoaHoc() {
+    return new Promise((resolve, reject) => {
+        var params = {
+            TableName: 'BaiHoc',
+            ExpressionAttributeNames: {
+                '#stt': 'SoTT',
+            },
+            ExpressionAttributeValues: {
+                ':bhs': Number(1),
+            },
+            FilterExpression: '#stt = :bhs',
+            ProjectionExpression: "DangBan",
+            ReturnConsumedCapacity: 'TOTAL',
+        };
+        docClient.scan(params, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                //console.log(JSON.stringify(data));
+                resolve(data.Items);
+            }
+        });
+    });
+}
+
+function getHoaDonByUsernameBKH(UsernameBKH) {
+    return new Promise((resolve, reject) => {
+        var params = {
+            TableName: 'HoaDon',
+            IndexName: 'HoaDon_UsernameBKHIndex',
+            ExpressionAttributeNames: {
+                '#uc': 'UsernameBKH'
+            },
+            ExpressionAttributeValues: {
+                ':ucvalue': UsernameBKH
+            },
+            KeyConditionExpression: '#uc = :ucvalue',
+            ReturnConsumedCapacity: 'TOTAL',
+        };
+        docClient.query(params, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                resolve(data.Items);
+            }
+        });
+    });
+}
+
+function getHoaDonByUsernameBKHRecent(date, UsernameBKH) {
+    return new Promise((resolve, reject) => {
+        var params = {
+            TableName: 'HoaDon',
+            IndexName: 'HoaDon_UsernameBKHIndex',
+            ExpressionAttributeNames: {
+                '#uc': 'UsernameBKH'
+            },
+            ExpressionAttributeValues: {
+                ':ucvalue': UsernameBKH,
+                ':date': date,
+            },
+            KeyConditionExpression: '#uc = :ucvalue',
+            FilterExpression: 'NgayMua >= :date',
+            ReturnConsumedCapacity: 'TOTAL',
+            ScanIndexForward: false,
+        };
+        docClient.query(params, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                resolve(data.Items);
+            }
+        });
+    });
+}
+
 module.exports = {
     getAllBaiHocKhoaHoc: getAllBaiHocKhoaHoc,
     getAllKhoaHocUser: getAllKhoaHocUser,
@@ -432,5 +650,14 @@ module.exports = {
     getBaiHoc: getBaiHoc,
     getHoaDon: getHoaDon,
     getAllChuDe: getAllChuDe,
-    getKhoaHocSearch: getKhoaHocSearch
+    getKhoaHocSearch: getKhoaHocSearch,
+    findAdminPasscode: findAdminPasscode,
+    countKhoaHocByChuDe: countKhoaHocByChuDe,
+    getAllHoaDon: getAllHoaDon,
+    getAllHoaDonRecent: getAllHoaDonRecent,
+    countAllUserKH: countAllUserKH,
+    countAllUserBKH: countAllUserBKH,
+    getAllKhoaHoc: getAllKhoaHoc,
+    getHoaDonByUsernameBKH: getHoaDonByUsernameBKH,
+    getHoaDonByUsernameBKHRecent: getHoaDonByUsernameBKHRecent,
 }

@@ -6,26 +6,18 @@ var paramsChuDe = {
     TableName: 'ChuDe',
     KeySchema: [
         {
-            AttributeName: 'Id',
+            AttributeName: 'TenChuDe',
             KeyType: 'HASH',
-        },
-        {
-            AttributeName: 'TenChuDe', 
-            KeyType: 'RANGE', 
         }
     ],
     AttributeDefinitions: [
-        {
-            AttributeName: 'Id',
-            AttributeType: 'N'
-        },
         {
             AttributeName: 'TenChuDe',
             AttributeType: 'S'
         }
     ],
     ProvisionedThroughput: {
-        ReadCapacityUnits: 4,
+        ReadCapacityUnits: 3,
         WriteCapacityUnits: 1, 
     }
 };
@@ -65,7 +57,7 @@ var paramsBaiHoc = {
         },
     ],
     ProvisionedThroughput: { // required provisioned throughput for the table
-        ReadCapacityUnits: 4, 
+        ReadCapacityUnits: 3, 
         WriteCapacityUnits: 1, 
     },
     GlobalSecondaryIndexes: [ // optional (list of GlobalSecondaryIndex)
@@ -173,7 +165,7 @@ var paramsUserBKH = {
         }
     ],
     ProvisionedThroughput: { // required provisioned throughput for the table
-        ReadCapacityUnits: 4, 
+        ReadCapacityUnits: 3, 
         WriteCapacityUnits: 1, 
     }
 };
@@ -206,7 +198,7 @@ var paramsUserKH = {
         }
     ],
     ProvisionedThroughput: { // required provisioned throughput for the table
-        ReadCapacityUnits: 4, 
+        ReadCapacityUnits: 3, 
         WriteCapacityUnits: 1, 
     }
 };
@@ -238,12 +230,20 @@ var paramsHoaDon = {
             AttributeType: 'S', // (S | N | B) for string, number, binary
         },
         {
+            AttributeName: 'UsernameBKH',
+            AttributeType: 'S', // (S | N | B) for string, number, binary
+        },
+        {
             AttributeName: 'IdKhoaHoc',
             AttributeType: 'N', // (S | N | B) for string, number, binary
+        },
+        {
+            AttributeName: 'NgayMua',
+            AttributeType: 'S', // (S | N | B) for string, number, binary
         }
     ],
     ProvisionedThroughput: { // required provisioned throughput for the table
-        ReadCapacityUnits: 4, 
+        ReadCapacityUnits: 3, 
         WriteCapacityUnits: 1, 
     },
     GlobalSecondaryIndexes: [ // optional (list of GlobalSecondaryIndex)
@@ -273,33 +273,81 @@ var paramsHoaDon = {
                 ReadCapacityUnits: 2,
                 WriteCapacityUnits: 1,
             },  
+        },
+        { 
+            IndexName: 'HoaDon_UsernameBKHIndex', 
+            KeySchema: [
+                { // Required HASH type attribute
+                    AttributeName: 'UsernameBKH',
+                    KeyType: 'HASH'
+                },
+                {
+                    AttributeName: 'IdKhoaHoc',
+                    KeyType: 'RANGE'
+                }
+            ],
+            Projection: { // attributes to project into the index
+                ProjectionType: 'ALL', // (ALL | KEYS_ONLY | INCLUDE)
+            /*    NonKeyAttributes: [ // required / allowed only for INCLUDE
+                    'TenKH',
+                    'TenChuDe',
+                    'GiaTien',
+                    'SoTT',
+                    // ... more attribute names ...
+                ],*/
+            },
+            ProvisionedThroughput: { // throughput to provision to the index
+                ReadCapacityUnits: 2,
+                WriteCapacityUnits: 1,
+            },  
         }
     ],
     LocalSecondaryIndexes: [
         {
-            IndexName: 'HoaDon_IdKhoaHoc',
+            IndexName: 'HoaDon_NgayMua',
             KeySchema: [ 
                 { // Required HASH type attribute - must match the table's HASH key attribute name
                     AttributeName: 'IdHoaDon',
                     KeyType: 'HASH',
                 },
                 { // alternate RANGE key attribute for the secondary index
-                    AttributeName: 'IdKhoaHoc', 
+                    AttributeName: 'NgayMua', 
                     KeyType: 'RANGE', 
                 }
             ],
             Projection: { // required
-                ProjectionType: 'INCLUDE', // (ALL | KEYS_ONLY | INCLUDE)
-                NonKeyAttributes: [ // required / allowed only for INCLUDE
-                    'GiaTien',
-                    'NgayMua'
-                ],
+                ProjectionType: 'ALL'
             },
         }
     ]
 };
 
 dynamodb.createTable(paramsHoaDon, function(err, data) {
+    if (err)
+        console.log(JSON.stringify(err,null,2));
+});
+
+var paramsSettings = {
+    TableName: 'Settings',
+    KeySchema: [
+        {
+            AttributeName: 'SettingKey',
+            KeyType: 'HASH',
+        }
+    ],
+    AttributeDefinitions: [
+        {
+            AttributeName: 'SettingKey',
+            AttributeType: 'S',
+        }
+    ],
+    ProvisionedThroughput: {
+        ReadCapacityUnits: 1, 
+        WriteCapacityUnits: 1, 
+    }
+};
+
+dynamodb.createTable(paramsSettings, function(err, data) {
     if (err)
         console.log(JSON.stringify(err,null,2));
 });

@@ -1,10 +1,10 @@
-var aws = require('../aws_header.js');
+const aws = require('../aws_header.js');
 
 const dateFormat = require('dateformat');
-var multiparty = require('connect-multiparty'), multipartyMiddleware = multiparty();
-var fs = require('fs');
-var zlib = require('zlib');
-var bodyParser = require('body-parser');
+const multiparty = require('connect-multiparty'), multipartyMiddleware = multiparty();
+const fs = require('fs');
+const zlib = require('zlib');
+const bodyParser = require('body-parser');
 
 let docClient = new aws.AWS.DynamoDB.DocumentClient();
 
@@ -17,6 +17,7 @@ function putHoaDon(req, IdHoaDon) {
             Item: {
                 "IdHoaDon": Number(IdHoaDon),
                 "UsernameKH": req.session.user,
+                "UsernameBKH": req.body.UsernameBKH,
                 "IdKhoaHoc": Number(req.body.IdKhoaHoc),
                 "NgayMua": dateFormat(d, "isoDate"),
                 "GiaTien": Number(req.body.GiaTien)
@@ -47,7 +48,37 @@ function updateSoTien(req, newValue) {
                 Username: req.session.user,
                 Email: req.session.email
             },
-            UpdateExpression: 'SET SoTien = :value',
+            UpdateExpression: 'SET SoTien = SoTien - :value',
+            ExpressionAttributeValues: { // a map of substitutions for all attribute values
+                ':value': Number(newValue)
+            },
+            ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+        };
+        docClient.update(params1, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                req.session.balance = newValue;
+                console.log(JSON.stringify(data.Items));
+                resolve(data.Items);
+            }
+        });
+    });
+}
+
+function updateSoTien2(req, newValue) {
+    return new Promise((resolve, reject) => {
+        let d = new Date();
+        // Lấy ra tên các bài học của 1 khóa học
+        var params1 = {
+            TableName: 'UserBKH',
+            Key: { // The primary key of the item (a map of attribute name to AttributeValue)
+                Username: req.session.user,
+                Email: req.session.email
+            },
+            UpdateExpression: 'SET SoTien = SoTien + :value',
             ExpressionAttributeValues: { // a map of substitutions for all attribute values
                 ':value': Number(newValue)
             },
@@ -400,7 +431,11 @@ function updateCacBaiHoc(req, res, lst, newLessonCount) {
                     UpdateExpression: 'SET #TenChuDe = :TenChuDe , #TenKH = :TenKH , #MoTaKH = :MoTaKH , #GiaTien = :GiaTien , #TenBH = :TenBH , #TomTat = :TomTat',
                     ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
                 };
-
+                if(s3Operation.changeImage == true) {
+                    params1.ExpressionAttributeNames[":Thumbnail"] = "Thumbnail";
+                    params1.ExpressionAttributeNames["#Thumbnail"] = "https://dktpm12a-n22-publicdata.s3.amazonaws.com/lessons-data/image/" + (lst[0].IdKhoaHoc).toString() + '.' + req.files.anhkhoahoc.name.split('.').pop();
+                    params1.UpdateExpression += " , #Thumbnail = :Thumbnail";
+                }
                 docClient.update(params1, function (err, data) {
                     if (err) {
                         console.log(JSON.stringify(err));
@@ -494,7 +529,11 @@ function updateCacBaiHoc(req, res, lst, newLessonCount) {
                     UpdateExpression: 'SET #TenChuDe = :TenChuDe , #TenKH = :TenKH , #MoTaKH = :MoTaKH , #GiaTien = :GiaTien , #TenBH = :TenBH , #TomTat = :TomTat',
                     ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
                 };
-
+                if(s3Operation.changeImage == true) {
+                    params1.ExpressionAttributeNames[":Thumbnail"] = "Thumbnail";
+                    params1.ExpressionAttributeNames["#Thumbnail"] = "https://dktpm12a-n22-publicdata.s3.amazonaws.com/lessons-data/image/" + (lst[0].IdKhoaHoc).toString() + '.' + req.files.anhkhoahoc.name.split('.').pop();
+                    params1.UpdateExpression += " , #Thumbnail = :Thumbnail";
+                }
                 docClient.update(params1, function (err, data) {
                     if (err) {
                         console.log(JSON.stringify(err));
@@ -563,7 +602,11 @@ function updateCacBaiHoc(req, res, lst, newLessonCount) {
                     UpdateExpression: 'SET #TenChuDe = :TenChuDe , #TenKH = :TenKH , #MoTaKH = :MoTaKH , #GiaTien = :GiaTien , #TenBH = :TenBH , #TomTat = :TomTat',
                     ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
                 };
-
+                if(s3Operation.changeImage == true) {
+                    params1.ExpressionAttributeNames[":Thumbnail"] = "Thumbnail";
+                    params1.ExpressionAttributeNames["#Thumbnail"] = "https://dktpm12a-n22-publicdata.s3.amazonaws.com/lessons-data/image/" + (lst[0].IdKhoaHoc).toString() + '.' + req.files.anhkhoahoc.name.split('.').pop();
+                    params1.UpdateExpression += " , #Thumbnail = :Thumbnail";
+                }
                 docClient.update(params1, function (err, data) {
                     if (err) {
                         console.log(JSON.stringify(err));
@@ -586,13 +629,65 @@ function removeVideo(req, res, fileName) {
     });
 }
 
+function themChuDe(req) {
+    return new Promise((resolve, reject) => {
+        let d = new Date();
+        // Lấy ra tên các bài học của 1 khóa học
+        var params1 = {
+            TableName: 'ChuDe',
+            Item: {
+                "TenChuDe": req.body.tenChuDe
+            },
+            ConditionExpression: 'attribute_not_exists(TenChuDe)',
+            ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+        };
+        docClient.put(params1, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject("Chủ đề bị trùng");
+            }
+            else {
+                console.log(JSON.stringify(data.Items));
+                resolve(data.Items);
+            }
+        });
+    });
+}
+
+function xoaChuDe(req) {
+    return new Promise((resolve, reject) => {
+        let d = new Date();
+        // Lấy ra tên các bài học của 1 khóa học
+        var params1 = {
+            TableName: 'ChuDe',
+            Key: {
+                "TenChuDe": req.body.tenChuDe
+            },
+            ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+        };
+        docClient.delete(params1, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                console.log(JSON.stringify(data.Items));
+                resolve(data.Items);
+            }
+        });
+    });
+}
+
 module.exports = {
     putHoaDon: putHoaDon,
     updateSoTien: updateSoTien,
+    updateSoTien2: updateSoTien2,
     putCacBaiHoc: putCacBaiHoc,
     goKhoaHoc: goKhoaHoc,
     performSaveImage: performSaveImage,
     performSaveVideo: performSaveVideo,
     updateCacBaiHoc: updateCacBaiHoc,
-    removeVideo: removeVideo
+    removeVideo: removeVideo,
+    themChuDe: themChuDe,
+    xoaChuDe: xoaChuDe
 };

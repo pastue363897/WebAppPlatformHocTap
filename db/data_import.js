@@ -90,9 +90,10 @@ allHoaDon.forEach((hoadon) => {
         Item: {
             "IdHoaDon":hoadon.IdHoaDon,
             "UsernameKH":hoadon.UsernameKH,
+            "UsernameBKH": hoadon.UsernameBKH,
             "IdKhoaHoc":hoadon.IdKhoaHoc,
             "NgayMua": hoadon.NgayMua,
-            "GiaTien": hoadon.GiaTiendata
+            "GiaTien": hoadon.GiaTien
         }
     };
     docClient.put(params, (err, data) => {
@@ -110,7 +111,6 @@ allChuDe.forEach((chude) => {
     let params = {
         TableName: "ChuDe",
         Item: {
-            "Id": chude.Id,
             "TenChuDe": chude.TenChuDe
         }
     };
@@ -121,4 +121,19 @@ allChuDe.forEach((chude) => {
             console.log(`Topic created ${chude.TenChuDe}`);
         }
     });
+});
+
+let params = {
+    TableName: "Settings",
+    Item: {
+        "SettingKey": "AdminPasscode",
+        "SettingValue": "72Z895-W4Q88X-914XCV",
+    }
+};
+docClient.put(params, (err, data) => {
+    if (err) {
+        
+    } else {
+        
+    }
 });

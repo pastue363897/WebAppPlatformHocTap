@@ -69,7 +69,7 @@
             margin: auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 50%;
+            width: 10%;
         }
 
         /* The Close Button */
@@ -644,7 +644,12 @@
     <div id="myModal" class="modal">
         <div class="alert alert-danger">
             <span class="close">&times;</span>
-            <p><%= errorMsg%></p>
+            <div class="modal-header">
+                    <h4>Lỗi</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p><%= errorMsg %></p>
+                  </div>
         </div>
     </div>
     <% } %>
@@ -652,9 +657,7 @@
     <script>
         // Get the modal
         var modal = document.getElementById("myModal");
-
         var btn = document.getElementById("myBtn");
-
         var span = document.getElementsByClassName("close")[0];
         span.onclick = function () {
             modal.style.display = "none";
