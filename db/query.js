@@ -247,7 +247,7 @@ function internalGetAllKhoaHoc() {
                 ':value': 1
             },
             FilterExpression: '#stt = :bhs and DangBan = :value',
-            ProjectionExpression: "TenChuDe, TenKH, MoTaKH, IdKhoaHoc, GiaTien, UsernameBKH",
+            ProjectionExpression: "TenChuDe, TenKH, MoTaKH, IdKhoaHoc, GiaTien, UsernameBKH, Thumbnail",
             ReturnConsumedCapacity: 'TOTAL',
         };
         docClient.scan(params, function (err, data) {

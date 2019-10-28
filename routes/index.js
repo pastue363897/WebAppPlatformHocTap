@@ -481,8 +481,23 @@ router.get('/thongkekhoahoc', function (req, res, next) {
                 valuesets.tongDoanhThu30Ngay += q3[i].GiaTien;
             }
             valuesets.soHoaDon30Ngay = q3.length;
-            
-            res.render('thongkekhoahoc', {title: 'Express', uname: sess.user, errorMsg: null, valuesets: valuesets});
+            let inps = {title: 'Express', uname: sess.user, errorMsg: null, valuesets: valuesets, listKhoaHoc: null};
+            if(req.query.detail == 'yes') {
+                let listKhoaHoc = new Map();
+                for(var i = 0; i < q2.length; i++) {
+                    listKhoaHoc.set(q2[i].IdKhoaHoc,{TenKH: q2[i].TenKH, count: 0, tong: 0});
+                }
+                for(var i = 0; i < q1.length; i++) {
+                    let b = listKhoaHoc.get(q1[i].IdKhoaHoc);
+                    if(b != undefined) {
+                        b.count++;
+                        b.tong += q1[i].GiaTien;
+                        listKhoaHoc.set(q1[i].IdKhoaHoc, b);
+                    }
+                }
+                inps.listKhoaHoc = listKhoaHoc;
+            }
+            res.render('thongkekhoahoc', inps);
         });
         
     }

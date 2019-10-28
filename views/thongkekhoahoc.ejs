@@ -104,7 +104,7 @@
             <input type="hidden" name="detail" value="yes">
             <input type="submit" class="btn btn-primary" value="Xem thống kê chi tiết cho từng khóa học">
         </form>
-
+        <% if(listKhoaHoc) { %>
         <div class="container-fluid">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active">
@@ -112,6 +112,36 @@
                 </li>
             </ol>
         </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Thống kê các khóa học</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Id khóa học</th>
+                                <th>Tên khóa học</th>
+                                <th>Số user đã mua</th>
+                                <th>Doanh thu</th>
+                        </thead>
+                        <tbody>
+                            <% listKhoaHoc.forEach((value, key, map) => { %>
+                            <tr> 
+                                <td><%= key %></td>
+                                <td><%= value.TenKH %></td>
+                                <td><%= value.count %></td>
+                                <td><%= value.tong %></td>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <% } %>
 
     </div>
 

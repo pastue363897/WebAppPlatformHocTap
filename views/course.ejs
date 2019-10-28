@@ -181,8 +181,14 @@
                                                 <div class="col-12 col-lg-12 col-md-12 col-lg-12">
                                                     <label class="control-label">Loại người dùng</label>
                                                     <div>
-                                                        <input type="radio" name="loai" value="hoc" checked> Người học
-                                                        <input type="radio" name="loai" value="ban"> Người soạn khóa học
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="loai"
+                                                                value="hoc" checked> Người học
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="loai"
+                                                                value="ban"> Người soạn khóa học
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -266,8 +272,14 @@
                                             <div class="col-12 col-lg-12 col-md-12 col-lg-12 control-label">
                                                 <div>Loại người dùng sẽ đăng ký</div>
                                                 <div>
-                                                    <input type="radio" name="loai" value="hoc" checked> Người học
-                                                    <input type="radio" name="loai" value="ban"> Người soạn khóa học
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="loai"
+                                                            value="hoc" checked> Người học
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="loai"
+                                                            value="ban"> Người soạn khóa học
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -298,7 +310,7 @@
                     <div class="single-courses">
                         <div class="courses_banner_wrapper">
                             <div class="courses_banner"><a href="/detail?idKH=<%= khs[i].IdKhoaHoc%>"><img
-                                        src="images/courses/courses_1.jpg" alt="" class="img-fluid"></a></div>
+                                        src="<%= khs[i].Thumbnail %>" alt="" class="img-fluid"></a></div>
                             <div class="purchase_price">
                                 <a href="#" class="read_more-btn"><%= khs[i].GiaTien %></a>
                             </div>

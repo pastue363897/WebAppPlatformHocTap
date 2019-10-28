@@ -316,8 +316,14 @@
                                                 <div class="col-12 col-lg-12 col-md-12 col-lg-12">
                                                     <label class="control-label">Loại người dùng</label>
                                                     <div>
-                                                        <input type="radio" name="loai" value="hoc" checked> Người học
-                                                        <input type="radio" name="loai" value="ban"> Người soạn khóa học
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="loai"
+                                                                value="hoc" checked> Người học
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="loai"
+                                                                value="ban"> Người soạn khóa học
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -401,8 +407,14 @@
                                             <div class="col-12 col-lg-12 col-md-12 col-lg-12 control-label">
                                                 <div>Loại người dùng sẽ đăng ký</div>
                                                 <div>
-                                                    <input type="radio" name="loai" value="hoc" checked> Người học
-                                                    <input type="radio" name="loai" value="ban"> Người soạn khóa học
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="loai"
+                                                            value="hoc" checked> Người học
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="loai"
+                                                            value="ban"> Người soạn khóa học
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -431,12 +443,12 @@
                         <% if(khs.length >= 1) { %>
                         <div class="single_item single_item_first">
                             <div class="blog-img">
-                                <a href="#"><img src="images/features/features_1.jpg" alt="" class="img-fluid"></a>
-                                <a href="#"></a>
+                                <a href="/detail?idKH=<%= khs[0].IdKhoaHoc %>"><img src="<%= khs[0].Thumbnail %>" alt=""
+                                        class="img-fluid"></a>
                             </div>
                             <div class="blog_title">
                                 <span><%= khs[0].TenChuDe %></span>
-                                <h3><a href="#" title=""><%= khs[0].TenKH %></a></h3>
+                                <h3><a href="/detail?idKH=<%= khs[0].IdKhoaHoc %>" title=""><%= khs[0].TenKH %></a></h3>
                                 <p><%= khs[0].MoTaKH %></p>
                             </div>
                         </div>
@@ -444,11 +456,12 @@
                         <% if(khs.length >= 2) { %>
                         <div class="single_item single_item_center">
                             <div class="blog-img">
-                                <a href="#"><img src="images/features/features_2.jpg" alt="" class="img-fluid"></a>
+                                <a href="/detail?idKH=<%= khs[1].IdKhoaHoc %>"><img src="<%= khs[1].Thumbnail %>" alt=""
+                                        class="img-fluid"></a>
                             </div>
                             <div class="blog_title">
                                 <span><%= khs[1].TenChuDe %></span>
-                                <h3><a href="#" title=""><%= khs[1].TenKH %></a></h3>
+                                <h3><a href="/detail?idKH=<%= khs[1].IdKhoaHoc %>" title=""><%= khs[1].TenKH %></a></h3>
                                 <p><%= khs[1].MoTaKH %></p>
                             </div>
                         </div>
@@ -456,11 +469,12 @@
                         <% if(khs.length >= 3) { %>
                         <div class="single_item single_item_last">
                             <div class="blog-img">
-                                <a href="#"><img src="images/features/features_3.jpg" alt="" class="img-fluid"></a>
+                                <a href="/detail?idKH=<%= khs[2].IdKhoaHoc %>"><img src="<%= khs[2].Thumbnail %>" alt=""
+                                        class="img-fluid"></a>
                             </div>
                             <div class="blog_title">
                                 <span><%= khs[2].TenChuDe %></span>
-                                <h3><a href="#" title=""><%= khs[2].TenKH %></a></h3>
+                                <h3><a href="/detail?idKH=<%= khs[2].IdKhoaHoc %>" title=""><%= khs[2].TenKH %></a></h3>
                                 <p><%= khs[2].MoTaKH %></p>
                             </div>
                         </div>
@@ -489,16 +503,18 @@
                 <div class="col-12 col-sm-6 col-md-6 col-lg-4">
                     <div class="single-courses">
                         <div class="courses_banner_wrapper">
-                            <div class="courses_banner"><a href="#"><img src="images/courses/courses_1.jpg" alt=""
-                                        class="img-fluid"></a></div>
+                            <div class="courses_banner"><a href="/detail?idKH=<%= khs[i].IdKhoaHoc %>"><img
+                                        src="<%= khs[i].Thumbnail %>" alt="" class="img-fluid"></a></div>
                             <div class="purchase_price">
-                                <a href="#" class="read_more-btn"><%= khs[i].GiaTien %></a>
+                                <a href="/detail?idKH=<%= khs[i].IdKhoaHoc %>"
+                                    class="read_more-btn"><%= khs[i].GiaTien %></a>
                             </div>
                         </div>
                         <div class="courses_info_wrapper">
                             <div class="courses_title">
                                 <h3><a href="#"><%= khs[i].TenKH %></a></h3>
-                                <div class="teachers_name">Teacher - <a href="#" title=""><%= khs[i].UsernameBKH %></a>
+                                <div class="teachers_name">Teacher - <a href="/detail?idKH=<%= khs[i].IdKhoaHoc %>"
+                                        title=""><%= khs[i].UsernameBKH %></a>
                                 </div>
                             </div>
                             <div class="courses_info">
@@ -506,7 +522,7 @@
                                     <li><i class="fas fa-calendar-alt"></i><%= khs[i].MoTaKH %></li>
                                     <!--<li><i class="fas fa-user"></i>30 Students</li>-->
                                 </ul>
-                                <a href="#" class="cart_btn">Mua</a>
+                                <a href="/detail?idKH=<%= khs[i].IdKhoaHoc %>" class="cart_btn">Xem</a>
                             </div>
                         </div>
                     </div><!-- Ends: .single courses -->
@@ -645,11 +661,11 @@
         <div class="alert alert-danger">
             <span class="close">&times;</span>
             <div class="modal-header">
-                    <h4>Lỗi</h4>
-                  </div>
-                  <div class="modal-body">
-                    <p><%= errorMsg %></p>
-                  </div>
+                <h4>Lỗi</h4>
+            </div>
+            <div class="modal-body">
+                <p><%= errorMsg %></p>
+            </div>
         </div>
     </div>
     <% } %>
