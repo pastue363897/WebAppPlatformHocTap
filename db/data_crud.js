@@ -75,8 +75,7 @@ function updateSoTien2(req, newValue) {
         var params1 = {
             TableName: 'UserBKH',
             Key: { // The primary key of the item (a map of attribute name to AttributeValue)
-                Username: req.session.user,
-                Email: req.session.email
+                Username: req.body.UsernameBKH,
             },
             UpdateExpression: 'SET SoTien = SoTien + :value',
             ExpressionAttributeValues: { // a map of substitutions for all attribute values

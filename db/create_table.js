@@ -17,7 +17,7 @@ var paramsChuDe = {
         }
     ],
     ProvisionedThroughput: {
-        ReadCapacityUnits: 3,
+        ReadCapacityUnits: 2,
         WriteCapacityUnits: 1, 
     }
 };
@@ -74,14 +74,7 @@ var paramsBaiHoc = {
                 }
             ],
             Projection: { // attributes to project into the index
-                ProjectionType: 'ALL', // (ALL | KEYS_ONLY | INCLUDE)
-            /*    NonKeyAttributes: [ // required / allowed only for INCLUDE
-                    'TenKH',
-                    'TenChuDe',
-                    'GiaTien',
-                    'SoTT',
-                    // ... more attribute names ...
-                ],*/
+                ProjectionType: 'ALL',
             },
             ProvisionedThroughput: { // throughput to provision to the index
                 ReadCapacityUnits: 2,
@@ -101,14 +94,7 @@ var paramsBaiHoc = {
                 }
             ],
             Projection: { // attributes to project into the index
-                ProjectionType: 'ALL', // (ALL | KEYS_ONLY | INCLUDE)
-           /*     NonKeyAttributes: [ // required / allowed only for INCLUDE
-                    'IdKhoaHoc',
-                    'TenKH',
-                    'GiaTien',
-                    'SoTT',
-                    // ... more attribute names ...
-                ],*/
+                ProjectionType: 'ALL',
             },
             ProvisionedThroughput: { // throughput to provision to the index
                 ReadCapacityUnits: 2,
@@ -148,19 +134,11 @@ var paramsUserBKH = {
         { // Required HASH type attribute
             AttributeName: 'Username',
             KeyType: 'HASH',
-        },
-        { // Optional RANGE key type for HASH + RANGE tables
-            AttributeName: 'Email', 
-            KeyType: 'RANGE', 
         }
     ],
     AttributeDefinitions: [ // The names and types of all primary and index key attributes only
         {
             AttributeName: 'Username',
-            AttributeType: 'S', // (S | N | B) for string, number, binary
-        },
-        {
-            AttributeName: 'Email',
             AttributeType: 'S', // (S | N | B) for string, number, binary
         }
     ],
@@ -260,14 +238,7 @@ var paramsHoaDon = {
                 }
             ],
             Projection: { // attributes to project into the index
-                ProjectionType: 'ALL', // (ALL | KEYS_ONLY | INCLUDE)
-            /*    NonKeyAttributes: [ // required / allowed only for INCLUDE
-                    'TenKH',
-                    'TenChuDe',
-                    'GiaTien',
-                    'SoTT',
-                    // ... more attribute names ...
-                ],*/
+                ProjectionType: 'ALL',
             },
             ProvisionedThroughput: { // throughput to provision to the index
                 ReadCapacityUnits: 2,
@@ -287,14 +258,7 @@ var paramsHoaDon = {
                 }
             ],
             Projection: { // attributes to project into the index
-                ProjectionType: 'ALL', // (ALL | KEYS_ONLY | INCLUDE)
-            /*    NonKeyAttributes: [ // required / allowed only for INCLUDE
-                    'TenKH',
-                    'TenChuDe',
-                    'GiaTien',
-                    'SoTT',
-                    // ... more attribute names ...
-                ],*/
+                ProjectionType: 'ALL',
             },
             ProvisionedThroughput: { // throughput to provision to the index
                 ReadCapacityUnits: 2,

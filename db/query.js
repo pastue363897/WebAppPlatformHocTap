@@ -345,7 +345,8 @@ let daMuaKhoaHoc = async function (IdKhoaHoc, req, res) {
                 let input = { uname: req.session.user, items: Items, owned: false, balance: Number(req.session.balance), errorMsg: null, type: 1 };
                 if (req.query.error == "invalidID") {
                     input.errorMsg = "Có lỗi xảy ra khi thanh toán, vui lòng thử lại."
-                }
+                } else if(req.query.error == "noCredits")
+                    input.errorMsg = "Không đủ tiền để thanh toán"
                 res.render('pay.ejs', input);
             });
         }
@@ -639,6 +640,28 @@ function getHoaDonByUsernameBKHRecent(date, UsernameBKH) {
     });
 }
 
+function getUserInfo(UsernameKH) {
+    return new Promise((resolve, reject) => {
+        var params = {
+            TableName: 'UserKH',
+            ExpressionAttributeValues: {
+                ':ucvalue': UsernameKH,
+            },
+            KeyConditionExpression: 'Username = :ucvalue',
+            ReturnConsumedCapacity: 'TOTAL',
+        };
+        docClient.query(params, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                resolve(data.Items[0]);
+            }
+        });
+    });
+}
+
 module.exports = {
     getAllBaiHocKhoaHoc: getAllBaiHocKhoaHoc,
     getAllKhoaHocUser: getAllKhoaHocUser,
@@ -660,4 +683,5 @@ module.exports = {
     getAllKhoaHoc: getAllKhoaHoc,
     getHoaDonByUsernameBKH: getHoaDonByUsernameBKH,
     getHoaDonByUsernameBKHRecent: getHoaDonByUsernameBKHRecent,
+    getUserInfo: getUserInfo
 }

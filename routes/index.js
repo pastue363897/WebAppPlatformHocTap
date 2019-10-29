@@ -123,19 +123,36 @@ router.post('/purchase', function (req, res, next) {
     let sess = req.session;
     if (sess.user) {
         if (sess.type == 1) {
-            let genID = Math.floor(Math.random() * 999999999999998) + 1;
-            let a = crud.putHoaDon(req, genID);
-            a.then((Items) => {
-                let b = crud.updateSoTien(req, Number(req.body.GiaTien));
-                let c = crud.updateSoTien2(req, Number(req.body.GiaTien));
-                Promise.all([b,c]).then((Result) => {
-                    res.redirect('/lesson?q=' + req.body.IdKhoaHoc);
-                }).catch((err) => {
-                    //console.log(err);
-                });
-            }).catch((err) => {
-                //console.log(err);
-                res.redirect('/detail?idKH=' + req.body.IdKhoaHoc + '&error=invalidID');
+            let check = query.getUserInfo(sess.user);
+            check.then((kp) => {
+                if (kp.SoTien > req.body.GiaTien) {
+                    let genID = Math.floor(Math.random() * 999999999999998) + 1;
+                    let a = crud.putHoaDon(req, genID);
+                    a.then((Items) => {
+                        let b = crud.updateSoTien(req, Number(req.body.GiaTien));
+                        let c = crud.updateSoTien2(req, Number(req.body.GiaTien));
+                        Promise.all([b, c]).then((Result) => {
+                            let sess = req.session;
+                            let vls = { uname: null, balance: null, owned: false, errorMsg: null, type: 0, id: req.body.IdKhoaHoc };
+                            if (sess.user) {
+                                vls.uname = sess.user;
+                                vls.balance = sess.balance;
+                                vls.type = sess.type;
+                                res.render('purchasesuccess', vls);
+                            }
+                            else {
+                                res.render('purchasesuccess', vls);
+                            }
+                        }).catch((err) => {
+                            //console.log(err);
+                        });
+                    }).catch((err) => {
+                        //console.log(err);
+                        res.redirect('/detail?idKH=' + req.body.IdKhoaHoc + '&error=invalidID');
+                    });
+                }
+                else
+                    res.redirect('/detail?idKH=' + req.body.IdKhoaHoc + '&error=noCredits');
             });
         }
         else {
@@ -229,9 +246,9 @@ router.get('/suakhoahoc', function (req, res, next) {
         }
         let a = query.getAllChuDe();
         let b = query.getAllBaiHocKhoaHoc(req.query.idKH)
-        Promise.all([a,b]).then((val) => {
-                res.render('suakhoahoc',
-                    { title: 'Express', uname: null, errorMsg: null, lChuDe: val[0], bh: val[1] });
+        Promise.all([a, b]).then((val) => {
+            res.render('suakhoahoc',
+                { title: 'Express', uname: null, errorMsg: null, lChuDe: val[0], bh: val[1] });
         });
     }
     else {
@@ -328,7 +345,7 @@ router.get('/admin-indexadmin', function (req, res, next) {
             soKhoaHocBiGo: 0,
         }
         let oldday = new Date();
-        oldday.setTime(oldday - 30*24*60*60*1000);
+        oldday.setTime(oldday - 30 * 24 * 60 * 60 * 1000);
         let prms = [];
         prms[0] = query.getAllHoaDon(true);
         prms[1] = query.countAllUserBKH();
@@ -354,7 +371,7 @@ router.get('/admin-indexadmin', function (req, res, next) {
             }
             valuesets.soHoaDon30Ngay = q5.length;
             res.render('admin/indexadmin.ejs', { title: 'Express', valuesets: valuesets });
-        }) 
+        })
     }
     else
         query.getAllKhoaHocIndex("Trang không tồn tại", req, res);
@@ -402,6 +419,22 @@ router.get('/admin-chude', function (req, res, next) {
     }
     else
         query.getAllKhoaHocIndex("Trang không tồn tại", req, res);
+});
+
+router.get('/purchasesuccess-test', function (req, res, next) {
+    let sess = req.session;
+    let vls = { uname: null, balance: null, owned: false, errorMsg: null, type: 0 };
+    if (sess.user) {
+        //console.log("Yes");
+        vls.uname = sess.user;
+        vls.balance = sess.balance;
+        vls.type = sess.type;
+        res.render('purchasesuccess', vls);
+    }
+    else {
+        //console.log("No");
+        res.render('purchasesuccess', vls);
+    }
 });
 
 router.post('/admin-themchude', function (req, res, next) {
@@ -459,14 +492,14 @@ router.get('/thongkekhoahoc', function (req, res, next) {
         }
         let prms = [];
         let oldday = new Date();
-        oldday.setTime(oldday - 30*24*60*60*1000);
+        oldday.setTime(oldday - 30 * 24 * 60 * 60 * 1000);
         prms.push(query.getHoaDonByUsernameBKH(req.session.user));
         prms.push(query.getAllKhoaHocUser(req.session.user));
-        prms.push(query.getHoaDonByUsernameBKHRecent(dateFormat(oldday, "isoDate"),req.session.user));
+        prms.push(query.getHoaDonByUsernameBKHRecent(dateFormat(oldday, "isoDate"), req.session.user));
         Promise.all(prms).then((values) => {
             let uniqueBuyers = new Set();
             let q1 = values[0], q2 = values[1], q3 = values[2];
-            for(var i = 0; i < q1.length; i++) {
+            for (var i = 0; i < q1.length; i++) {
                 valuesets.tongDoanhThu += q1[i].GiaTien;
                 uniqueBuyers.add(q1[i].UsernameKH);
             }
@@ -474,22 +507,22 @@ router.get('/thongkekhoahoc', function (req, res, next) {
             valuesets.soHoaDon = q1.length;
             valuesets.soKhoaHoc = q2.length;
             valuesets.soKhoaHocBiGo = q2.length;
-            for(var i = 0; i < q2.length; i++) {
+            for (var i = 0; i < q2.length; i++) {
                 valuesets.soKhoaHocBiGo -= q2[i].DangBan;
             }
-            for(var i = 0; i < q3.length; i++) {
+            for (var i = 0; i < q3.length; i++) {
                 valuesets.tongDoanhThu30Ngay += q3[i].GiaTien;
             }
             valuesets.soHoaDon30Ngay = q3.length;
-            let inps = {title: 'Express', uname: sess.user, errorMsg: null, valuesets: valuesets, listKhoaHoc: null};
-            if(req.query.detail == 'yes') {
+            let inps = { title: 'Express', uname: sess.user, errorMsg: null, valuesets: valuesets, listKhoaHoc: null };
+            if (req.query.detail == 'yes') {
                 let listKhoaHoc = new Map();
-                for(var i = 0; i < q2.length; i++) {
-                    listKhoaHoc.set(q2[i].IdKhoaHoc,{TenKH: q2[i].TenKH, count: 0, tong: 0});
+                for (var i = 0; i < q2.length; i++) {
+                    listKhoaHoc.set(q2[i].IdKhoaHoc, { TenKH: q2[i].TenKH, count: 0, tong: 0 });
                 }
-                for(var i = 0; i < q1.length; i++) {
+                for (var i = 0; i < q1.length; i++) {
                     let b = listKhoaHoc.get(q1[i].IdKhoaHoc);
-                    if(b != undefined) {
+                    if (b != undefined) {
                         b.count++;
                         b.tong += q1[i].GiaTien;
                         listKhoaHoc.set(q1[i].IdKhoaHoc, b);
@@ -499,7 +532,7 @@ router.get('/thongkekhoahoc', function (req, res, next) {
             }
             res.render('thongkekhoahoc', inps);
         });
-        
+
     }
     else {
         query.getAllKhoaHocIndex("Trang không tồn tại", req, res);
