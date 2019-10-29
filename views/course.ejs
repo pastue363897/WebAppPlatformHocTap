@@ -64,10 +64,10 @@
                             <div class="login_info">
                                 <ul class="d-flex">
                                     <% if(!uname) { %>
-                                    <li class="nav-item"><a href="#" class="nav-link sign-in js-modal-show"><i
+                                    <li class="nav-item"><a href="#" class="nav-link join_now js-modal-show"><i
                                                 class="flaticon-user-male-black-shape-with-plus-sign"></i>Đăng Ký</a>
                                     </li>
-                                    <li class="nav-item"><a href="#" class="nav-link join_now js-modal-show"><i
+                                    <li class="nav-item"><a href="#" class="nav-link sign-in js-modal-show"><i
                                                 class="flaticon-padlock"></i>Đăng Nhập</a></li>
                                     <% } else { %>
                                     <li class="nav-item"><a href="#" class="nav-link sign-in"><i
@@ -87,13 +87,19 @@
         <div class="edu_nav">
             <div class="container">
                 <nav class="navbar navbar-expand-md navbar-light bg-faded">
-                    <a class="navbar-brand" href="index-2.html"><img src="images/logo.png" alt="logo"></a>
+                    <a class="navbar-brand" href="/"><img style="height: 50px" src="images/logo.png" alt="logo"></a>
                     <div class="collapse navbar-collapse main-menu" id="navbarSupportedContent">
                         <ul class="navbar-nav nav lavalamp ml-auto menu">
                             <li class="nav-item"><a href="/" class="nav-link"
                                     style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Trang
                                     Chủ</a>
                             </li>
+                            <% if(type == 2) { %>
+                            <li class="nav-item"><a href="/khoahocdadang" class="nav-link"
+                                    style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Quản
+                                    lý khóa học của bạn</a>
+                            </li>
+                            <% } else { %>
                             <% if(owned) { %>
                             <li class="nav-item"><a href="/course" class="nav-link"
                                     style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Các
@@ -112,7 +118,7 @@
                                     style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Khoá
                                     Học Đã Mua</a>
                             </li>
-                            <% } %>
+                            <% } } %>
                             <li class="nav-item"><a href="/about" class="nav-link"
                                     style="z-index: 5; font-family:'Roboto', sans-serif; font-weight: 900; white-space: nowrap;text-transform:left;">Về
                                     Chúng Tôi</a></li>
@@ -120,6 +126,13 @@
                     </div>
                 </nav><!-- END NAVBAR -->
             </div>
+        </div>
+
+        <div style="padding: 5px; text-align: right">
+            <form method="GET" action="/search">
+                <input class="form-control" placeholder="Tìm kiếm (tìm gần đúng theo tên khóa học)" type="text" name="q"
+                    id="q">
+            </form>
         </div>
 
         <div class="intro_wrapper">
@@ -168,15 +181,21 @@
                                                 <div class="col-12 col-lg-12 col-md-12 col-lg-12">
                                                     <label class="control-label">Loại người dùng</label>
                                                     <div>
-                                                        <input type="radio" name="loai" value="hoc" checked> Người học
-                                                        <input type="radio" name="loai" value="ban"> Người soạn khóa học
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="loai"
+                                                                value="hoc" checked> Người học
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="loai"
+                                                                value="ban"> Người soạn khóa học
+                                                        </div>
                                                     </div>
                                                 </div>
 
                                             </div>
                                             <div class="col-12 col-lg-12 col-md-12 col-lg-12">
                                                 <div class="form-group">
-                                                    <label class="control-label">Email</label>
+                                                    <label class="control-label">Username</label>
                                                     <input type="text" name="username" class="form-control"
                                                         placeholder="Username" required="true">
                                                 </div>
@@ -253,8 +272,14 @@
                                             <div class="col-12 col-lg-12 col-md-12 col-lg-12 control-label">
                                                 <div>Loại người dùng sẽ đăng ký</div>
                                                 <div>
-                                                    <input type="radio" name="loai" value="hoc" checked> Người học
-                                                    <input type="radio" name="loai" value="ban"> Người soạn khóa học
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="loai"
+                                                            value="hoc" checked> Người học
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="loai"
+                                                            value="ban"> Người soạn khóa học
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -285,7 +310,7 @@
                     <div class="single-courses">
                         <div class="courses_banner_wrapper">
                             <div class="courses_banner"><a href="/detail?idKH=<%= khs[i].IdKhoaHoc%>"><img
-                                        src="images/courses/courses_1.jpg" alt="" class="img-fluid"></a></div>
+                                        src="<%= khs[i].Thumbnail %>" alt="" class="img-fluid"></a></div>
                             <div class="purchase_price">
                                 <a href="#" class="read_more-btn"><%= khs[i].GiaTien %></a>
                             </div>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include header %>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Trang chủ</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/khoahocdadang">Khóa học đã đăng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dangkhoahoc">Đăng khóa học</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/thongkekhoahoc">Thống kê các khóa học</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="content-wrapper">
+
+        <div class="container-fluid">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">
+                    <h3>Thống kê tổng quan</h3>
+                </li>
+            </ol>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Bảng dữ liệu chung</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Tên giá trị</th>
+                                <th>Giá trị</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tổng doanh thu từ lúc tạo tài khoản</td>
+                                <td><%= valuesets.tongDoanhThu.toLocaleString() %></td>
+                            </tr>
+                            <tr>
+                                <td>Số lượng các khóa học được mua</td>
+                                <td><%= valuesets.soHoaDon.toLocaleString() %></td>
+                            </tr>
+                            <tr>
+                                <td>Số lượng người dùng đã mua ít nhất 1 khóa học của bạn</td>
+                                <td><%= valuesets.soUserKH.toLocaleString() %></td>
+                            </tr>
+                            <tr>
+                                <td>Số lượng khóa học đã soạn</td>
+                                <td><%= valuesets.soKhoaHoc.toLocaleString() %></td>
+                            </tr>
+                            <tr>
+                                <td>Số lượng khóa học đã bị gỡ</td>
+                                <td><%= valuesets.soKhoaHocBiGo.toLocaleString() %></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Dữ liệu theo thời kỳ 30 ngày</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Tên giá trị</th>
+                                <th>Giá trị</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Doanh thu trong 30 ngày vừa qua</td>
+                                <td><%= valuesets.tongDoanhThu30Ngay.toLocaleString() %></td>
+                            </tr>
+                            <tr>
+                                <td>Số lượng các khóa học được bán trong 30 ngày vừa qua</td>
+                                <td><%= valuesets.soHoaDon30Ngay.toLocaleString() %></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        * Theo mặc định, thống kê cho từng khóa học không được hiện. Nhấn nút để tải lại trang có thông tin này.
+        <form method="GET" style="text-align: center; padding: 10px;">
+            <input type="hidden" name="detail" value="yes">
+            <input type="submit" class="btn btn-primary" value="Xem thống kê chi tiết cho từng khóa học">
+        </form>
+        <% if(listKhoaHoc) { %>
+        <div class="container-fluid">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">
+                    <h3>Chi tiết thống kê từng khóa học</h3>
+                </li>
+            </ol>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Thống kê các khóa học</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Id khóa học</th>
+                                <th>Tên khóa học</th>
+                                <th>Số user đã mua</th>
+                                <th>Doanh thu</th>
+                        </thead>
+                        <tbody>
+                            <% listKhoaHoc.forEach((value, key, map) => { %>
+                            <tr> 
+                                <td><%= key %></td>
+                                <td><%= value.TenKH %></td>
+                                <td><%= value.count %></td>
+                                <td><%= value.tong %></td>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <% } %>
+
+    </div>
+
+</body>
+<% include footer %>
+
+</html>

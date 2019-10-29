@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SB Admin - Blank Page</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <!-- Page level plugin CSS-->
+  <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+  <% if(errorMsg) { %>
+    <style>
+        .modal {
+            display: block;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 10%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+    <% } %>
+  
+
+</head>
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+      <div class="input-group">
+        <div class="input-group">
+          <a class="nav-link" href="/admin-logout" id="userDropdown" role="button" data-toggle="" aria-haspopup="true"
+            aria-expanded="false">
+            <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+          </a>
+        </div>
+      </div>
+    </form>
+
+
+  </nav>
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav">
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Các Trang</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+          <a class="dropdown-item" href="/admin-chude">Chủ đề khóa học</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/admin-indexadmin">Trang chủ</a>
+        </div>
+      </li>
+    </ul>
+
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/admin-indexadmin">Trang Chủ</a>
+          </li>
+          <li class="breadcrumb-item active">Quản lý chủ đề khóa học</li>
+        </ol>
+
+        <!-- Page Content -->
+        <h1>Trang quản lý chủ đề khóa học</h1>
+        <hr>
+        <!--Form -->
+        <div class="container" style="width: 60%;">
+          <form method="POST" action="/admin-themchude" style="border: 1px solid gray; padding: 30px;box-shadow: 20%;">
+            <div class="form-group">
+            </div>
+            <div class="form-group">
+              <div class="form-label-group">
+                <input type="text" id="topic" name="tenChuDe" class="form-control" placeholder="Password"
+                  required="required">
+                <label for="topic">Tên chủ đề</label>
+              </div>
+            </div>
+            <input type="submit" class="btn btn-primary btn-block" value="Thêm chủ đề">
+            <p style="text-align:justify;text-justify:inter-word;">* Lưu ý: sau khi thêm, user soạn khóa
+              học có thể sử dụng nó ngay lập tức. Chỉ cần 1 người dùng đã cập nhật hoặc tạo khóa học
+              dùng nó rồi sẽ không xóa được chủ đề nữa. Bạn vẫn có thể xóa được nếu không ai sử dụng.
+            </p>
+          </form>
+
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              Danh sách các chủ đề khóa học</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Tên chủ đề khóa học</th>
+                      <th>Xóa chủ đề</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for(var i = 0; i < lst.length; i++) { %>
+                    <tr>
+                      <td><%= lst[i].TenChuDe %></td>
+                      <td>
+                        <form method="POST" action="/admin-xoachude">
+                          <input type="hidden" name="tenChuDe" value="<%= lst[i].TenChuDe %>">
+                          <input type="submit" class="btn btn-primary" value="Xóa chủ đề">
+                        </form>
+                      </td>
+                    </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- /.container-fluid -->
+
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Website học trực tuyến - học là giỏi</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="javascripts/bootstrap.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin.min.js"></script>
+
+  <% if(errorMsg) { %>
+    <div id="myModal" class="modal">
+        <div class="alert alert-danger">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                    <h4>Lỗi</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p><%= errorMsg %></p>
+                  </div>
+        </div>
+    </div>
+    <% } %>
+    <% if(errorMsg) { %>
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        var btn = document.getElementById("myBtn");
+
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <% } %>
+</body>
+
+</html>

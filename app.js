@@ -4,11 +4,9 @@ var session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-//var fileupload = require("express-fileupload");
 var multiparty = require('connect-multiparty'), multipartyMiddleware = multiparty();
 
 var indexRouter = require('./routes/index');
-var courseRouter = require('./routes/course');
 
 var app = express();
 
@@ -31,15 +29,13 @@ app.use(session({
 }));
 
 app.use((req, res, next) => {
-  if (req.cookies.user_id && !req.session.user) {
+  if (req.cookies.user_id && !req.session.user && !req.session.adminauthor) {
       res.clearCookie('user_id');        
   }
   next();
 });
 
-
 app.use('/', indexRouter);
-app.use('/course', courseRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -55,7 +51,7 @@ app.use(function(err, req, res, next) {
   console.log(res.locals.error);
   // render the error page
   res.status(err.status || 500);
-  //res.render('error');
+  res.render('error');
 });
 
 module.exports = app;

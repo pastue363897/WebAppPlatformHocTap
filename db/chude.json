@@ -1,10 +1,8 @@
 [
     {
-        "Id": 1,
         "TenChuDe": "Ngoại ngữ"
     },
     {
-        "Id": 2,
         "TenChuDe": "Tin học"
     }
 ]

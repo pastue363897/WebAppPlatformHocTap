@@ -52,7 +52,9 @@
         <div class="row">
 
             <div class="col-lg-3">
-                <h1 class="my-4">Chi tiết bài học</h1>
+                <h2 class="my-4">Chi tiết bài học</h2>
+                <h4>Bài <%= bh.SoTT %></h4>
+                <div><%= bh.TomTat %></div>
             </div>
             <!-- /.col-lg-3 -->
 
@@ -66,6 +68,12 @@
                         Yêu cầu trình duyệt IE9, Edge, Google Chrome 4.0, Firefox 3.5, Opera 10.5 hoặc Safari 4 trở lên.
                     </video>
                 </div>
+            </div>
+            <div class="col-lg-3" style="padding-bottom: 10px;">
+                <form method="GET" action="/detail">
+                    <input type="hidden" name="idKH" value="<%= bh.IdKhoaHoc %>">
+                    <input type="submit" class="btn btn-lg btn-primary" value="Quay lại danh sách">
+                </form>
             </div>
         </div>
     </div>

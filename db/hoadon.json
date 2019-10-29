@@ -2,44 +2,32 @@
     {
         "IdHoaDon":1,
         "UsernameKH":"user0001",
-        "IdKhoaHoc":1,
-        "TenChuDe": "Ngoại ngữ",
-        "TenKH": "Tiếng anh 1",
-        "MoTaKH": "Các bài học cơ bản giúp người học tiếp cận tiếng Anh",
         "UsernameBKH": "pres0001",
+        "IdKhoaHoc":1,
         "NgayMua": "2019-10-18",
         "GiaTien": 15000
     },
     {
         "IdHoaDon":2,
         "UsernameKH":"user0001",
+        "UsernameBKH": "pres0001",
         "IdKhoaHoc":2,
-        "TenChuDe": "Tin học",
-        "TenKH": "Sử dụng Word 365 cơ bản",
-        "MoTaKH": "Các bài học cơ bản giúp người học sử dụng Word 365 thành thạo trong môi trường văn phòng",
-        "UsernameBKH": "pres0002",
         "NgayMua": "2019-10-18",
         "GiaTien": 15000
     },
     {
         "IdHoaDon":3,
         "UsernameKH":"user0002",
+        "UsernameBKH": "pres0001",
         "IdKhoaHoc":2,
-        "TenChuDe": "Tin học",
-        "TenKH": "Sử dụng Word 365 cơ bản",
-        "MoTaKH": "Các bài học cơ bản giúp người học sử dụng Word 365 thành thạo trong môi trường văn phòng",
-        "UsernameBKH": "pres0002",
         "NgayMua": "2019-10-18",
         "GiaTien": 25000
     },
     {
         "IdHoaDon":4,
         "UsernameKH":"user0002",
-        "IdKhoaHoc":3,
-        "TenChuDe": "Ngoại ngữ",
-        "TenKH": "Giao tiếp tiếng Anh khi đi du lịch",
-        "MoTaKH": "Các bài học giúp những ai có nhu cầu đi du lịch dễ dàng trong trải nghiệm",
         "UsernameBKH": "pres0001",
+        "IdKhoaHoc":3,
         "NgayMua": "2019-10-19",
         "GiaTien": 20000
     }
