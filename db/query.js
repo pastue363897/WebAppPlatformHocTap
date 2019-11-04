@@ -389,7 +389,7 @@ function findKhoaHocKeyword(keyword) {
                 ':value2': keyword
             },
             FilterExpression: '#stt = :bhs and (contains(#tenkh, :value) or contains(#mota, :value2))',
-            ProjectionExpression: "TenChuDe, TenKH, MoTaKH, IdKhoaHoc, GiaTien, UsernameBKH",
+            ProjectionExpression: "TenChuDe, TenKH, MoTaKH, IdKhoaHoc, GiaTien, UsernameBKH, Thumbnail",
             ReturnConsumedCapacity: 'TOTAL',
         };
         docClient.scan(params, function (err, data) {

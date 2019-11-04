@@ -42,13 +42,11 @@ router.get('/course', function (req, res, next) {
     query.getAllKhoaHocCourse(req, res);
 });
 
-/* GET users listing. */
 router.get('/course-owned', function (req, res, next) {
     let sess = req.session;
     //console.log("Step 1");
     if (sess.user) {
         if (sess.type == 1)
-            //query.getAllKhoaHocOwned(sess.user, null, req, res);
             query.getAllKhoaHocOwned(req, res);
         else
             query.getAllKhoaHocIndex("Bạn không thể xem khóa học đã sở hữu "
@@ -63,7 +61,6 @@ router.get('/course-owned', function (req, res, next) {
 router.get('/detail', function (req, res, next) {
     let sess = req.session;
     if (sess.user) {
-        //console.log(sess.type);
         if (sess.type == 1) {
             let IdKhoaHoc = req.query.idKH;
             query.daMuaKhoaHoc(IdKhoaHoc, req, res);
@@ -86,8 +83,8 @@ router.get('/lesson', function (req, res, next) {
             let a = query.getAllBaiHocKhoaHoc(req.query.q);
             a.then((Items) => {
                 Items.sort((a, b) => (a.SoTT > b.SoTT) ? 1 : ((b.SoTT > a.SoTT) ? -1 : 0));
-                //console.log(Items);
-                res.render('chitiet', { items: Items });
+                let inps = { items: Items, uname: sess.user, balance: sess.balance, type: sess.type }
+                res.render('chitiet', inps);
             });
         }
         else {
@@ -105,8 +102,7 @@ router.get('/video', function (req, res, next) {
         if (sess.type == 1) {
             let a = query.getBaiHoc(req.query.idBH);
             a.then((Items) => {
-                //console.log(Items);
-                let inps = { bh: Items[0] };
+                let inps = { bh: Items[0], uname: sess.user, balance: sess.balance, type: sess.type }
                 res.render('video', inps);
             });
         }
@@ -164,7 +160,6 @@ router.post('/purchase', function (req, res, next) {
     }
 });
 
-/* trang người bán khóa học */
 router.get('/dangkhoahoc', function (req, res, next) {
     let sess = req.session;
     if (sess.user && sess.type == 2) {
@@ -195,7 +190,6 @@ router.get('/khoahocdadang', function (req, res, next) {
 
 router.post('/taokhoahoc', multipartyMiddleware, function (req, res, next) {
     let sess = req.session;
-    //console.log(req.files);
     if (sess.user && sess.type == 2) {
         if (!req.body['tenbaihoc1'])
             res.redirect('/khoahocdadang');
@@ -296,19 +290,6 @@ router.post('/capnhatkhoahoc', multipartyMiddleware, function (req, res, next) {
 
 router.get('/search', function (req, res, next) {
     query.getKhoaHocSearch(req, res);
-});
-
-router.get('/testupload', multipartyMiddleware, function (req, res, next) {
-    if (req.query.token == '7F1648A574-497A88B5DF114')
-        res.render('testfileupload');
-    else
-        query.getAllKhoaHocIndex("Trang không tồn tại", req, res);
-});
-
-router.post('/test-imagereupload', multipartyMiddleware, function (req, res, next) {
-    //console.log(req.files);
-    //crud.PerformSaveImage(req, res, req.files.file, req.files.file.name);
-    res.redirect('/');
 });
 
 router.get('/about', function (req, res, next) {
@@ -421,22 +402,6 @@ router.get('/admin-chude', function (req, res, next) {
         query.getAllKhoaHocIndex("Trang không tồn tại", req, res);
 });
 
-router.get('/purchasesuccess-test', function (req, res, next) {
-    let sess = req.session;
-    let vls = { uname: null, balance: null, owned: false, errorMsg: null, type: 0 };
-    if (sess.user) {
-        //console.log("Yes");
-        vls.uname = sess.user;
-        vls.balance = sess.balance;
-        vls.type = sess.type;
-        res.render('purchasesuccess', vls);
-    }
-    else {
-        //console.log("No");
-        res.render('purchasesuccess', vls);
-    }
-});
-
 router.post('/admin-themchude', function (req, res, next) {
     if (req.session.adminauthor == 'passport-admin-9AX5Q48V3') {
         let a = crud.themChuDe(req);
@@ -533,6 +498,40 @@ router.get('/thongkekhoahoc', function (req, res, next) {
             res.render('thongkekhoahoc', inps);
         });
 
+    }
+    else {
+        query.getAllKhoaHocIndex("Trang không tồn tại", req, res);
+    }
+});
+
+router.get('/naptien', function (req, res, next) {
+    let sess = req.session;
+    if (sess.user) {
+        if (sess.type == 1) {
+            let sess = req.session;
+            let vls = { uname: sess.user, balance: sess.balance, owned: false, errorMsg: null, type: sess.type, id: req.body.IdKhoaHoc };
+            res.render('naptien.ejs', vls);
+        }
+        else {
+            query.getAllKhoaHocIndex("Trang không tồn tại", req, res);
+        }
+    }
+    else {
+        query.getAllKhoaHocIndex("Trang không tồn tại", req, res);
+    }
+});
+
+router.post('/naptienaction', function (req, res, next) {
+    let sess = req.session;
+    if (sess.user) {
+        if (sess.type == 1) {
+            let sess = req.session;
+            let vls = { uname: sess.user, balance: sess.balance, owned: false, errorMsg: null, type: sess.type, id: req.body.IdKhoaHoc };
+            res.render('naptien.ejs', vls);
+        }
+        else {
+            query.getAllKhoaHocIndex("Trang không tồn tại", req, res);
+        }
     }
     else {
         query.getAllKhoaHocIndex("Trang không tồn tại", req, res);

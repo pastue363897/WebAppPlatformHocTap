@@ -2,18 +2,18 @@
 <html lang="en">
 
 <head>
+    <!-- Required meta tags -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title><%= bh.TenBH %></title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="stylesheets/assets/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="stylesheets/style_chitiet.css" rel="stylesheet">
+    <meta name="keywords" content="HTML,CSS,XML,JavaScript">
+    <meta name="author" content="Ecology Theme">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nạp tiền</title>
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <!-- Goole Font -->
+    <link href="https://fonts.googleapis.com/css?family=Rubik:400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="stylesheets/assets/bootstrap.min.css">
     <!-- Font awsome CSS -->
@@ -32,12 +32,20 @@
     <link rel="stylesheet" href="stylesheets/style.css">
     <link rel="stylesheet" href="stylesheets/responsive.css">
     <link rel="stylesheet" href="stylesheets/demo.css">
-
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body>
     <header class="header_inner courses_page">
         <!-- Preloader -->
+        <div id="preloader">
+            <div id="status">&nbsp;</div>
+        </div>
         <div class="header_top">
             <div class="container">
                 <div class="row">
@@ -97,39 +105,51 @@
                 </nav><!-- END NAVBAR -->
             </div>
         </div>
-    </header> <!--  End header section-->
-    <!-- Page Content -->
-    <div class="container">
+    </header> <!-- End Header -->
 
-        <div class="row">
 
-            <div class="col-lg-3">
-                <h2 class="my-4">Chi tiết bài học</h2>
-                <h4>Bài <%= bh.SoTT %></h4>
-                <div><%= bh.TomTat %></div>
+    <div class="alert alert-success" style="text-align: center; margin: 50px;">
+        <h3 class="alert-heading">Nạp tiền</h3>
+        <p>Chọn số tiền muốn nạp</p>
+        <form method="POST" action="/naptienaction">
+            <div class="form-check form-check-inline">
+                <input class="form-check" type="radio" name="cashinput" id="cashinput1" value="10000">
+                <label style="margin-left: 5px;" class="form-check-label" for="cashinput1"> 10000</label>
             </div>
-            <!-- /.col-lg-3 -->
-
-            <div class="col-lg-9">
-
-                <div class="card mt-4">
-                    <!-- ------------- phần hiển thị các bài học trong một khóa học --------------------------------- -->
-                    <video controls style="width: 100%; height: 100%; padding: 10px">
-                        <!--   <source src="https://dktpm12a-n22-publicdata.s3.amazonaws.com/lessons-data/video/ggjxqfd.mp4">-->
-                        <source src="<%= bh.Data %>">
-                        Yêu cầu trình duyệt IE9, Edge, Google Chrome 4.0, Firefox 3.5, Opera 10.5 hoặc Safari 4 trở lên.
-                    </video>
-                </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check" type="radio" name="cashinput" id="cashinput2" value="20000">
+                <label style="margin-left: 5px;" class="form-check-label" for="cashinput2"> 20000</label>
             </div>
-            <div class="col-lg-3" style="padding-bottom: 10px;">
-                <form method="GET" action="/detail">
-                    <input type="hidden" name="idKH" value="<%= bh.IdKhoaHoc %>">
-                    <input type="submit" class="btn btn-lg btn-primary" value="Quay lại danh sách">
-                </form>
+            <div class="form-check form-check-inline">
+                <input class="form-check" type="radio" name="cashinput" id="cashinput3" value="50000">
+                <label style="margin-left: 5px;" class="form-check-label" for="cashinput3"> 50000</label>
             </div>
-        </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check" type="radio" name="cashinput" id="cashinput4" value="100000">
+                <label style="margin-left: 5px;" class="form-check-label" for="cashinput4"> 100000</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check" type="radio" name="cashinput" id="cashinput5" value="200000">
+                <label style="margin-left: 5px;" class="form-check-label" for="cashinput5"> 200000</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check" type="radio" name="cashinput" id="cashinput6" value="500000">
+                <label style="margin-left: 5px;" class="form-check-label" for="cashinput6"> 500000</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check" type="radio" name="cashinput" id="cashinput7" value="1000000">
+                <label style="margin-left: 5px;" class="form-check-label" for="cashinput7"> 1000000</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check" type="radio" name="cashinput" id="cashinput8" value="custom">
+                <label style="margin-left: 5px;" class="form-check-label" for="cashinput8"> Khác: </label> 
+                <input style="margin-left: 10px;" class="form-control form-control-inline" min="0" max="1000000000" step="100" type="number" name="cashinputcustom"
+                    placeholder="Nhập số tiền">
+            </div><br>
+            <input class="btn btn-success btn-lg" type="submit" value="Nạp tiền">
+            <a href="/" class="btn btn-secondary btn-lg">Hủy</a>
+        </form>
     </div>
-    <!-- /.container -->
 
     <!-- Footer -->
     <footer id="footer" class="footer-1">
@@ -214,10 +234,33 @@
         </div>
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="javascripts/jquery/jquery.min.js"></script>
-    <script src="javascripts/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="javascripts/xuly.js"></script>
+    <section id="scroll-top" class="scroll-top">
+        <h2 class="disabled">Scroll to top</h2>
+        <div class="to-top pos-rtive">
+            <a href="#"><i class="flaticon-right-arrow"></i></a>
+        </div>
+    </section>
+
+    <!-- JavaScript -->
+    <script src="javascripts/jquery-3.2.1.min.js"></script>
+    <script src="javascripts/popper.min.js"></script>
+    <script src="javascripts/bootstrap.min.js"></script>
+    <script src="javascripts/jquery.magnific-popup.min.js"></script>
+    <script src="javascripts/owl.carousel.min.js"></script>
+    <script src="javascripts/slick.min.js"></script>
+    <script src="javascripts/jquery.meanmenu.min.js"></script>
+    <script src="javascripts/wow.min.js"></script>
+    <!-- Counter Script -->
+    <script src="javascripts/waypoints.min.js"></script>
+    <script src="javascripts/jquery.counterup.min.js"></script>
+    <script src="javascripts/custom.js"></script>
+
+    <!-- =========================================================
+         STYLE SWITCHER | ONLY FOR DEMO NOT INCLUDED IN MAIN FILES
+    ============================================================== -->
+    <script type="text/javascript" src="javascripts/demo.js"></script>
+
 </body>
+
 
 </html>

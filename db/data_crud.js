@@ -60,7 +60,7 @@ function updateSoTien(req, newValue) {
                 reject();
             }
             else {
-                req.session.balance = newValue;
+                req.session.balance -= newValue;
                 console.log(JSON.stringify(data.Items));
                 resolve(data.Items);
             }
@@ -89,7 +89,6 @@ function updateSoTien2(req, newValue) {
                 reject();
             }
             else {
-                req.session.balance = newValue;
                 console.log(JSON.stringify(data.Items));
                 resolve(data.Items);
             }

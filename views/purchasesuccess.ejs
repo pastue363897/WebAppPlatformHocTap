@@ -60,15 +60,14 @@
                             <div class="login_info">
                                 <ul class="d-flex">
                                     <% if(!uname) { %>
-                                    <li class="nav-item"><a href="#" class="nav-link join_now js-modal-show"><i
-                                                class="flaticon-user-male-black-shape-with-plus-sign"></i>Đăng Ký</a>
+                                    <li class="nav-item"><a href="#" class="nav-link join_now js-modal-show">Đăng Ký /
+                                            Đăng Nhập</a>
                                     </li>
-                                    <li class="nav-item"><a href="#" class="nav-link sign-in js-modal-show"><i
-                                                class="flaticon-padlock"></i>Đăng Nhập</a></li>
                                     <% } else { %>
                                     <li class="nav-item"><a href="#" class="nav-link sign-in"><i
-                                                class="flaticon-user-male-black-shape-with-plus-sign"></i>Chào mừng,
-                                            <%= uname %> | Số tiền đang có: <%= balance %></a></li>
+                                                class="flaticon-user-male-black-shape-with-plus-sign"></i>
+                                            Chào mừng, <%= uname %> | Số tiền đang có: <%= balance %></a></li>
+                                    <li class="nav-item"><a href="/naptien" class="nav-link sign-in">Nạp tiền</a></li>
                                     <li class="nav-item"><a href="/logout" class="nav-link join_now"><i
                                                 class="flaticon-padlock"></i>Đăng xuất</a></li>
                                     <% } %>
@@ -126,158 +125,11 @@
     </header> <!-- End Header -->
 
 
-    <section class="login_signup_option">
-        <div class="l-modal is-hidden--off-flow js-modal-shopify">
-            <div class="l-modal__shadow js-modal-hide"></div>
-            <div class="login_popup login_modal_body">
-                <div class="Popup_title d-flex justify-content-between">
-                    <h2 class="hidden">&nbsp;</h2>
-                    <!-- Nav tabs -->
-                    <div class="row">
-                        <div class="col-12 col-lg-12 col-md-12 col-lg-12 login_option_btn">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#login"
-                                        role="tab">Đăng Nhập</a></li>
-                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel2"
-                                        role="tab">Đăng Ký</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-12 col-lg-12 col-md-12 col-lg-12">
-                            <!-- Tab panels -->
-                            <div class="tab-content card">
-                                <!--Login-->
-                                <div class="tab-pane fade in show active" id="login" role="tabpanel">
-                                    <form action="/signin" method="POST">
-                                        <div class="row">
-                                            <div>
-                                                <div class="col-12 col-lg-12 col-md-12 col-lg-12">
-                                                    <label class="control-label">Loại người dùng</label>
-                                                    <div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="loai"
-                                                                value="hoc" checked> Người học
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="loai"
-                                                                value="ban"> Người soạn khóa học
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-12 col-lg-12 col-md-12 col-lg-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Username</label>
-                                                    <input type="text" name="username" class="form-control"
-                                                        placeholder="Username" required="true">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-lg-12 col-md-12 col-lg-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Password</label>
-                                                    <input type="password" name="pass" class="form-control"
-                                                        placeholder="Password" required="true">
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="row">
-                                            <div
-                                                class="col-12 col-lg-12 col-md-12 col-lg-12 d-flex justify-content-between login_option">
-                                                <!--  <a href="forgot-password.html" title="" class="forget_pass">Forget Password ?</a> -->
-                                                <button type="submit" class="btn btn-default login_btn">Đăng
-                                                    Nhập</button>
-                                            </div>
-                                            <!-- <div class="col-12 col-lg-12 col-md-12 col-lg-12">
-                                                    <div class="social_login">
-                                                        <div class="social_items">
-                                                            <button class="google_login google">Login Google</button>
-                                                            <button class="google_login facebook">Login Facebook</button>
-                                                            <button class="google_login twitter">Login Twitter</button>
-                                                            <button class="google_login linkdin">Login Linkdin</button>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
-                                        </div>
-                                    </form>
-                                </div>
-                                <!--/.Panel 1-->
-                                <!--Panel 2-->
-                                <div class="tab-pane fade" id="panel2" role="tabpanel">
-                                    <form action="/signup" method="POST">
-                                        <div class="row">
-                                            <div class="col-12 col-lg-12 col-md-12 col-lg-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Username</label>
-                                                    <input type="text" class="form-control" name="Username"
-                                                        placeholder="Username" required="true">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-lg-12 col-md-12 col-lg-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Email</label>
-                                                    <input type="email" class="form-control" name="Email"
-                                                        placeholder="Email required=" true"">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-lg-12 col-md-12 col-lg-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Password</label>
-                                                    <input type="password" class="form-control" name="Password"
-                                                        placeholder="Password" required="true">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-lg-12 col-md-12 col-lg-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Tên</label>
-                                                    <input type="text" class="form-control" name="Ten" placeholder="Tên"
-                                                        required="true">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-lg-12 col-md-12 col-lg-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Địa chỉ</label>
-                                                    <input type="text" class="form-control" name="DiaChi"
-                                                        placeholder="Địa chỉ" required="true">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-lg-12 col-md-12 col-lg-12 control-label">
-                                                <div>Loại người dùng sẽ đăng ký</div>
-                                                <div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="loai"
-                                                            value="hoc" checked> Người học
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="loai"
-                                                            value="ban"> Người soạn khóa học
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div
-                                                class="col-12 col-lg-12 col-md-12 col-lg-12 d-flex justify-content-between login_option">
-                                                <input type="submit" class="btn btn-default login_btn" value="Đăng Ký">
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <!--/.Panel 2-->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> <!-- End Login Signup Option -->
-
-
     <div class="alert alert-success" style="text-align: center; margin: 50px;">
         <h3 class="alert-heading">Thanh toán thành công</h3>
         <p>Bạn đã thanh toán và mua được khóa học. Giờ hãy chọn đi đến khóa học ngay hoặc quay về trang chủ</p>
-            <a href="/lesson?q=<%= id %>" class="btn btn-lg btn-primary">Chấp nhận và mở khóa học</a>
-            <a href="/" class="btn btn-secondary">Quay về trang chủ</a>
+        <a href="/lesson?q=<%= id %>" class="btn btn-lg btn-primary">Vào khóa học</a>
+        <a href="/" class="btn btn-secondary">Quay về trang chủ</a>
     </div>
 
 
