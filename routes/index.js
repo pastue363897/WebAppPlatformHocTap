@@ -525,9 +525,10 @@ router.post('/naptienaction', function (req, res, next) {
     let sess = req.session;
     if (sess.user) {
         if (sess.type == 1) {
-            let sess = req.session;
-            let vls = { uname: sess.user, balance: sess.balance, owned: false, errorMsg: null, type: sess.type, id: req.body.IdKhoaHoc };
-            res.render('naptien.ejs', vls);
+            let a = crud.napTienUser(req);
+            a.then((rex) => {
+                query.getAllKhoaHocIndex(null, req, res);
+            });
         }
         else {
             query.getAllKhoaHocIndex("Trang không tồn tại", req, res);

@@ -40,19 +40,17 @@ function putHoaDon(req, IdHoaDon) {
 
 function updateSoTien(req, newValue) {
     return new Promise((resolve, reject) => {
-        let d = new Date();
-        // Lấy ra tên các bài học của 1 khóa học
         var params1 = {
             TableName: 'UserKH',
-            Key: { // The primary key of the item (a map of attribute name to AttributeValue)
+            Key: {
                 Username: req.session.user,
                 Email: req.session.email
             },
             UpdateExpression: 'SET SoTien = SoTien - :value',
-            ExpressionAttributeValues: { // a map of substitutions for all attribute values
+            ExpressionAttributeValues: {
                 ':value': Number(newValue)
             },
-            ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+            ReturnConsumedCapacity: 'TOTAL',
         };
         docClient.update(params1, function (err, data) {
             if (err) {
@@ -70,18 +68,16 @@ function updateSoTien(req, newValue) {
 
 function updateSoTien2(req, newValue) {
     return new Promise((resolve, reject) => {
-        let d = new Date();
-        // Lấy ra tên các bài học của 1 khóa học
         var params1 = {
             TableName: 'UserBKH',
-            Key: { // The primary key of the item (a map of attribute name to AttributeValue)
+            Key: {
                 Username: req.body.UsernameBKH,
             },
             UpdateExpression: 'SET SoTien = SoTien + :value',
-            ExpressionAttributeValues: { // a map of substitutions for all attribute values
+            ExpressionAttributeValues: {
                 ':value': Number(newValue)
             },
-            ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+            ReturnConsumedCapacity: 'TOTAL',
         };
         docClient.update(params1, function (err, data) {
             if (err) {
@@ -676,6 +672,40 @@ function xoaChuDe(req) {
     });
 }
 
+function napTienUser(req) {
+    return new Promise((resolve, reject) => {
+        let a = 0;
+        if(req.body.cashinput != "custom")
+            a = Number(req.body.cashinput);
+        else {
+            a = Number(req.body.cashinputcustom);
+        }
+        var params1 = {
+            TableName: 'UserKH',
+            Key: {
+                Username: req.session.user,
+                Email: req.session.email
+            },
+            UpdateExpression: 'SET SoTien = SoTien + :value',
+            ExpressionAttributeValues: {
+                ':value': a
+            },
+            ReturnConsumedCapacity: 'TOTAL',
+        };
+        docClient.update(params1, function (err, data) {
+            if (err) {
+                console.log(JSON.stringify(err));
+                reject();
+            }
+            else {
+                req.session.balance += a;
+                console.log(JSON.stringify(data.Items));
+                resolve(data.Items);
+            }
+        });
+    });
+}
+
 module.exports = {
     putHoaDon: putHoaDon,
     updateSoTien: updateSoTien,
@@ -687,5 +717,6 @@ module.exports = {
     updateCacBaiHoc: updateCacBaiHoc,
     removeVideo: removeVideo,
     themChuDe: themChuDe,
-    xoaChuDe: xoaChuDe
+    xoaChuDe: xoaChuDe,
+    napTienUser: napTienUser
 };
