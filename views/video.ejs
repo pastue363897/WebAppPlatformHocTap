@@ -59,7 +59,7 @@
                                     <li class="nav-item"><a href="#" class="nav-link sign-in"><i
                                                 class="flaticon-user-male-black-shape-with-plus-sign"></i>
                                             Chào mừng, <%= uname %> | Số tiền đang có: <%= balance %></a></li>
-                                    <li class="nav-item"><a href="/naptien" class="nav-link sign-in">Nạp tiền</a></li>
+                                            <% if(type == 1) %><li class="nav-item"><a href="/naptien" class="nav-link sign-in">Nạp tiền</a></li><% } %>
                                     <li class="nav-item"><a href="/logout" class="nav-link join_now"><i
                                                 class="flaticon-padlock"></i>Đăng xuất</a></li>
                                     <% } %>
